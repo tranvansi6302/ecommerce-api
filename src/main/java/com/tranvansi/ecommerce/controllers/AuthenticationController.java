@@ -1,7 +1,9 @@
 package com.tranvansi.ecommerce.controllers;
 
+import com.tranvansi.ecommerce.dtos.requests.LoginRequest;
 import com.tranvansi.ecommerce.dtos.requests.RegisterRequest;
 import com.tranvansi.ecommerce.dtos.responses.ApiResponse;
+import com.tranvansi.ecommerce.dtos.responses.LoginResponse;
 import com.tranvansi.ecommerce.dtos.responses.RegisterResponse;
 import com.tranvansi.ecommerce.services.IAuthenticationService;
 import jakarta.validation.Valid;
@@ -20,10 +22,21 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<RegisterResponse>> register(
             @RequestBody @Valid RegisterRequest request) {
-        RegisterResponse user = authenticationService.register(request);
+        RegisterResponse registerResponse = authenticationService.register(request);
         ApiResponse<RegisterResponse> response = ApiResponse.<RegisterResponse>builder()
                 .message("Đăng ký tài khoản thành công")
-                .result(user)
+                .result(registerResponse)
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<LoginResponse>> login(
+            @RequestBody @Valid LoginRequest request) {
+        LoginResponse loginResponse = authenticationService.login(request);
+        ApiResponse<LoginResponse> response = ApiResponse.<LoginResponse>builder()
+                .message("Đăng nhập thành công")
+                .result(loginResponse)
                 .build();
         return ResponseEntity.ok(response);
     }
