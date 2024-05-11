@@ -39,6 +39,8 @@ public class SecurityConfig {
         return new String[] {
                 String.format("%s/auth/register", apiPrefix),
                 String.format("%s/auth/login", apiPrefix),
+                String.format("%s/auth/forgot-password", apiPrefix),
+                String.format("%s/auth/reset-password", apiPrefix),
         };
     }
 
@@ -55,6 +57,7 @@ public class SecurityConfig {
                 oAuth2.jwt(jwtConfigurer ->
                         jwtConfigurer.decoder(jwtDecoder())
                                 .jwtAuthenticationConverter(jwtAuthenticationConverter()))
+                        .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
 
         );
         httpSecurity.csrf(AbstractHttpConfigurer::disable);

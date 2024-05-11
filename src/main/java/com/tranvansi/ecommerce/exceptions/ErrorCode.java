@@ -22,7 +22,10 @@ public enum ErrorCode {
     INVALID_PASSWORD_WHITESPACE(1009, "Mật khẩu không được chứa khoảng trắng", HttpStatus.BAD_REQUEST),
     INVALID_TOKEN_REQUIRED(1010, "Token bắt buộc nhập", HttpStatus.BAD_REQUEST),
     UNAUTHORIZED(1011, "Không được phép", HttpStatus.UNAUTHORIZED),
-    EMAIL_OR_PASSWORD_INCORRECT(1012, "Email hoặc mật khẩu không chính xác", HttpStatus.BAD_REQUEST);
+    EMAIL_OR_PASSWORD_INCORRECT(1012, "Email hoặc mật khẩu không chính xác", HttpStatus.BAD_REQUEST),
+    EMAIL_NOT_FOUND(1013, "Email không tồn tại trong hệ thống", HttpStatus.BAD_REQUEST),
+    INVALID_TOKEN(1014, "Token không hợp lệ", HttpStatus.BAD_REQUEST),;
+
     private int code;
     private String message;
     private HttpStatusCode statusCode;
