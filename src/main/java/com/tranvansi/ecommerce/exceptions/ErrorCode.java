@@ -19,7 +19,10 @@ public enum ErrorCode {
     INVALID_PASSWORD_MIN_LENGTH(1006, "Mật khẩu phải từ 6 kí tự trở lên", HttpStatus.BAD_REQUEST),
     INVALID_KEY(1007, "Khóa validate không hợp lệ", HttpStatus.BAD_REQUEST),
     EMAIL_ALREADY_EXISTS(1008, "Email đã tồn tại trong hệ thống", HttpStatus.BAD_REQUEST),
-    INVALID_PASSWORD_WHITESPACE(1009, "Mật khẩu không được chứa khoảng trắng", HttpStatus.BAD_REQUEST),;
+    INVALID_PASSWORD_WHITESPACE(1009, "Mật khẩu không được chứa khoảng trắng", HttpStatus.BAD_REQUEST),
+    INVALID_TOKEN_REQUIRED(1010, "Token bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    UNAUTHORIZED(1011, "Không được phép", HttpStatus.UNAUTHORIZED),
+    EMAIL_OR_PASSWORD_INCORRECT(1012, "Email hoặc mật khẩu không chính xác", HttpStatus.BAD_REQUEST);
     private int code;
     private String message;
     private HttpStatusCode statusCode;
