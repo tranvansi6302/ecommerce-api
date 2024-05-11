@@ -1,7 +1,9 @@
 package com.tranvansi.ecommerce.controllers;
 
+import com.tranvansi.ecommerce.dtos.requests.ForgotPasswordRequest;
 import com.tranvansi.ecommerce.dtos.requests.LoginRequest;
 import com.tranvansi.ecommerce.dtos.requests.RegisterRequest;
+import com.tranvansi.ecommerce.dtos.requests.ResetPasswordRequest;
 import com.tranvansi.ecommerce.dtos.responses.ApiResponse;
 import com.tranvansi.ecommerce.dtos.responses.LoginResponse;
 import com.tranvansi.ecommerce.dtos.responses.RegisterResponse;
@@ -37,6 +39,26 @@ public class AuthenticationController {
         ApiResponse<LoginResponse> response = ApiResponse.<LoginResponse>builder()
                 .message("Đăng nhập thành công")
                 .result(loginResponse)
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<ApiResponse<String>> forgotPassword(
+            @RequestBody @Valid ForgotPasswordRequest request) {
+        authenticationService.forgotPassword(request);
+        ApiResponse<String> response = ApiResponse.<String>builder()
+                .message("Một email đã được gửi đến hòm thư của bạn")
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<ApiResponse<String>> resetPassword(
+            @RequestBody @Valid ResetPasswordRequest request) {
+        authenticationService.resetPassword(request);
+        ApiResponse<String> response = ApiResponse.<String>builder()
+                .message("Mật khẩu đã được thay đổi")
                 .build();
         return ResponseEntity.ok(response);
     }
