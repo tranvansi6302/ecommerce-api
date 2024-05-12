@@ -34,7 +34,8 @@ public enum ErrorCode {
     INVALID_AVATAR_REQUIRED(1021, "Avatar bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_AVATAR_FORMAT(1022, "Avatar không đúng định dạng", HttpStatus.BAD_REQUEST),
     FILE_SIZE_TOO_LARGE(1023, "Dung lượng file quá lớn", HttpStatus.BAD_REQUEST),
-    FILE_FORMAT_NOT_SUPPORTED(1024, "Định dạng file không được hỗ trợ", HttpStatus.BAD_REQUEST),;
+    FILE_FORMAT_NOT_SUPPORTED(1024, "Định dạng file không được hỗ trợ", HttpStatus.BAD_REQUEST),
+    FORBIDDEN(1025, "Không có quyền truy cập", HttpStatus.FORBIDDEN),;
 
 
     private int code;

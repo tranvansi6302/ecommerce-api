@@ -10,13 +10,16 @@ import com.tranvansi.ecommerce.dtos.responses.IntrospectResponse;
 import com.tranvansi.ecommerce.dtos.responses.LoginResponse;
 import com.tranvansi.ecommerce.dtos.responses.RegisterResponse;
 import com.tranvansi.ecommerce.entities.ForgotToken;
+import com.tranvansi.ecommerce.entities.Role;
 import com.tranvansi.ecommerce.entities.User;
 import com.tranvansi.ecommerce.entities.structures.MailStructure;
+import com.tranvansi.ecommerce.enums.RoleName;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.enums.ErrorCode;
 import com.tranvansi.ecommerce.mappers.ForgotTokenMapper;
 import com.tranvansi.ecommerce.mappers.UserMapper;
 import com.tranvansi.ecommerce.repositories.ForgotTokenRepository;
+import com.tranvansi.ecommerce.repositories.RoleRepository;
 import com.tranvansi.ecommerce.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,12 +27,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +40,7 @@ import java.util.UUID;
 public class AuthenticationService implements IAuthenticationService{
     private final UserRepository userRepository;
     private final ForgotTokenRepository forgotTokenRepository;
+    private final RoleRepository roleRepository;
     private final MailService mailService;
     private final UserMapper userMapper;
     private final ForgotTokenMapper forgotTokenMapper;
@@ -50,7 +54,9 @@ public class AuthenticationService implements IAuthenticationService{
             throw new AppException(ErrorCode.EMAIL_ALREADY_EXISTS);
         }
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        List<Role> roles = roleRepository.findAllById(Collections.singleton(RoleName.USER.name()));
         User user = userMapper.toUser(request);
+        user.setRoles(roles);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setBlocked(false);
         return userMapper.toRegisterResponse(userRepository.save(user));
@@ -80,6 +86,7 @@ public class AuthenticationService implements IAuthenticationService{
                 .issueTime(new Date())
                 .expirationTime(Date.from(Instant.now().plus(3, ChronoUnit.DAYS))) // 3 day
                 .jwtID(UUID.randomUUID().toString())
+                .claim("scope", buildScope(user))
                 .build();
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
         JWSObject jwsObject = new JWSObject(
@@ -130,6 +137,15 @@ public class AuthenticationService implements IAuthenticationService{
 //        }
 
     }
+
+    private String buildScope(User user) {
+        StringJoiner stringJoiner = new StringJoiner(" ");
+        if (!CollectionUtils.isEmpty(user.getRoles())) {
+            user.getRoles().forEach(role -> stringJoiner.add(role.getName()));
+        }
+        return stringJoiner.toString();
+    }
+
 
     @Override
     public void forgotPassword(ForgotPasswordRequest request) {

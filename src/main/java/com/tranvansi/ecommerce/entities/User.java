@@ -3,6 +3,8 @@ package com.tranvansi.ecommerce.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 @Getter
@@ -25,4 +27,9 @@ public class User extends BaseEntity {
     private String dateOfBirth;
     private String phoneNumber;
     private Boolean blocked;
+
+    @ManyToMany
+    private List<Role> roles;
+
+
 }
