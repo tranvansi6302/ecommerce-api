@@ -9,7 +9,10 @@ import com.tranvansi.ecommerce.enums.ErrorCode;
 import com.tranvansi.ecommerce.mappers.UserMapper;
 import com.tranvansi.ecommerce.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -34,8 +37,10 @@ public class UserService implements IUserService {
                 (user.getPhoneNumber() == null || !user.getPhoneNumber().equals(request.getPhoneNumber()))) {
             throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS);
         }
-
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         userMapper.updateProfile(user, request);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+
         return userMapper.toUserResponse(userRepository.save(user));
     }
     @Override
