@@ -21,6 +21,6 @@ public class AddressResponse {
     private String ward;
     private String description;
     @JsonProperty("is_default")
-    private Boolean isDefault;
+    private Integer isDefault;
 
 }

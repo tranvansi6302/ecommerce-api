@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.services;
 
 import com.tranvansi.ecommerce.dtos.requests.CreateAddressRequest;
+import com.tranvansi.ecommerce.dtos.requests.UpdateAddressDefaultRequest;
 import com.tranvansi.ecommerce.dtos.requests.UpdateProfileRequest;
 import com.tranvansi.ecommerce.dtos.requests.UploadAvatarRequest;
 import com.tranvansi.ecommerce.dtos.responses.AddressResponse;
@@ -73,7 +74,18 @@ public class UserService implements IUserService {
         );
         Address address = addressMapper.toAddress(request);
         address.setUser(user);
-        address.setIsDefault(false);
+        address.setIsDefault(0);
         return addressMapper.toAddressResponse(addressRepository.save(address));
     }
+
+    @Override
+    public AddressResponse updateAddressDefault(String id, UpdateAddressDefaultRequest request) {
+
+        Address address = addressRepository.findById(id).orElseThrow(
+                () -> new AppException(ErrorCode.USER_NOT_FOUND)
+        );
+        addressMapper.updateAddressDefault(address, request);
+        return addressMapper.toAddressResponse(addressRepository.save(address));
+    }
+
 }

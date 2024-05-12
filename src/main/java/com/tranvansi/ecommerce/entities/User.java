@@ -26,7 +26,7 @@ public class User extends BaseEntity {
     private String password;
     private String dateOfBirth;
     private String phoneNumber;
-    private Boolean blocked;
+    private Integer blocked;
 
     @ManyToMany
     private List<Role> roles;

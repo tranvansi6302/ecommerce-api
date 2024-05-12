@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.controllers;
 
 import com.tranvansi.ecommerce.dtos.requests.CreateAddressRequest;
+import com.tranvansi.ecommerce.dtos.requests.UpdateAddressDefaultRequest;
 import com.tranvansi.ecommerce.dtos.requests.UpdateProfileRequest;
 import com.tranvansi.ecommerce.dtos.requests.UploadAvatarRequest;
 import com.tranvansi.ecommerce.dtos.responses.AddressResponse;
@@ -65,6 +66,17 @@ public class UserController {
         AddressResponse addressResponse = userService.createAddress(request);
         ApiResponse<AddressResponse> response = ApiResponse.<AddressResponse>builder()
                 .message(Message.CREATE_ADDRESS_SUCCESS.getMessage())
+                .result(addressResponse)
+                .build();
+        return ResponseEntity.ok(response);
+    }
+    @PatchMapping("/address/{id}")
+    public ResponseEntity<ApiResponse<AddressResponse>> updateAddressDefault(
+            @PathVariable String id,
+            @RequestBody @Valid UpdateAddressDefaultRequest request) {
+        AddressResponse addressResponse = userService.updateAddressDefault(id, request);
+        ApiResponse<AddressResponse> response = ApiResponse.<AddressResponse>builder()
+                .message(Message.UPDATE_ADDRESS_DEFAULT_SUCCESS.getMessage())
                 .result(addressResponse)
                 .build();
         return ResponseEntity.ok(response);

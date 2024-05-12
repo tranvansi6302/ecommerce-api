@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.services;
 
 import com.tranvansi.ecommerce.dtos.requests.CreateAddressRequest;
+import com.tranvansi.ecommerce.dtos.requests.UpdateAddressDefaultRequest;
 import com.tranvansi.ecommerce.dtos.requests.UpdateProfileRequest;
 import com.tranvansi.ecommerce.dtos.requests.UploadAvatarRequest;
 import com.tranvansi.ecommerce.dtos.responses.AddressResponse;
@@ -18,4 +19,7 @@ public interface IUserService {
 
     @PreAuthorize("hasRole('USER')")
     AddressResponse createAddress(CreateAddressRequest request);
+
+    @PreAuthorize("hasRole('USER')")
+    AddressResponse updateAddressDefault(String id, UpdateAddressDefaultRequest request);
 }

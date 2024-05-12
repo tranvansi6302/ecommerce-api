@@ -19,5 +19,5 @@ public class UserResponse {
     private String email;
     private String dateOfBirth;
     private String phoneNumber;
-    private Boolean blocked;
+    private Integer blocked;
 }

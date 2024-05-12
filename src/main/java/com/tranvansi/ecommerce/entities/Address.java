@@ -23,7 +23,7 @@ public class Address {
     private String ward;
     @Column(columnDefinition = "TEXT")
     private String description;
-    private Boolean isDefault;
+    private Integer isDefault;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
