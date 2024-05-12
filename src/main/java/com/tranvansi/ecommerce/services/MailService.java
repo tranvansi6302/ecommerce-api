@@ -1,6 +1,6 @@
 package com.tranvansi.ecommerce.services;
 
-import com.tranvansi.ecommerce.entities.structures.MailStructure;
+import com.tranvansi.ecommerce.structures.MailStructure;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;

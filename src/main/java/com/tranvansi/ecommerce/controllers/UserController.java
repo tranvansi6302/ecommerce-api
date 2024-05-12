@@ -1,7 +1,9 @@
 package com.tranvansi.ecommerce.controllers;
 
+import com.tranvansi.ecommerce.dtos.requests.CreateAddressRequest;
 import com.tranvansi.ecommerce.dtos.requests.UpdateProfileRequest;
 import com.tranvansi.ecommerce.dtos.requests.UploadAvatarRequest;
+import com.tranvansi.ecommerce.dtos.responses.AddressResponse;
 import com.tranvansi.ecommerce.dtos.responses.ApiResponse;
 import com.tranvansi.ecommerce.dtos.responses.UserResponse;
 import com.tranvansi.ecommerce.enums.Message;
@@ -53,6 +55,17 @@ public class UserController {
         userService.uploadAvatar(request);
         ApiResponse<String> response = ApiResponse.<String>builder()
                 .message(Message.UPLOAD_AVATAR_SUCCESS.getMessage())
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/address")
+    public ResponseEntity<ApiResponse<AddressResponse>> createAddress(
+            @RequestBody @Valid CreateAddressRequest request) {
+        AddressResponse addressResponse = userService.createAddress(request);
+        ApiResponse<AddressResponse> response = ApiResponse.<AddressResponse>builder()
+                .message(Message.CREATE_ADDRESS_SUCCESS.getMessage())
+                .result(addressResponse)
                 .build();
         return ResponseEntity.ok(response);
     }

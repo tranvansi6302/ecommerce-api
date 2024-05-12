@@ -35,7 +35,11 @@ public enum ErrorCode {
     INVALID_AVATAR_FORMAT(1022, "Avatar không đúng định dạng", HttpStatus.BAD_REQUEST),
     FILE_SIZE_TOO_LARGE(1023, "Dung lượng file quá lớn", HttpStatus.BAD_REQUEST),
     FILE_FORMAT_NOT_SUPPORTED(1024, "Định dạng file không được hỗ trợ", HttpStatus.BAD_REQUEST),
-    FORBIDDEN(1025, "Không có quyền truy cập", HttpStatus.FORBIDDEN),;
+    FORBIDDEN(1025, "Không có quyền truy cập", HttpStatus.FORBIDDEN),
+    INVALID_PROVINCE_REQUIRED(1026, "Tỉnh/Thành phố bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_DISTRICT_REQUIRED(1027, "Quận/Huyện bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_WARD_REQUIRED(1028, "Phường/Xã bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_DESCRIPTION_REQUIRED(1029, "Địa chỉ cụ thể bắt buộc nhập", HttpStatus.BAD_REQUEST),;
 
 
     private int code;

@@ -13,7 +13,8 @@ public enum Message {
     FORGOT_PASSWORD_SUCCESS("Một email đã được gửi đến hòm thư của bạn"),
     RESET_PASSWORD_SUCCESS("Đặt lại mật khẩu thành công"),
     UPDATE_PROFILE_SUCCESS("Cập nhật thông tin thành công"),
-    UPLOAD_AVATAR_SUCCESS("Upload avatar thành công");
+    UPLOAD_AVATAR_SUCCESS("Upload avatar thành công"),
+    CREATE_ADDRESS_SUCCESS("Thêm địa chỉ thành công"),;
 
     private String message;
 }
