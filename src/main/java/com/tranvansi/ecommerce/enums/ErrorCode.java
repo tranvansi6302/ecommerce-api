@@ -1,4 +1,4 @@
-package com.tranvansi.ecommerce.exceptions;
+package com.tranvansi.ecommerce.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

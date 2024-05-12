@@ -13,7 +13,7 @@ import com.tranvansi.ecommerce.entities.ForgotToken;
 import com.tranvansi.ecommerce.entities.User;
 import com.tranvansi.ecommerce.entities.structures.MailStructure;
 import com.tranvansi.ecommerce.exceptions.AppException;
-import com.tranvansi.ecommerce.exceptions.ErrorCode;
+import com.tranvansi.ecommerce.enums.ErrorCode;
 import com.tranvansi.ecommerce.mappers.ForgotTokenMapper;
 import com.tranvansi.ecommerce.mappers.UserMapper;
 import com.tranvansi.ecommerce.repositories.ForgotTokenRepository;

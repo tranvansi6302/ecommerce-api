@@ -5,7 +5,7 @@ import com.tranvansi.ecommerce.dtos.requests.UploadAvatarRequest;
 import com.tranvansi.ecommerce.dtos.responses.UserResponse;
 import com.tranvansi.ecommerce.entities.User;
 import com.tranvansi.ecommerce.exceptions.AppException;
-import com.tranvansi.ecommerce.exceptions.ErrorCode;
+import com.tranvansi.ecommerce.enums.ErrorCode;
 import com.tranvansi.ecommerce.mappers.UserMapper;
 import com.tranvansi.ecommerce.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,16 +27,17 @@ public class UserService implements IUserService {
     public UserResponse updateProfile(UpdateProfileRequest request) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(email).orElseThrow(
-                () -> new RuntimeException("User not found")
+                () -> new AppException(ErrorCode.USER_NOT_FOUND)
         );
-      if(userRepository.existsByPhoneNumber(request.getPhoneNumber())) {
-            throw new RuntimeException("Phone number already exists");
-        }
-        userMapper.updateProfile(user, request);
 
+        if (userRepository.existsByPhoneNumber(request.getPhoneNumber()) &&
+                (user.getPhoneNumber() == null || !user.getPhoneNumber().equals(request.getPhoneNumber()))) {
+            throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS);
+        }
+
+        userMapper.updateProfile(user, request);
         return userMapper.toUserResponse(userRepository.save(user));
     }
-
     @Override
     public void uploadAvatar(UploadAvatarRequest request) throws IOException {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();

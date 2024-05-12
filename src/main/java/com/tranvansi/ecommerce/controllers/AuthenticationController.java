@@ -7,6 +7,7 @@ import com.tranvansi.ecommerce.dtos.requests.ResetPasswordRequest;
 import com.tranvansi.ecommerce.dtos.responses.ApiResponse;
 import com.tranvansi.ecommerce.dtos.responses.LoginResponse;
 import com.tranvansi.ecommerce.dtos.responses.RegisterResponse;
+import com.tranvansi.ecommerce.enums.Message;
 import com.tranvansi.ecommerce.services.IAuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class AuthenticationController {
             @RequestBody @Valid RegisterRequest request) {
         RegisterResponse registerResponse = authenticationService.register(request);
         ApiResponse<RegisterResponse> response = ApiResponse.<RegisterResponse>builder()
-                .message("Đăng ký tài khoản thành công")
+                .message(Message.REGISTER_SUCCESS.getMessage())
                 .result(registerResponse)
                 .build();
         return ResponseEntity.ok(response);
@@ -37,7 +38,7 @@ public class AuthenticationController {
             @RequestBody @Valid LoginRequest request) {
         LoginResponse loginResponse = authenticationService.login(request);
         ApiResponse<LoginResponse> response = ApiResponse.<LoginResponse>builder()
-                .message("Đăng nhập thành công")
+                .message(Message.LOGIN_SUCCESS.getMessage())
                 .result(loginResponse)
                 .build();
         return ResponseEntity.ok(response);
@@ -48,7 +49,7 @@ public class AuthenticationController {
             @RequestBody @Valid ForgotPasswordRequest request) {
         authenticationService.forgotPassword(request);
         ApiResponse<String> response = ApiResponse.<String>builder()
-                .message("Một email đã được gửi đến hòm thư của bạn")
+                .message(Message.FORGOT_PASSWORD_SUCCESS.getMessage())
                 .build();
         return ResponseEntity.ok(response);
     }
@@ -58,7 +59,7 @@ public class AuthenticationController {
             @RequestBody @Valid ResetPasswordRequest request) {
         authenticationService.resetPassword(request);
         ApiResponse<String> response = ApiResponse.<String>builder()
-                .message("Mật khẩu đã được thay đổi")
+                .message(Message.RESET_PASSWORD_SUCCESS.getMessage())
                 .build();
         return ResponseEntity.ok(response);
     }

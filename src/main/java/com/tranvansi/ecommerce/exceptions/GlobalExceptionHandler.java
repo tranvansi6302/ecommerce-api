@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.exceptions;
 
 import com.tranvansi.ecommerce.dtos.responses.ApiResponse;
+import com.tranvansi.ecommerce.enums.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
