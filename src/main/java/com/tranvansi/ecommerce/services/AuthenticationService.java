@@ -12,7 +12,7 @@ import com.tranvansi.ecommerce.dtos.responses.RegisterResponse;
 import com.tranvansi.ecommerce.entities.ForgotToken;
 import com.tranvansi.ecommerce.entities.Role;
 import com.tranvansi.ecommerce.entities.User;
-import com.tranvansi.ecommerce.entities.structures.MailStructure;
+import com.tranvansi.ecommerce.structures.MailStructure;
 import com.tranvansi.ecommerce.enums.RoleName;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.enums.ErrorCode;

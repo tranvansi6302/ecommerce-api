@@ -1,4 +1,4 @@
-package com.tranvansi.ecommerce.entities.structures;
+package com.tranvansi.ecommerce.structures;
 
 import lombok.Builder;
 import lombok.Getter;

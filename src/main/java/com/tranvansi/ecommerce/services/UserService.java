@@ -1,15 +1,19 @@
 package com.tranvansi.ecommerce.services;
 
+import com.tranvansi.ecommerce.dtos.requests.CreateAddressRequest;
 import com.tranvansi.ecommerce.dtos.requests.UpdateProfileRequest;
 import com.tranvansi.ecommerce.dtos.requests.UploadAvatarRequest;
+import com.tranvansi.ecommerce.dtos.responses.AddressResponse;
 import com.tranvansi.ecommerce.dtos.responses.UserResponse;
+import com.tranvansi.ecommerce.entities.Address;
 import com.tranvansi.ecommerce.entities.User;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.enums.ErrorCode;
+import com.tranvansi.ecommerce.mappers.AddressMapper;
 import com.tranvansi.ecommerce.mappers.UserMapper;
+import com.tranvansi.ecommerce.repositories.AddressRepository;
 import com.tranvansi.ecommerce.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,7 +28,9 @@ import java.nio.file.Paths;
 @RequiredArgsConstructor
 public class UserService implements IUserService {
     private final UserRepository userRepository;
+    private final AddressRepository addressRepository;
     private final UserMapper userMapper;
+    private final AddressMapper addressMapper;
 
     @Override
     public UserResponse updateProfile(UpdateProfileRequest request) {
@@ -57,5 +63,17 @@ public class UserService implements IUserService {
             userMapper.uploadAvatar(user, request);
         }
         userRepository.save(user);
+    }
+
+    @Override
+    public AddressResponse createAddress(CreateAddressRequest request) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email).orElseThrow(
+                () -> new AppException(ErrorCode.USER_NOT_FOUND)
+        );
+        Address address = addressMapper.toAddress(request);
+        address.setUser(user);
+        address.setIsDefault(false);
+        return addressMapper.toAddressResponse(addressRepository.save(address));
     }
 }
