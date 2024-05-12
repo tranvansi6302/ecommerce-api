@@ -23,8 +23,19 @@ public enum ErrorCode {
     INVALID_TOKEN_REQUIRED(1010, "Token bắt buộc nhập", HttpStatus.BAD_REQUEST),
     UNAUTHORIZED(1011, "Không được phép", HttpStatus.UNAUTHORIZED),
     EMAIL_OR_PASSWORD_INCORRECT(1012, "Email hoặc mật khẩu không chính xác", HttpStatus.BAD_REQUEST),
-    EMAIL_NOT_FOUND(1013, "Email không tồn tại trong hệ thống", HttpStatus.BAD_REQUEST),
-    INVALID_TOKEN(1014, "Token không hợp lệ", HttpStatus.BAD_REQUEST),;
+    EMAIL_NOT_FOUND(1013, "Email không tồn tại trong hệ thống", HttpStatus.NOT_FOUND),
+    INVALID_TOKEN(1014, "Token không hợp lệ", HttpStatus.BAD_REQUEST),
+    INVALID_DATE_OF_BIRTH_FORMAT(1015, "Ngày sinh không đúng định dạng", HttpStatus.BAD_REQUEST),
+    INVALID_PHONE_NUMBER_FORMAT(1016, "Số điện thoại không đúng định dạng", HttpStatus.BAD_REQUEST),
+    INVALID_PHONE_NUMBER_REQUIRED(1017, "Số điện thoại bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_DATE_OF_BIRTH_REQUIRED(1018, "Ngày sinh bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    USER_NOT_FOUND(1019, "Người dùng không tồn tại", HttpStatus.NOT_FOUND),
+    PHONE_NUMBER_ALREADY_EXISTS(1020, "Số điện thoại đã tồn tại trong hệ thống", HttpStatus.BAD_REQUEST),
+    INVALID_AVATAR_REQUIRED(1021, "Avatar bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_AVATAR_FORMAT(1022, "Avatar không đúng định dạng", HttpStatus.BAD_REQUEST),
+    FILE_SIZE_TOO_LARGE(1023, "Dung lượng file quá lớn", HttpStatus.BAD_REQUEST),
+    FILE_FORMAT_NOT_SUPPORTED(1024, "Định dạng file không được hỗ trợ", HttpStatus.BAD_REQUEST),;
+
 
     private int code;
     private String message;
