@@ -1,7 +1,7 @@
 package com.tranvansi.ecommerce.utils;
 
 import com.tranvansi.ecommerce.exceptions.AppException;
-import com.tranvansi.ecommerce.exceptions.ErrorCode;
+import com.tranvansi.ecommerce.enums.ErrorCode;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 

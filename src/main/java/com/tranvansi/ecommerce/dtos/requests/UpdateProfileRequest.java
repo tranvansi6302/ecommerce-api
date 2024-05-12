@@ -33,7 +33,7 @@ public class UpdateProfileRequest {
 
     @JsonProperty("phone_number")
     @NotBlank(message = "INVALID_PHONE_NUMBER_REQUIRED")
-    @Pattern(regexp = "((\\(\\+84\\))|(0))((3[2-9])|(5[25689])|(7[06-9])|(8[1-689])|(9[0-46-9]))\\d{7}",
+    @Pattern(regexp = "\\d{10}",
             message = "INVALID_PHONE_NUMBER_FORMAT")
     private String phoneNumber;
 }

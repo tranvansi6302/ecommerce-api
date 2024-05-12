@@ -4,8 +4,9 @@ import com.tranvansi.ecommerce.dtos.requests.UpdateProfileRequest;
 import com.tranvansi.ecommerce.dtos.requests.UploadAvatarRequest;
 import com.tranvansi.ecommerce.dtos.responses.ApiResponse;
 import com.tranvansi.ecommerce.dtos.responses.UserResponse;
+import com.tranvansi.ecommerce.enums.Message;
 import com.tranvansi.ecommerce.exceptions.AppException;
-import com.tranvansi.ecommerce.exceptions.ErrorCode;
+import com.tranvansi.ecommerce.enums.ErrorCode;
 import com.tranvansi.ecommerce.services.IUserService;
 import com.tranvansi.ecommerce.utils.FileUtil;
 import jakarta.validation.Valid;
@@ -25,10 +26,10 @@ public class UserController {
     @PatchMapping("/profile")
     public ResponseEntity<ApiResponse<UserResponse>> updateProfile(
             @RequestBody @Valid UpdateProfileRequest request) {
-        UserResponse userResponse = userService.updateProfile(request);
+        UserResponse updateProfileResponse = userService.updateProfile(request);
         ApiResponse<UserResponse> response = ApiResponse.<UserResponse>builder()
-                .message("Cập nhật thông tin thành công")
-                .result(userResponse)
+                .message(Message.UPDATE_PROFILE_SUCCESS.getMessage())
+                .result(updateProfileResponse)
                 .build();
         return ResponseEntity.ok(response);
     }
@@ -51,7 +52,7 @@ public class UserController {
                 .build();
         userService.uploadAvatar(request);
         ApiResponse<String> response = ApiResponse.<String>builder()
-                .message("Upload avatar thành công")
+                .message(Message.UPLOAD_AVATAR_SUCCESS.getMessage())
                 .build();
         return ResponseEntity.ok(response);
     }

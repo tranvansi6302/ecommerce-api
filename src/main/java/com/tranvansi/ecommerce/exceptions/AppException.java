@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.exceptions;
 
+import com.tranvansi.ecommerce.enums.ErrorCode;
 import lombok.*;
 
 
