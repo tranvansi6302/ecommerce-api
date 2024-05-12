@@ -14,7 +14,8 @@ public enum Message {
     RESET_PASSWORD_SUCCESS("Đặt lại mật khẩu thành công"),
     UPDATE_PROFILE_SUCCESS("Cập nhật thông tin thành công"),
     UPLOAD_AVATAR_SUCCESS("Upload avatar thành công"),
-    CREATE_ADDRESS_SUCCESS("Thêm địa chỉ thành công"),;
+    CREATE_ADDRESS_SUCCESS("Thêm địa chỉ thành công"),
+    UPDATE_ADDRESS_DEFAULT_SUCCESS("Cập nhật địa chỉ mặc định thành công"),;
 
     private String message;
 }

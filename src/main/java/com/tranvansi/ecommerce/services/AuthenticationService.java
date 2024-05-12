@@ -58,7 +58,7 @@ public class AuthenticationService implements IAuthenticationService{
         User user = userMapper.toUser(request);
         user.setRoles(roles);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setBlocked(false);
+        user.setBlocked(0);
         return userMapper.toRegisterResponse(userRepository.save(user));
     }
 
