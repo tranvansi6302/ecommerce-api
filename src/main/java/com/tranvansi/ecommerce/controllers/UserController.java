@@ -132,7 +132,6 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-
     @PostMapping("/address")
     public ResponseEntity<ApiResponse<AddressResponse>> createAddress(
             @RequestBody @Valid CreateAddressRequest request) {
@@ -165,5 +164,12 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<String>> deleteUser(@PathVariable String id) {
+        userService.deleteUser(id);
+        ApiResponse<String> response = ApiResponse.<String>builder()
+                .message(Message.DELETE_USER_SUCCESS.getMessage())
+                .build();
+        return ResponseEntity.ok(response);
+    }
 }
