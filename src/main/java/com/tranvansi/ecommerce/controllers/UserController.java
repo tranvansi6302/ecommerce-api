@@ -4,27 +4,55 @@ import com.tranvansi.ecommerce.dtos.requests.CreateAddressRequest;
 import com.tranvansi.ecommerce.dtos.requests.UpdateAddressDefaultRequest;
 import com.tranvansi.ecommerce.dtos.requests.UpdateProfileRequest;
 import com.tranvansi.ecommerce.dtos.requests.UploadAvatarRequest;
-import com.tranvansi.ecommerce.dtos.responses.AddressResponse;
-import com.tranvansi.ecommerce.dtos.responses.ApiResponse;
-import com.tranvansi.ecommerce.dtos.responses.UserResponse;
+import com.tranvansi.ecommerce.dtos.responses.*;
 import com.tranvansi.ecommerce.enums.Message;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.enums.ErrorCode;
+import com.tranvansi.ecommerce.filters.UserFilter;
 import com.tranvansi.ecommerce.services.IUserService;
+import com.tranvansi.ecommerce.specifications.UserSpecification;
 import com.tranvansi.ecommerce.utils.FileUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+
 @RestController
 @RequestMapping("${api.prefix}/users")
 @RequiredArgsConstructor
 public class UserController {
     private final IUserService userService;
+
+    @GetMapping("")
+    public ResponseEntity<ListUserResponse> getAllUsers(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "15") int limit,
+            @RequestParam(defaultValue = "desc") String sort_direction,
+           UserFilter filter
+    ) {
+
+        Sort sort = Sort.by("createdAt");
+        sort = sort_direction.equalsIgnoreCase("asc")
+                ? sort.ascending() : sort.descending();
+        PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
+        Page<UserResponse> userResponses = userService.getAllUsers(pageRequest, new UserSpecification(filter));
+        ListUserResponse response = ListUserResponse.builder()
+                .result(userResponses.getContent())
+                .pagination(PaginationResponse.builder()
+                        .page(page)
+                        .limit(limit)
+                        .totalPage(userResponses.getTotalPages())
+                        .build())
+                .build();
+        return ResponseEntity.ok(response);
+    }
 
     @PatchMapping("/profile")
     public ResponseEntity<ApiResponse<UserResponse>> updateProfile(
@@ -36,14 +64,15 @@ public class UserController {
                 .build();
         return ResponseEntity.ok(response);
     }
+
     @PatchMapping("/profile/upload")
     public ResponseEntity<ApiResponse<String>> uploadAvatar(
             @ModelAttribute("avatar") MultipartFile avatar) throws IOException {
-        if(avatar.isEmpty()) {
-           throw new AppException(ErrorCode.INVALID_AVATAR_REQUIRED);
+        if (avatar.isEmpty()) {
+            throw new AppException(ErrorCode.INVALID_AVATAR_REQUIRED);
         }
 
-        if(FileUtil.isImageFile(avatar)) {
+        if (FileUtil.isImageFile(avatar)) {
             throw new AppException(ErrorCode.INVALID_AVATAR_FORMAT);
         }
         if (avatar.getSize() > 5 * 1024 * 1024) { // 5MB
@@ -70,6 +99,7 @@ public class UserController {
                 .build();
         return ResponseEntity.ok(response);
     }
+
     @PatchMapping("/address/{id}")
     public ResponseEntity<ApiResponse<AddressResponse>> updateAddressDefault(
             @PathVariable String id,

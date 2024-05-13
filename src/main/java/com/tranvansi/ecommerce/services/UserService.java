@@ -15,6 +15,9 @@ import com.tranvansi.ecommerce.mappers.UserMapper;
 import com.tranvansi.ecommerce.repositories.AddressRepository;
 import com.tranvansi.ecommerce.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +27,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -86,6 +90,12 @@ public class UserService implements IUserService {
         );
         addressMapper.updateAddressDefault(address, request);
         return addressMapper.toAddressResponse(addressRepository.save(address));
+    }
+
+
+    @Override
+    public Page<UserResponse> getAllUsers(PageRequest pageRequest, Specification<User> specification) {
+        return userRepository.findAll(specification, pageRequest).map(userMapper::toUserResponse);
     }
 
 }
