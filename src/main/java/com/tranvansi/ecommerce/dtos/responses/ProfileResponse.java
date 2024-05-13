@@ -1,7 +1,6 @@
 package com.tranvansi.ecommerce.dtos.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserResponse {
+public class ProfileResponse {
     private String id;
     @JsonProperty("full_name")
     private String fullName;
@@ -22,5 +21,5 @@ public class UserResponse {
     private String dateOfBirth;
     private String phoneNumber;
     private Integer blocked;
-
+    private List<AddressResponse> addresses;
 }
