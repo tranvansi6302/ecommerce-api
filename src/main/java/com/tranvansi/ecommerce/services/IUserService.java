@@ -1,9 +1,6 @@
 package com.tranvansi.ecommerce.services;
 
-import com.tranvansi.ecommerce.dtos.requests.CreateAddressRequest;
-import com.tranvansi.ecommerce.dtos.requests.UpdateAddressDefaultRequest;
-import com.tranvansi.ecommerce.dtos.requests.UpdateProfileRequest;
-import com.tranvansi.ecommerce.dtos.requests.UploadAvatarRequest;
+import com.tranvansi.ecommerce.dtos.requests.*;
 import com.tranvansi.ecommerce.dtos.responses.AddressResponse;
 import com.tranvansi.ecommerce.dtos.responses.ProfileResponse;
 import com.tranvansi.ecommerce.dtos.responses.UserResponse;
@@ -21,7 +18,7 @@ public interface IUserService {
     UserResponse updateProfile(UpdateProfileRequest request);
 
     @PreAuthorize("hasRole('USER')")
-    void uploadAvatar(UploadAvatarRequest request) throws IOException;
+    void uploadProfileAvatar(UploadAvatarRequest request) throws IOException;
 
     @PreAuthorize("hasRole('USER')")
     AddressResponse createAddress(CreateAddressRequest request);
@@ -32,9 +29,15 @@ public interface IUserService {
     @PreAuthorize("hasRole('ADMIN')")
     Page<UserResponse> getAllUsers(PageRequest pageRequest, Specification<User> specification);
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     ProfileResponse getProfile();
 
     @PreAuthorize("hasRole('ADMIN')")
     UserResponse getUserById(String id);
+
+    @PreAuthorize("hasRole('ADMIN')")
+    UserResponse updateUser(String id, UpdateUserRequest request);
+
+    @PreAuthorize("hasRole('ADMIN')")
+    void uploadUserAvatar(String id,UploadAvatarRequest request) throws IOException;
 }

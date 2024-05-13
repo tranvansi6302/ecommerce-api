@@ -1,24 +1,24 @@
 package com.tranvansi.ecommerce.services;
 
-import com.tranvansi.ecommerce.dtos.requests.CreateAddressRequest;
-import com.tranvansi.ecommerce.dtos.requests.UpdateAddressDefaultRequest;
-import com.tranvansi.ecommerce.dtos.requests.UpdateProfileRequest;
-import com.tranvansi.ecommerce.dtos.requests.UploadAvatarRequest;
+import com.tranvansi.ecommerce.dtos.requests.*;
 import com.tranvansi.ecommerce.dtos.responses.AddressResponse;
 import com.tranvansi.ecommerce.dtos.responses.ProfileResponse;
 import com.tranvansi.ecommerce.dtos.responses.UserResponse;
 import com.tranvansi.ecommerce.entities.Address;
+import com.tranvansi.ecommerce.entities.Role;
 import com.tranvansi.ecommerce.entities.User;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.enums.ErrorCode;
 import com.tranvansi.ecommerce.mappers.AddressMapper;
 import com.tranvansi.ecommerce.mappers.UserMapper;
 import com.tranvansi.ecommerce.repositories.AddressRepository;
+import com.tranvansi.ecommerce.repositories.RoleRepository;
 import com.tranvansi.ecommerce.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,6 +34,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService implements IUserService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final AddressRepository addressRepository;
     private final UserMapper userMapper;
     private final AddressMapper addressMapper;
@@ -56,9 +57,24 @@ public class UserService implements IUserService {
         return userMapper.toUserResponse(userRepository.save(user));
     }
     @Override
-    public void uploadAvatar(UploadAvatarRequest request) throws IOException {
+    public void uploadProfileAvatar(UploadAvatarRequest request) throws IOException {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(email).orElseThrow(
+                () -> new AppException(ErrorCode.USER_NOT_FOUND)
+        );
+        if(user.getAvatar()==null) {
+            userMapper.uploadAvatar(user, request);
+        }else {
+            Path oldAvatarPath = Paths.get("uploads", user.getAvatar());
+            Files.deleteIfExists(oldAvatarPath);
+            userMapper.uploadAvatar(user, request);
+        }
+        userRepository.save(user);
+    }
+
+    @Override
+    public void uploadUserAvatar(String id, UploadAvatarRequest request) throws IOException {
+        User user = userRepository.findById(id).orElseThrow(
                 () -> new AppException(ErrorCode.USER_NOT_FOUND)
         );
         if(user.getAvatar()==null) {
@@ -114,6 +130,25 @@ public class UserService implements IUserService {
                 () -> new AppException(ErrorCode.USER_NOT_FOUND)
         );
         return userMapper.toUserResponse(user);
+    }
+
+    @Override
+    public UserResponse updateUser(String id, UpdateUserRequest request) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new AppException(ErrorCode.USER_NOT_FOUND)
+        );
+        if (userRepository.existsByPhoneNumber(request.getPhoneNumber()) &&
+                (user.getPhoneNumber() == null || !user.getPhoneNumber().equals(request.getPhoneNumber()))) {
+            throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS);
+        }
+        if (userRepository.existsByEmail(request.getEmail()) &&
+                (user.getEmail() == null || !user.getEmail().equals(request.getEmail()))) {
+            throw new AppException(ErrorCode.EMAIL_ALREADY_EXISTS);
+        }
+        userMapper.updateUser(user, request);
+        List<Role> roles = roleRepository.findAllById(request.getRoles());
+        user.setRoles(roles);
+        return userMapper.toUserResponse(userRepository.save(user));
     }
 
 }

@@ -1,9 +1,6 @@
 package com.tranvansi.ecommerce.controllers;
 
-import com.tranvansi.ecommerce.dtos.requests.CreateAddressRequest;
-import com.tranvansi.ecommerce.dtos.requests.UpdateAddressDefaultRequest;
-import com.tranvansi.ecommerce.dtos.requests.UpdateProfileRequest;
-import com.tranvansi.ecommerce.dtos.requests.UploadAvatarRequest;
+import com.tranvansi.ecommerce.dtos.requests.*;
 import com.tranvansi.ecommerce.dtos.responses.*;
 import com.tranvansi.ecommerce.enums.Message;
 import com.tranvansi.ecommerce.exceptions.AppException;
@@ -63,6 +60,18 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<ApiResponse<UserResponse>> updateUser(
+            @PathVariable String id,
+            @RequestBody @Valid UpdateUserRequest request) {
+        UserResponse userResponse = userService.updateUser(id, request);
+        ApiResponse<UserResponse> response = ApiResponse.<UserResponse>builder()
+                .message(Message.UPDATE_USER_SUCCESS.getMessage())
+                .result(userResponse)
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
     @PatchMapping("/profile")
     public ResponseEntity<ApiResponse<UserResponse>> updateProfile(
             @RequestBody @Valid UpdateProfileRequest request) {
@@ -75,7 +84,7 @@ public class UserController {
     }
 
     @PatchMapping("/profile/upload")
-    public ResponseEntity<ApiResponse<String>> uploadAvatar(
+    public ResponseEntity<ApiResponse<String>> uploadProfileAvatar(
             @ModelAttribute("avatar") MultipartFile avatar) throws IOException {
         if (avatar.isEmpty()) {
             throw new AppException(ErrorCode.INVALID_AVATAR_REQUIRED);
@@ -91,12 +100,38 @@ public class UserController {
         UploadAvatarRequest request = UploadAvatarRequest.builder()
                 .avatar(avatarImg)
                 .build();
-        userService.uploadAvatar(request);
+        userService.uploadProfileAvatar(request);
         ApiResponse<String> response = ApiResponse.<String>builder()
                 .message(Message.UPLOAD_AVATAR_SUCCESS.getMessage())
                 .build();
         return ResponseEntity.ok(response);
     }
+
+    @PatchMapping("/{id}/upload")
+    public ResponseEntity<ApiResponse<String>> uploadUserAvatar(
+            @PathVariable String id,
+            @ModelAttribute("avatar") MultipartFile avatar) throws IOException {
+        if (avatar.isEmpty()) {
+            throw new AppException(ErrorCode.INVALID_AVATAR_REQUIRED);
+        }
+
+        if (FileUtil.isImageFile(avatar)) {
+            throw new AppException(ErrorCode.INVALID_AVATAR_FORMAT);
+        }
+        if (avatar.getSize() > 5 * 1024 * 1024) { // 5MB
+            throw new AppException(ErrorCode.FILE_SIZE_TOO_LARGE);
+        }
+        String avatarImg = FileUtil.storeImage(avatar);
+        UploadAvatarRequest request = UploadAvatarRequest.builder()
+                .avatar(avatarImg)
+                .build();
+        userService.uploadUserAvatar(id, request);
+        ApiResponse<String> response = ApiResponse.<String>builder()
+                .message(Message.UPLOAD_AVATAR_SUCCESS.getMessage())
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
 
     @PostMapping("/address")
     public ResponseEntity<ApiResponse<AddressResponse>> createAddress(

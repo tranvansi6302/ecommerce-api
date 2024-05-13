@@ -40,7 +40,9 @@ public enum ErrorCode {
     INVALID_DISTRICT_REQUIRED(1027, "Quận/Huyện bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_WARD_REQUIRED(1028, "Phường/Xã bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_DESCRIPTION_REQUIRED(1029, "Địa chỉ cụ thể bắt buộc nhập", HttpStatus.BAD_REQUEST),
-    INVALID_IS_DEFAULT_REQUIRED(1030, "Cần chọn địa chỉ mặc định", HttpStatus.BAD_REQUEST),;
+    INVALID_IS_DEFAULT_REQUIRED(1030, "Cần chọn địa chỉ mặc định", HttpStatus.BAD_REQUEST),
+    INVALID_BLOCKED_REQUIRED(1031, "Trạng thái blocked bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_ROLES_REQUIRED(1032, "Vai trò bắt buộc nhập", HttpStatus.BAD_REQUEST),;
 
 
     private int code;
