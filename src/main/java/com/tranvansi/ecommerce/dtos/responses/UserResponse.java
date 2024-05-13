@@ -22,5 +22,6 @@ public class UserResponse {
     private String dateOfBirth;
     private String phoneNumber;
     private Integer blocked;
+    private List<RoleResponse> roles;
 
 }

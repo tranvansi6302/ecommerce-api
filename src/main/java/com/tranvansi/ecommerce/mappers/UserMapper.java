@@ -19,8 +19,8 @@ public interface UserMapper {
 
     RegisterResponse toRegisterResponse(User user);
 
-    UserResponse toUserResponse(User user);
 
+    UserResponse toUserResponse(User user);
     ProfileResponse toProfileResponse(User user);
 
     void updateProfile(@MappingTarget User user, UpdateProfileRequest request);
