@@ -11,7 +11,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.io.IOException;
-import java.util.List;
 
 public interface IUserService {
     @PreAuthorize("hasRole('USER')")
@@ -40,4 +39,7 @@ public interface IUserService {
 
     @PreAuthorize("hasRole('ADMIN')")
     void uploadUserAvatar(String id,UploadAvatarRequest request) throws IOException;
+
+    @PreAuthorize("hasRole('ADMIN')")
+    void deleteUser(String id);
 }

@@ -88,6 +88,14 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public void deleteUser(String id) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new AppException(ErrorCode.USER_NOT_FOUND)
+        );
+        userRepository.delete(user);
+    }
+
+    @Override
     public AddressResponse createAddress(CreateAddressRequest request) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByEmail(email).orElseThrow(
