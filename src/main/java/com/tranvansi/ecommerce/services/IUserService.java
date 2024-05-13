@@ -5,6 +5,7 @@ import com.tranvansi.ecommerce.dtos.requests.UpdateAddressDefaultRequest;
 import com.tranvansi.ecommerce.dtos.requests.UpdateProfileRequest;
 import com.tranvansi.ecommerce.dtos.requests.UploadAvatarRequest;
 import com.tranvansi.ecommerce.dtos.responses.AddressResponse;
+import com.tranvansi.ecommerce.dtos.responses.ProfileResponse;
 import com.tranvansi.ecommerce.dtos.responses.UserResponse;
 import com.tranvansi.ecommerce.entities.User;
 import org.springframework.data.domain.Page;
@@ -29,5 +30,8 @@ public interface IUserService {
     AddressResponse updateAddressDefault(String id, UpdateAddressDefaultRequest request);
 
     @PreAuthorize("hasRole('ADMIN')")
-     Page<UserResponse> getAllUsers(PageRequest pageRequest, Specification<User> specification);
+    Page<UserResponse> getAllUsers(PageRequest pageRequest, Specification<User> specification);
+
+    @PreAuthorize("hasRole('USER')")
+    ProfileResponse getProfile();
 }

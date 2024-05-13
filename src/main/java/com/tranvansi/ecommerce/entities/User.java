@@ -31,5 +31,7 @@ public class User extends BaseEntity {
     @ManyToMany
     private List<Role> roles;
 
+    @OneToMany(mappedBy = "user")
+    private List<Address> addresses;
 
 }

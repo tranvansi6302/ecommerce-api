@@ -5,6 +5,7 @@ import com.tranvansi.ecommerce.dtos.requests.UpdateAddressDefaultRequest;
 import com.tranvansi.ecommerce.dtos.requests.UpdateProfileRequest;
 import com.tranvansi.ecommerce.dtos.requests.UploadAvatarRequest;
 import com.tranvansi.ecommerce.dtos.responses.AddressResponse;
+import com.tranvansi.ecommerce.dtos.responses.ProfileResponse;
 import com.tranvansi.ecommerce.dtos.responses.UserResponse;
 import com.tranvansi.ecommerce.entities.Address;
 import com.tranvansi.ecommerce.entities.User;
@@ -96,6 +97,15 @@ public class UserService implements IUserService {
     @Override
     public Page<UserResponse> getAllUsers(PageRequest pageRequest, Specification<User> specification) {
         return userRepository.findAll(specification, pageRequest).map(userMapper::toUserResponse);
+    }
+
+    @Override
+    public ProfileResponse getProfile() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByEmail(email).orElseThrow(
+                () -> new AppException(ErrorCode.USER_NOT_FOUND)
+        );
+        return userMapper.toProfileResponse(user);
     }
 
 }

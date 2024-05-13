@@ -112,5 +112,14 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/profile")
+    public ResponseEntity<ApiResponse<ProfileResponse>> getProfile() {
+        ProfileResponse profileResponse = userService.getProfile();
+        ApiResponse<ProfileResponse> response = ApiResponse.<ProfileResponse>builder()
+                .result(profileResponse)
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
 
 }
