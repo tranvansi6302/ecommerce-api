@@ -54,6 +54,15 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<UserResponse>> getUserById(@PathVariable String id) {
+        UserResponse userResponse = userService.getUserById(id);
+        ApiResponse<UserResponse> response = ApiResponse.<UserResponse>builder()
+                .result(userResponse)
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
     @PatchMapping("/profile")
     public ResponseEntity<ApiResponse<UserResponse>> updateProfile(
             @RequestBody @Valid UpdateProfileRequest request) {

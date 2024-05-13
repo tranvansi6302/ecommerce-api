@@ -108,4 +108,12 @@ public class UserService implements IUserService {
         return userMapper.toProfileResponse(user);
     }
 
+    @Override
+    public UserResponse getUserById(String id) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new AppException(ErrorCode.USER_NOT_FOUND)
+        );
+        return userMapper.toUserResponse(user);
+    }
+
 }

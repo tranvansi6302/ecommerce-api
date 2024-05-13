@@ -34,4 +34,7 @@ public interface IUserService {
 
     @PreAuthorize("hasRole('USER')")
     ProfileResponse getProfile();
+
+    @PreAuthorize("hasRole('ADMIN')")
+    UserResponse getUserById(String id);
 }
