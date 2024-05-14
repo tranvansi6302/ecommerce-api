@@ -42,7 +42,10 @@ public enum ErrorCode {
     INVALID_DESCRIPTION_REQUIRED(1029, "Địa chỉ cụ thể bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_IS_DEFAULT_REQUIRED(1030, "Cần chọn địa chỉ mặc định", HttpStatus.BAD_REQUEST),
     INVALID_BLOCKED_REQUIRED(1031, "Trạng thái blocked bắt buộc nhập", HttpStatus.BAD_REQUEST),
-    INVALID_ROLES_REQUIRED(1032, "Vai trò bắt buộc nhập", HttpStatus.BAD_REQUEST),;
+    INVALID_ROLES_REQUIRED(1032, "Vai trò bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_NAME_SIZE (1033,"Tên phải từ 3 đến 50 kí tự", HttpStatus.BAD_REQUEST),
+    INVALID_CATEGORY_NAME_REQUIRED(1034,"Tên danh mục bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    CATEGORY_ALREADY_EXISTS(1035, "Danh mục đã tồn tại", HttpStatus.BAD_REQUEST),;
 
 
     private int code;
