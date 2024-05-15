@@ -71,4 +71,13 @@ public class BrandController {
                 .build();
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<BrandResponse>> deleteBrand(@PathVariable String id) {
+        brandService.deleteBrand(id);
+        ApiResponse<BrandResponse> response = ApiResponse.<BrandResponse>builder()
+                .message(Message.DELETE_BRAND_SUCCESS.getMessage())
+                .build();
+        return ResponseEntity.ok(response);
+    }
 }

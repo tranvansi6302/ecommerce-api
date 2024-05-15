@@ -48,6 +48,8 @@ public class SecurityConfig {
         return new String[] {
                 String.format("%s/categories", apiPrefix),
                 String.format("%s/categories/{id}", apiPrefix),
+                String.format("%s/brands", apiPrefix),
+                String.format("%s/brands/{id}", apiPrefix),
         };
     }
 
