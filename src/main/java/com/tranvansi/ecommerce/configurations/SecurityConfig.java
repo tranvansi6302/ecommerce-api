@@ -44,14 +44,22 @@ public class SecurityConfig {
         };
     }
 
+    private String[] getPublicGetEndpoints() {
+        return new String[] {
+                String.format("%s/categories", apiPrefix),
+                String.format("%s/categories/{id}", apiPrefix),
+        };
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         String[] PUBLIC_POST_ENDPOINTS = getPublicPostEndpoints();
+        String[] PUBLIC_GET_ENDPOINTS = getPublicGetEndpoints();
         httpSecurity
                 .authorizeHttpRequests(request ->
                         request
                                 .requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll()
-
+                                .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll()
                                 .anyRequest().authenticated());
         httpSecurity.oauth2ResourceServer(oAuth2 ->
                 oAuth2.jwt(jwtConfigurer ->

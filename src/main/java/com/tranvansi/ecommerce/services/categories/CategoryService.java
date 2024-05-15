@@ -51,4 +51,11 @@ public class CategoryService implements ICategoryService {
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
         categoryRepository.delete(category);
     }
+
+    @Override
+    public CategoryResponse getCategoryById(String id) {
+        return categoryRepository.findById(id)
+                .map(categoryMapper::toCategoryResponse)
+                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+    }
 }

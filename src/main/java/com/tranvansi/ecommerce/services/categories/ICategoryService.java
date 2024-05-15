@@ -11,7 +11,6 @@ public interface ICategoryService {
     @PreAuthorize("hasRole('ADMIN')")
     CategoryResponse createCategory(CreateCategoryRequest request);
 
-    @PreAuthorize("hasRole('ADMIN')")
     Page<CategoryResponse> getAllCategories(PageRequest pageRequest);
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -19,4 +18,6 @@ public interface ICategoryService {
 
     @PreAuthorize("hasRole('ADMIN')")
     void deleteCategory(String id);
+
+    CategoryResponse getCategoryById(String id);
 }
