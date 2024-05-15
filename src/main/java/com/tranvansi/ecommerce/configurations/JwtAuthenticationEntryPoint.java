@@ -1,6 +1,6 @@
 package com.tranvansi.ecommerce.configurations;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tranvansi.ecommerce.dtos.responses.ApiResponse;
+import com.tranvansi.ecommerce.dtos.responses.common.ApiResponse;
 import com.tranvansi.ecommerce.enums.ErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

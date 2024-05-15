@@ -1,13 +1,10 @@
 package com.tranvansi.ecommerce.mappers;
 
-import com.tranvansi.ecommerce.dtos.requests.CreateAddressRequest;
-import com.tranvansi.ecommerce.dtos.requests.UpdateAddressDefaultRequest;
-import com.tranvansi.ecommerce.dtos.requests.UploadAvatarRequest;
-import com.tranvansi.ecommerce.dtos.responses.AddressResponse;
+import com.tranvansi.ecommerce.dtos.requests.addresses.CreateAddressRequest;
+import com.tranvansi.ecommerce.dtos.requests.addresses.UpdateAddressDefaultRequest;
+import com.tranvansi.ecommerce.dtos.responses.addresses.AddressResponse;
 import com.tranvansi.ecommerce.entities.Address;
-import com.tranvansi.ecommerce.entities.User;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")

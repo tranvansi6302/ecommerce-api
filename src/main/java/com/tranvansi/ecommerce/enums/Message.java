@@ -18,7 +18,8 @@ public enum Message {
     UPDATE_ADDRESS_DEFAULT_SUCCESS("Cập nhật địa chỉ mặc định thành công"),
     UPDATE_USER_SUCCESS("Cập nhật người dùng thành công"),
     DELETE_USER_SUCCESS("Xóa người dùng thành công"),
-    CREATE_CATEGORY_SUCCESS("Thêm danh mục thành công"),;
+    CREATE_CATEGORY_SUCCESS("Thêm danh mục thành công"),
+    UPDATE_CATEGORY_SUCCESS("Cập nhật danh mục thành công"),;
 
     private String message;
 }

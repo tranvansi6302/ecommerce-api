@@ -45,7 +45,8 @@ public enum ErrorCode {
     INVALID_ROLES_REQUIRED(1032, "Vai trò bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_NAME_SIZE (1033,"Tên phải từ 3 đến 50 kí tự", HttpStatus.BAD_REQUEST),
     INVALID_CATEGORY_NAME_REQUIRED(1034,"Tên danh mục bắt buộc nhập", HttpStatus.BAD_REQUEST),
-    CATEGORY_ALREADY_EXISTS(1035, "Danh mục đã tồn tại", HttpStatus.BAD_REQUEST),;
+    CATEGORY_ALREADY_EXISTS(1035, "Danh mục đã tồn tại", HttpStatus.BAD_REQUEST),
+    CATEGORY_NOT_FOUND(1036, "Danh mục không tồn tại", HttpStatus.NOT_FOUND),;
 
 
     private int code;

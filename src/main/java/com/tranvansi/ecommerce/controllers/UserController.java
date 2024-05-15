@@ -1,12 +1,21 @@
 package com.tranvansi.ecommerce.controllers;
 
-import com.tranvansi.ecommerce.dtos.requests.*;
-import com.tranvansi.ecommerce.dtos.responses.*;
+import com.tranvansi.ecommerce.dtos.requests.addresses.CreateAddressRequest;
+import com.tranvansi.ecommerce.dtos.requests.addresses.UpdateAddressDefaultRequest;
+import com.tranvansi.ecommerce.dtos.requests.users.UpdateProfileRequest;
+import com.tranvansi.ecommerce.dtos.requests.users.UpdateUserRequest;
+import com.tranvansi.ecommerce.dtos.requests.users.UploadAvatarRequest;
+import com.tranvansi.ecommerce.dtos.responses.addresses.AddressResponse;
+import com.tranvansi.ecommerce.dtos.responses.common.ApiResponse;
+import com.tranvansi.ecommerce.dtos.responses.common.BuildResponse;
+import com.tranvansi.ecommerce.dtos.responses.common.PagedResponse;
+import com.tranvansi.ecommerce.dtos.responses.users.ProfileResponse;
+import com.tranvansi.ecommerce.dtos.responses.users.UserResponse;
 import com.tranvansi.ecommerce.enums.Message;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.enums.ErrorCode;
 import com.tranvansi.ecommerce.filters.UserFilter;
-import com.tranvansi.ecommerce.services.IUserService;
+import com.tranvansi.ecommerce.services.users.IUserService;
 import com.tranvansi.ecommerce.specifications.UserSpecification;
 import com.tranvansi.ecommerce.utils.FileUtil;
 import jakarta.validation.Valid;
@@ -33,23 +42,16 @@ public class UserController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int limit,
             @RequestParam(defaultValue = "desc") String sort_direction,
-           UserFilter filter
+            UserFilter filter
     ) {
-
-        Sort sort = Sort.by("createdAt");
-        sort = sort_direction.equalsIgnoreCase("asc")
-                ? sort.ascending() : sort.descending();
+        Sort sort = sort_direction.equalsIgnoreCase("asc") ?
+                Sort.by("createdAt").ascending() :
+                Sort.by("createdAt").descending();
         PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
-        Page<UserResponse> userResponses = userService.getAllUsers(
-                pageRequest, new UserSpecification(filter));
-        PagedResponse<List<UserResponse>> response = PagedResponse.<List<UserResponse>>builder()
-                .result(userResponses.getContent())
-                .pagination(PaginationResponse.builder()
-                        .page(page)
-                        .limit(limit)
-                        .totalPage(userResponses.getTotalPages())
-                        .build())
-                .build();
+        Page<UserResponse> userResponses = userService.getAllUsers(pageRequest,
+                new UserSpecification(filter));
+        PagedResponse<List<UserResponse>> response = BuildResponse.
+                buildPagedResponse(userResponses, pageRequest);
         return ResponseEntity.ok(response);
     }
 

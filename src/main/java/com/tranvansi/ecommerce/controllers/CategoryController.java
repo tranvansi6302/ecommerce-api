@@ -1,9 +1,12 @@
 package com.tranvansi.ecommerce.controllers;
 
-import com.tranvansi.ecommerce.dtos.requests.CreateCategoryRequest;
-import com.tranvansi.ecommerce.dtos.responses.*;
+import com.tranvansi.ecommerce.dtos.requests.categories.CreateCategoryRequest;
+import com.tranvansi.ecommerce.dtos.responses.categories.CategoryResponse;
+import com.tranvansi.ecommerce.dtos.responses.common.ApiResponse;
+import com.tranvansi.ecommerce.dtos.responses.common.BuildResponse;
+import com.tranvansi.ecommerce.dtos.responses.common.PagedResponse;
 import com.tranvansi.ecommerce.enums.Message;
-import com.tranvansi.ecommerce.services.ICategoryService;
+import com.tranvansi.ecommerce.services.categories.ICategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,21 +30,15 @@ public class CategoryController {
             @RequestParam(defaultValue = "15") int limit,
             @RequestParam(defaultValue = "desc") String sort_direction
     ) {
-        Sort sort = Sort.by("createdAt");
-        sort = sort_direction.equalsIgnoreCase("asc")
-                ? sort.ascending() : sort.descending();
+        Sort sort = sort_direction.equalsIgnoreCase("asc") ?
+                Sort.by("createdAt").ascending() :
+                Sort.by("createdAt").descending();
         PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
         Page<CategoryResponse> categoryResponses = categoryService.getAllCategories(pageRequest);
-        PagedResponse<List<CategoryResponse>> response = PagedResponse.<List<CategoryResponse>>builder()
-                .result(categoryResponses.getContent())
-                .pagination(PaginationResponse.builder()
-                        .page(page)
-                        .limit(limit)
-                        .totalPage(categoryResponses.getTotalPages())
-                        .build())
-                .build();
+        PagedResponse<List<CategoryResponse>> response = BuildResponse.buildPagedResponse(categoryResponses, pageRequest);
         return ResponseEntity.ok(response);
     }
+
 
     @PostMapping("")
     public ResponseEntity<ApiResponse<CategoryResponse>> createCategory(
@@ -53,24 +50,7 @@ public class CategoryController {
                 .build();
         return ResponseEntity.ok(response);
     }
+
+
 }
 
-//@GetMapping("")
-//public ResponseEntity<PagedResponse<List<CategoryResponse>>> getAllCategories(
-//        @PageableDefault(size = 15, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
-//) {
-//    Page<CategoryResponse> categoryResponses = categoryService.getAllCategories(pageable);
-//    PagedResponse<List<CategoryResponse>> response = buildPagedResponse(categoryResponses, pageable);
-//    return ResponseEntity.ok(response);
-//}
-//
-//private <T> PagedResponse<List<T>> buildPagedResponse(Page<T> pageData, Pageable pageable) {
-//    return PagedResponse.<List<T>>builder()
-//            .result(pageData.getContent())
-//            .pagination(PaginationResponse.builder()
-//                    .page(pageable.getPageNumber() + 1)
-//                    .limit(pageable.getPageSize())
-//                    .totalPage(pageData.getTotalPages())
-//                    .build())
-//            .build();
-//}

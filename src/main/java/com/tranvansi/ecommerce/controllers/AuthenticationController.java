@@ -1,14 +1,14 @@
 package com.tranvansi.ecommerce.controllers;
 
-import com.tranvansi.ecommerce.dtos.requests.ForgotPasswordRequest;
-import com.tranvansi.ecommerce.dtos.requests.LoginRequest;
-import com.tranvansi.ecommerce.dtos.requests.RegisterRequest;
-import com.tranvansi.ecommerce.dtos.requests.ResetPasswordRequest;
-import com.tranvansi.ecommerce.dtos.responses.ApiResponse;
-import com.tranvansi.ecommerce.dtos.responses.LoginResponse;
-import com.tranvansi.ecommerce.dtos.responses.RegisterResponse;
+import com.tranvansi.ecommerce.dtos.requests.authentication.ForgotPasswordRequest;
+import com.tranvansi.ecommerce.dtos.requests.authentication.LoginRequest;
+import com.tranvansi.ecommerce.dtos.requests.authentication.RegisterRequest;
+import com.tranvansi.ecommerce.dtos.requests.authentication.ResetPasswordRequest;
+import com.tranvansi.ecommerce.dtos.responses.common.ApiResponse;
+import com.tranvansi.ecommerce.dtos.responses.authentication.LoginResponse;
+import com.tranvansi.ecommerce.dtos.responses.authentication.RegisterResponse;
 import com.tranvansi.ecommerce.enums.Message;
-import com.tranvansi.ecommerce.services.IAuthenticationService;
+import com.tranvansi.ecommerce.services.authentication.IAuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

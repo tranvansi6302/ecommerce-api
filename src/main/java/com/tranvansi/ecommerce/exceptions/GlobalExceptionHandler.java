@@ -1,6 +1,6 @@
 package com.tranvansi.ecommerce.exceptions;
 
-import com.tranvansi.ecommerce.dtos.responses.ApiResponse;
+import com.tranvansi.ecommerce.dtos.responses.common.ApiResponse;
 import com.tranvansi.ecommerce.enums.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
