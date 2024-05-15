@@ -23,7 +23,8 @@ public enum Message {
     DELETE_CATEGORY_SUCCESS("Xóa danh mục thành công"),
     CREATE_BRAND_SUCCESS("Thêm thương hiệu thành công"),
     UPDATE_BRAND_SUCCESS("Cập nhật thương hiệu thành công"),
-    DELETE_BRAND_SUCCESS("Xóa thương hiệu thành công"),;
+    DELETE_BRAND_SUCCESS("Xóa thương hiệu thành công"),
+    CREATE_COLOR_SUCCESS("Thêm màu thành công"),;
 
     private String message;
 }
