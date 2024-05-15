@@ -8,6 +8,8 @@ import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.mappers.BrandMapper;
 import com.tranvansi.ecommerce.repositories.BrandRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,5 +25,10 @@ public class BrandService implements IBrandService{
         }
         Brand brand = brandMapper.toBrand(request);
         return brandMapper.toBrandResponse(brandRepository.save(brand));
+    }
+
+    @Override
+    public Page<BrandResponse> getAllBrands(PageRequest pageRequest) {
+        return brandRepository.findAll(pageRequest).map(brandMapper::toBrandResponse);
     }
 }
