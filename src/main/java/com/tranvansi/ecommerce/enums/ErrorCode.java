@@ -51,7 +51,13 @@ public enum ErrorCode {
     INVALID_BRAND_NAME_REQUIRED(1038, "Tên thương hiệu bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_BRAND_SUMMARY_REQUIRED(1039, "Mô tả ngắn thương hiệu bắt buộc nhập", HttpStatus.BAD_REQUEST),
     BRAND_ALREADY_EXISTS(1040, "Thương hiệu đã tồn tại", HttpStatus.BAD_REQUEST),
-    BRAND_NOT_FOUND(1041, "Thương hiệu không tồn tại", HttpStatus.NOT_FOUND),;
+    BRAND_NOT_FOUND(1041, "Thương hiệu không tồn tại", HttpStatus.NOT_FOUND),
+    INVALID_COLOR_NAME_REQUIRED(1042, "Tên màu bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_COLOR_SIZE(1043, "Tên màu phải từ 3 đến 10 kí tự", HttpStatus.BAD_REQUEST),
+    INVALID_COLOR_HEX_REQUIRED(1044, "Mã màu bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_COLOR_HEX_SIZE(1045, "Mã màu phải có 7 kí tự", HttpStatus.BAD_REQUEST),
+    COLOR_NAME_ALREADY_EXISTS(1046, "Tên màu đã tồn tại", HttpStatus.BAD_REQUEST),
+    COLOR_HEX_ALREADY_EXISTS(1047, "Mã màu đã tồn tại", HttpStatus.BAD_REQUEST),;
 
 
     private int code;
