@@ -38,6 +38,14 @@ public class BrandController {
         PagedResponse<List<BrandResponse>> response = BuildResponse.buildPagedResponse(brandResponses, pageRequest);
         return ResponseEntity.ok(response);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<BrandResponse>> getBrandById(@PathVariable String id) {
+        BrandResponse brandResponse = brandService.getBrandById(id);
+        ApiResponse<BrandResponse> response = ApiResponse.<BrandResponse>builder()
+                .result(brandResponse)
+                .build();
+        return ResponseEntity.ok(response);
+    }
 
 
     @PostMapping("")

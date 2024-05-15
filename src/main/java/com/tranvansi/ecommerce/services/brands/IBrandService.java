@@ -9,4 +9,6 @@ public interface IBrandService {
     BrandResponse createBrand(CreateBrandRequest request);
 
     Page<BrandResponse> getAllBrands(PageRequest pageRequest);
+
+    BrandResponse getBrandById(String id);
 }
