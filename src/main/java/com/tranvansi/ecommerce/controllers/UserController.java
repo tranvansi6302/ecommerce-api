@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 
 @RestController
@@ -28,7 +29,7 @@ public class UserController {
     private final IUserService userService;
 
     @GetMapping("")
-    public ResponseEntity<ListUserResponse> getAllUsers(
+    public ResponseEntity<PagedResponse<List<UserResponse>>> getAllUsers(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int limit,
             @RequestParam(defaultValue = "desc") String sort_direction,
@@ -39,8 +40,9 @@ public class UserController {
         sort = sort_direction.equalsIgnoreCase("asc")
                 ? sort.ascending() : sort.descending();
         PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
-        Page<UserResponse> userResponses = userService.getAllUsers(pageRequest, new UserSpecification(filter));
-        ListUserResponse response = ListUserResponse.builder()
+        Page<UserResponse> userResponses = userService.getAllUsers(
+                pageRequest, new UserSpecification(filter));
+        PagedResponse<List<UserResponse>> response = PagedResponse.<List<UserResponse>>builder()
                 .result(userResponses.getContent())
                 .pagination(PaginationResponse.builder()
                         .page(page)

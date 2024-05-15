@@ -8,6 +8,8 @@ import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.mappers.CategoryMapper;
 import com.tranvansi.ecommerce.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,5 +25,10 @@ public class CategoryService implements ICategoryService {
         }
         Category category = categoryMapper.toCategory(request);
         return categoryMapper.toCategoryResponse(categoryRepository.save(category));
+    }
+
+    @Override
+    public Page<CategoryResponse> getAllCategories(PageRequest pageRequest) {
+        return categoryRepository.findAll(pageRequest).map(categoryMapper::toCategoryResponse);
     }
 }
