@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.controllers;
 
 import com.tranvansi.ecommerce.dtos.requests.categories.CreateCategoryRequest;
+import com.tranvansi.ecommerce.dtos.requests.categories.UpdateCategoryRequest;
 import com.tranvansi.ecommerce.dtos.responses.categories.CategoryResponse;
 import com.tranvansi.ecommerce.dtos.responses.common.ApiResponse;
 import com.tranvansi.ecommerce.dtos.responses.common.BuildResponse;
@@ -51,6 +52,16 @@ public class CategoryController {
         return ResponseEntity.ok(response);
     }
 
-
+    @PatchMapping("/{id}")
+    public ResponseEntity<ApiResponse<CategoryResponse>> updateCategory(
+            @PathVariable String id,
+            @RequestBody @Valid UpdateCategoryRequest request) {
+        CategoryResponse categoryResponse = categoryService.updateCategory(id, request);
+        ApiResponse<CategoryResponse> response = ApiResponse.<CategoryResponse>builder()
+                .result(categoryResponse)
+                .message(Message.UPDATE_CATEGORY_SUCCESS.getMessage())
+                .build();
+        return ResponseEntity.ok(response);
+    }
 }
 

@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.services.categories;
 
 import com.tranvansi.ecommerce.dtos.requests.categories.CreateCategoryRequest;
+import com.tranvansi.ecommerce.dtos.requests.categories.UpdateCategoryRequest;
 import com.tranvansi.ecommerce.dtos.responses.categories.CategoryResponse;
 import com.tranvansi.ecommerce.entities.Category;
 import com.tranvansi.ecommerce.enums.ErrorCode;
@@ -32,5 +33,15 @@ public class CategoryService implements ICategoryService {
         return categoryRepository.findAll(pageRequest).map(categoryMapper::toCategoryResponse);
     }
 
-
+    @Override
+    public CategoryResponse updateCategory(String id, UpdateCategoryRequest request) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+        if (categoryRepository.existsByName(request.getName())
+                && !category.getName().equals(request.getName())) {
+            throw new AppException(ErrorCode.CATEGORY_ALREADY_EXISTS);
+        }
+        categoryMapper.updateCategory(category, request);
+        return categoryMapper.toCategoryResponse(categoryRepository.save(category));
+    }
 }
