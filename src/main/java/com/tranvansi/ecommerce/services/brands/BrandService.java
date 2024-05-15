@@ -31,4 +31,11 @@ public class BrandService implements IBrandService{
     public Page<BrandResponse> getAllBrands(PageRequest pageRequest) {
         return brandRepository.findAll(pageRequest).map(brandMapper::toBrandResponse);
     }
+
+    @Override
+    public BrandResponse getBrandById(String id) {
+        return brandRepository.findById(id)
+                .map(brandMapper::toBrandResponse)
+                .orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
+    }
 }
