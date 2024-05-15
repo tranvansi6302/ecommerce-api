@@ -52,4 +52,11 @@ public class BrandService implements IBrandService{
         brandMapper.updateBrand(brand, request);
         return brandMapper.toBrandResponse(brandRepository.save(brand));
     }
+
+    @Override
+    public void deleteBrand(String id) {
+        Brand brand = brandRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
+        brandRepository.delete(brand);
+    }
 }
