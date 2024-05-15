@@ -16,4 +16,7 @@ public interface ICategoryService {
 
     @PreAuthorize("hasRole('ADMIN')")
     CategoryResponse updateCategory(String id, UpdateCategoryRequest request);
+
+    @PreAuthorize("hasRole('ADMIN')")
+    void deleteCategory(String id);
 }

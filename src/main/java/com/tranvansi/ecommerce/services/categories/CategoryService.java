@@ -44,4 +44,11 @@ public class CategoryService implements ICategoryService {
         categoryMapper.updateCategory(category, request);
         return categoryMapper.toCategoryResponse(categoryRepository.save(category));
     }
+
+    @Override
+    public void deleteCategory(String id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+        categoryRepository.delete(category);
+    }
 }
