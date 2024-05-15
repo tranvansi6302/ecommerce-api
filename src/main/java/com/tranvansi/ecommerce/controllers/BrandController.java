@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.controllers;
 
 import com.tranvansi.ecommerce.dtos.requests.brands.CreateBrandRequest;
+import com.tranvansi.ecommerce.dtos.requests.brands.UpdateBrandRequest;
 import com.tranvansi.ecommerce.dtos.responses.brans.BrandResponse;
 import com.tranvansi.ecommerce.dtos.responses.categories.CategoryResponse;
 import com.tranvansi.ecommerce.dtos.responses.common.ApiResponse;
@@ -59,4 +60,15 @@ public class BrandController {
         return ResponseEntity.ok(response);
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<ApiResponse<BrandResponse>> updateBrand(
+            @PathVariable String id,
+            @RequestBody @Valid UpdateBrandRequest request) {
+        BrandResponse brandResponse = brandService.updateBrand(id, request);
+        ApiResponse<BrandResponse> response = ApiResponse.<BrandResponse>builder()
+                .message(Message.UPDATE_BRAND_SUCCESS.getMessage())
+                .result(brandResponse)
+                .build();
+        return ResponseEntity.ok(response);
+    }
 }

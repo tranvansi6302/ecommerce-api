@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.services.brands;
 
 import com.tranvansi.ecommerce.dtos.requests.brands.CreateBrandRequest;
+import com.tranvansi.ecommerce.dtos.requests.brands.UpdateBrandRequest;
 import com.tranvansi.ecommerce.dtos.responses.brans.BrandResponse;
 import com.tranvansi.ecommerce.entities.Brand;
 import com.tranvansi.ecommerce.enums.ErrorCode;
@@ -37,5 +38,18 @@ public class BrandService implements IBrandService{
         return brandRepository.findById(id)
                 .map(brandMapper::toBrandResponse)
                 .orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
+    }
+
+    @Override
+    public BrandResponse updateBrand(String id, UpdateBrandRequest request) {
+        Brand brand = brandRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
+
+        if(brandRepository.existsByName(request.getName() )
+                && !brand.getName().equals(request.getName())){
+            throw new AppException(ErrorCode.BRAND_ALREADY_EXISTS);
+        }
+        brandMapper.updateBrand(brand, request);
+        return brandMapper.toBrandResponse(brandRepository.save(brand));
     }
 }
