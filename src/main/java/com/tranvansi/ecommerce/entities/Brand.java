@@ -4,13 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "categories")
+@Table(name = "brands")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Category extends BaseEntity{
+public class Brand extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;

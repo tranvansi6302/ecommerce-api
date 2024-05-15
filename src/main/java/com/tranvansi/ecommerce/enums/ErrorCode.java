@@ -46,7 +46,12 @@ public enum ErrorCode {
     INVALID_NAME_SIZE (1033,"Tên phải từ 3 đến 50 kí tự", HttpStatus.BAD_REQUEST),
     INVALID_CATEGORY_NAME_REQUIRED(1034,"Tên danh mục bắt buộc nhập", HttpStatus.BAD_REQUEST),
     CATEGORY_ALREADY_EXISTS(1035, "Danh mục đã tồn tại", HttpStatus.BAD_REQUEST),
-    CATEGORY_NOT_FOUND(1036, "Danh mục không tồn tại", HttpStatus.NOT_FOUND),;
+    CATEGORY_NOT_FOUND(1036, "Danh mục không tồn tại", HttpStatus.NOT_FOUND),
+    INVALID_CATEGORY_SUMMARY_REQUIRED(1037, "Mô tả ngắn danh mục bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_BRAND_NAME_REQUIRED(1038, "Tên thương hiệu bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_BRAND_SUMMARY_REQUIRED(1039, "Mô tả ngắn thương hiệu bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    BRAND_ALREADY_EXISTS(1040, "Thương hiệu đã tồn tại", HttpStatus.BAD_REQUEST),
+    BRAND_NOT_FOUND(1041, "Thương hiệu không tồn tại", HttpStatus.NOT_FOUND),;
 
 
     private int code;

@@ -1,4 +1,4 @@
-package com.tranvansi.ecommerce.dtos.responses.categories;
+package com.tranvansi.ecommerce.dtos.responses.brans;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CategoryResponse {
+public class BrandResponse {
     private String id;
     private String name;
     private String summary;

@@ -20,7 +20,8 @@ public enum Message {
     DELETE_USER_SUCCESS("Xóa người dùng thành công"),
     CREATE_CATEGORY_SUCCESS("Thêm danh mục thành công"),
     UPDATE_CATEGORY_SUCCESS("Cập nhật danh mục thành công"),
-    DELETE_CATEGORY_SUCCESS("Xóa danh mục thành công"),;
+    DELETE_CATEGORY_SUCCESS("Xóa danh mục thành công"),
+    CREATE_BRAND_SUCCESS("Thêm thương hiệu thành công"),;
 
     private String message;
 }
