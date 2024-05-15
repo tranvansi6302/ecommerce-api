@@ -40,6 +40,15 @@ public class CategoryController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<CategoryResponse>> getCategoryById(@PathVariable String id) {
+        CategoryResponse categoryResponse = categoryService.getCategoryById(id);
+        ApiResponse<CategoryResponse> response = ApiResponse.<CategoryResponse>builder()
+                .result(categoryResponse)
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
 
     @PostMapping("")
     public ResponseEntity<ApiResponse<CategoryResponse>> createCategory(
