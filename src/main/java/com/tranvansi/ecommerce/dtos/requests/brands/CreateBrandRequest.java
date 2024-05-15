@@ -1,6 +1,5 @@
-package com.tranvansi.ecommerce.dtos.requests.categories;
+package com.tranvansi.ecommerce.dtos.requests.brands;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -12,11 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateCategoryRequest {
-    @NotBlank(message = "INVALID_CATEGORY_NAME_REQUIRED")
-    @Size(min = 3, max = 50, message = "INVALID_NAME_SIZE")
+public class CreateBrandRequest {
+    @NotBlank(message = "INVALID_BRAND_NAME_REQUIRED")
+    @Size(min = 3, max = 50, message = "INVALID_BRAND_SIZE")
     private String name;
 
-    @NotBlank(message = "INVALID_CATEGORY_SUMMARY_REQUIRED")
+    @NotBlank(message = "INVALID_BRAND_SUMMARY_REQUIRED")
     private String summary;
 }
