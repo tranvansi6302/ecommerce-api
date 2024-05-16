@@ -8,6 +8,8 @@ import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.mappers.ColorMapper;
 import com.tranvansi.ecommerce.repositories.ColorRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,5 +28,10 @@ public class ColorService implements IColorService{
         }
         Color color = colorMapper.toColor(request);
         return colorMapper.toColorResponse(colorRepository.save(color));
+    }
+
+    @Override
+    public Page<ColorResponse> getAllColors(PageRequest pageRequest) {
+        return colorRepository.findAll(pageRequest).map(colorMapper::toColorResponse);
     }
 }
