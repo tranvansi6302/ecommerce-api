@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class AddressResponse {
+    private Integer id;
     @JsonProperty("full_name")
     private String fullName;
     @JsonProperty("phone_number")

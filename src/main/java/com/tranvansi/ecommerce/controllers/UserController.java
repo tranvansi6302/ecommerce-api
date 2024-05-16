@@ -56,7 +56,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<UserResponse>> getUserById(@PathVariable String id) {
+    public ResponseEntity<ApiResponse<UserResponse>> getUserById(@PathVariable Integer id) {
         UserResponse userResponse = userService.getUserById(id);
         ApiResponse<UserResponse> response = ApiResponse.<UserResponse>builder()
                 .result(userResponse)
@@ -66,7 +66,7 @@ public class UserController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<ApiResponse<UserResponse>> updateUser(
-            @PathVariable String id,
+            @PathVariable Integer id,
             @RequestBody @Valid UpdateUserRequest request) {
         UserResponse userResponse = userService.updateUser(id, request);
         ApiResponse<UserResponse> response = ApiResponse.<UserResponse>builder()
@@ -113,7 +113,7 @@ public class UserController {
 
     @PatchMapping("/{id}/upload")
     public ResponseEntity<ApiResponse<String>> uploadUserAvatar(
-            @PathVariable String id,
+            @PathVariable Integer id,
             @ModelAttribute("avatar") MultipartFile avatar) throws IOException {
         if (avatar.isEmpty()) {
             throw new AppException(ErrorCode.INVALID_AVATAR_REQUIRED);
@@ -149,7 +149,7 @@ public class UserController {
 
     @PatchMapping("/address/{id}")
     public ResponseEntity<ApiResponse<AddressResponse>> updateAddressDefault(
-            @PathVariable String id,
+            @PathVariable Integer id,
             @RequestBody @Valid UpdateAddressDefaultRequest request) {
         AddressResponse addressResponse = userService.updateAddressDefault(id, request);
         ApiResponse<AddressResponse> response = ApiResponse.<AddressResponse>builder()
@@ -169,7 +169,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<String>> deleteUser(@PathVariable String id) {
+    public ResponseEntity<ApiResponse<String>> deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);
         ApiResponse<String> response = ApiResponse.<String>builder()
                 .message(Message.DELETE_USER_SUCCESS.getMessage())

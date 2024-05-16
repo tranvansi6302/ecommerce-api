@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class RegisterResponse {
-    private String id;
+    private Integer id;
     @JsonProperty("full_name")
     private String fullName;
     private String email;

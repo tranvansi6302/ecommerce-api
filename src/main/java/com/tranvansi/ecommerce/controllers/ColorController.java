@@ -40,7 +40,7 @@ public class ColorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<ColorResponse>> getColorById(@PathVariable String id) {
+    public ResponseEntity<ApiResponse<ColorResponse>> getColorById(@PathVariable Integer id) {
         ColorResponse colorResponse = colorService.getColorById(id);
         ApiResponse<ColorResponse> response = ApiResponse.<ColorResponse>builder()
                 .result(colorResponse)
@@ -60,7 +60,7 @@ public class ColorController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<ApiResponse<ColorResponse>> updateColor(
-            @PathVariable String id, @RequestBody @Valid UpdateColorRequest request) {
+            @PathVariable Integer id, @RequestBody @Valid UpdateColorRequest request) {
         ColorResponse colorResponse = colorService.updateColor(id, request);
         ApiResponse<ColorResponse> response = ApiResponse.<ColorResponse>builder()
                 .result(colorResponse)
@@ -70,7 +70,7 @@ public class ColorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<String>> deleteColor(@PathVariable String id) {
+    public ResponseEntity<ApiResponse<String>> deleteColor(@PathVariable Integer id) {
         colorService.deleteColor(id);
         ApiResponse<String> response = ApiResponse.<String>builder()
                 .message(Message.DELETE_COLOR_SUCCESS.getMessage())

@@ -13,11 +13,11 @@ public interface ISizeService {
 
     Page<SizeResponse> getAllSizes(PageRequest pageRequest);
 
-    SizeResponse getSizeById(String id);
+    SizeResponse getSizeById(Integer id);
 
     @PreAuthorize("hasRole('ADMIN')")
-    SizeResponse updateSize(String id, UpdateSizeRequest request);
+    SizeResponse updateSize(Integer id, UpdateSizeRequest request);
 
     @PreAuthorize("hasRole('ADMIN')")
-    void deleteSize(String id);
+    void deleteSize(Integer id);
 }

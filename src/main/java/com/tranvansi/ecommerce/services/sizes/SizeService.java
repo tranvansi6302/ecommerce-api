@@ -34,14 +34,14 @@ public class SizeService implements ISizeService {
     }
 
     @Override
-    public SizeResponse getSizeById(String id) {
+    public SizeResponse getSizeById(Integer id) {
         Size size = sizeRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.SIZE_NOT_FOUND));
         return sizeMapper.toSizeResponse(size);
     }
 
     @Override
-    public SizeResponse updateSize(String id, UpdateSizeRequest request) {
+    public SizeResponse updateSize(Integer id, UpdateSizeRequest request) {
         Size size = sizeRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.SIZE_NOT_FOUND));
         if (sizeRepository.existsByName(request.getName())
@@ -53,7 +53,7 @@ public class SizeService implements ISizeService {
     }
 
     @Override
-    public void deleteSize(String id) {
+    public void deleteSize(Integer id) {
         Size size = sizeRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.SIZE_NOT_FOUND));
         sizeRepository.delete(size);

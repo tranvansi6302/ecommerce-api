@@ -34,7 +34,7 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public CategoryResponse updateCategory(String id, UpdateCategoryRequest request) {
+    public CategoryResponse updateCategory(Integer id, UpdateCategoryRequest request) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
         if (categoryRepository.existsByName(request.getName())
@@ -46,14 +46,14 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public void deleteCategory(String id) {
+    public void deleteCategory(Integer id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
         categoryRepository.delete(category);
     }
 
     @Override
-    public CategoryResponse getCategoryById(String id) {
+    public CategoryResponse getCategoryById(Integer id) {
         return categoryRepository.findById(id)
                 .map(categoryMapper::toCategoryResponse)
                 .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
