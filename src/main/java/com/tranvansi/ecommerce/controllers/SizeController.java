@@ -39,6 +39,14 @@ public class SizeController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<SizeResponse>> getSizeById(@PathVariable String id) {
+        SizeResponse sizeResponse = sizeService.getSizeById(id);
+        ApiResponse<SizeResponse> response = ApiResponse.<SizeResponse>builder()
+                .result(sizeResponse)
+                .build();
+        return ResponseEntity.ok(response);
+    }
     @PostMapping("")
     public ResponseEntity<ApiResponse<SizeResponse>> createSize(@RequestBody @Valid CreateSizeRequest request) {
         SizeResponse sizeResponse = sizeService.createSize(request);
