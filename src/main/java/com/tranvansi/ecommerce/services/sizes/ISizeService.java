@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.services.sizes;
 
 import com.tranvansi.ecommerce.dtos.requests.sizes.CreateSizeRequest;
+import com.tranvansi.ecommerce.dtos.requests.sizes.UpdateSizeRequest;
 import com.tranvansi.ecommerce.dtos.responses.sizes.SizeResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,4 +14,7 @@ public interface ISizeService {
     Page<SizeResponse> getAllSizes(PageRequest pageRequest);
 
     SizeResponse getSizeById(String id);
+
+    @PreAuthorize("hasRole('ADMIN')")
+    SizeResponse updateSize(String id, UpdateSizeRequest request);
 }

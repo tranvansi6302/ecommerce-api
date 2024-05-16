@@ -27,7 +27,8 @@ public enum Message {
     CREATE_COLOR_SUCCESS("Thêm màu thành công"),
     UPDATE_COLOR_SUCCESS("Cập nhật màu thành công"),
     DELETE_COLOR_SUCCESS("Xóa màu thành công"),
-    CREATE_SIZE_SUCCESS("Thêm size thành công"),;
+    CREATE_SIZE_SUCCESS("Thêm size thành công"),
+    UPDATE_SIZE_SUCCESS("Cập nhật size thành công"),;
 
     private String message;
 }
