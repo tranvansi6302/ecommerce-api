@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.services.colors;
 
 import com.tranvansi.ecommerce.dtos.requests.colors.CreateColorRequest;
+import com.tranvansi.ecommerce.dtos.requests.colors.UpdateColorRequest;
 import com.tranvansi.ecommerce.dtos.responses.colors.ColorResponse;
 import com.tranvansi.ecommerce.entities.Color;
 import com.tranvansi.ecommerce.enums.ErrorCode;
@@ -39,5 +40,19 @@ public class ColorService implements IColorService{
     public ColorResponse getColorById(String id) {
         return colorMapper.toColorResponse(colorRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.COLOR_NOT_FOUND)));
+    }
+
+    @Override
+    public ColorResponse updateColor(String id, UpdateColorRequest request) {
+        Color color = colorRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.COLOR_NOT_FOUND));
+        if(colorRepository.existsByName(request.getName()) && !color.getName().equals(request.getName())){
+            throw new AppException(ErrorCode.COLOR_NAME_ALREADY_EXISTS);
+        }
+        if(colorRepository.existsByHex(request.getHex()) && !color.getHex().equals(request.getHex())){
+            throw new AppException(ErrorCode.COLOR_HEX_ALREADY_EXISTS);
+        }
+        colorMapper.updateColor(color, request);
+        return colorMapper.toColorResponse(colorRepository.save(color));
     }
 }

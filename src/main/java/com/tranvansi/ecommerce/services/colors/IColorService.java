@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.services.colors;
 
 import com.tranvansi.ecommerce.dtos.requests.colors.CreateColorRequest;
+import com.tranvansi.ecommerce.dtos.requests.colors.UpdateColorRequest;
 import com.tranvansi.ecommerce.dtos.responses.colors.ColorResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,4 +12,6 @@ public interface IColorService {
     Page<ColorResponse> getAllColors(PageRequest pageRequest);
 
     ColorResponse getColorById(String id);
+
+    ColorResponse updateColor(String id, UpdateColorRequest request);
 }
