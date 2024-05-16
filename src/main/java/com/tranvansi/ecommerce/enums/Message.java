@@ -25,7 +25,8 @@ public enum Message {
     UPDATE_BRAND_SUCCESS("Cập nhật thương hiệu thành công"),
     DELETE_BRAND_SUCCESS("Xóa thương hiệu thành công"),
     CREATE_COLOR_SUCCESS("Thêm màu thành công"),
-    UPDATE_COLOR_SUCCESS("Cập nhật màu thành công"),;
+    UPDATE_COLOR_SUCCESS("Cập nhật màu thành công"),
+    DELETE_COLOR_SUCCESS("Xóa màu thành công"),;
 
     private String message;
 }

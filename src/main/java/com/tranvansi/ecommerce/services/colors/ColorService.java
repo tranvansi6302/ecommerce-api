@@ -55,4 +55,11 @@ public class ColorService implements IColorService{
         colorMapper.updateColor(color, request);
         return colorMapper.toColorResponse(colorRepository.save(color));
     }
+
+    @Override
+    public void deleteColor(String id) {
+        Color color = colorRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.COLOR_NOT_FOUND));
+        colorRepository.delete(color);
+    }
 }

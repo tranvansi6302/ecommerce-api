@@ -68,4 +68,13 @@ public class ColorController {
                 .build();
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<String>> deleteColor(@PathVariable String id) {
+        colorService.deleteColor(id);
+        ApiResponse<String> response = ApiResponse.<String>builder()
+                .message(Message.DELETE_COLOR_SUCCESS.getMessage())
+                .build();
+        return ResponseEntity.ok(response);
+    }
 }
