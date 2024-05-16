@@ -34,4 +34,10 @@ public class ColorService implements IColorService{
     public Page<ColorResponse> getAllColors(PageRequest pageRequest) {
         return colorRepository.findAll(pageRequest).map(colorMapper::toColorResponse);
     }
+
+    @Override
+    public ColorResponse getColorById(String id) {
+        return colorMapper.toColorResponse(colorRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.COLOR_NOT_FOUND)));
+    }
 }

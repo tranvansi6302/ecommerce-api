@@ -38,6 +38,15 @@ public class ColorController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<ColorResponse>> getColorById(@PathVariable String id) {
+        ColorResponse colorResponse = colorService.getColorById(id);
+        ApiResponse<ColorResponse> response = ApiResponse.<ColorResponse>builder()
+                .result(colorResponse)
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("")
     public ResponseEntity<ApiResponse<ColorResponse>> createColor(@RequestBody @Valid CreateColorRequest request) {
         ColorResponse colorResponse = colorService.createColor(request);
