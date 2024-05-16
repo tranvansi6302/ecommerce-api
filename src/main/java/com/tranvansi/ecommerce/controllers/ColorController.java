@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.controllers;
 
 import com.tranvansi.ecommerce.dtos.requests.colors.CreateColorRequest;
+import com.tranvansi.ecommerce.dtos.requests.colors.UpdateColorRequest;
 import com.tranvansi.ecommerce.dtos.responses.colors.ColorResponse;
 import com.tranvansi.ecommerce.dtos.responses.common.ApiResponse;
 import com.tranvansi.ecommerce.dtos.responses.common.BuildResponse;
@@ -55,6 +56,16 @@ public class ColorController {
                 .message(Message.CREATE_COLOR_SUCCESS.getMessage())
                 .build();
         return ResponseEntity.ok(response);
+    }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<ApiResponse<ColorResponse>> updateColor(
+            @PathVariable String id, @RequestBody @Valid UpdateColorRequest request) {
+        ColorResponse colorResponse = colorService.updateColor(id, request);
+        ApiResponse<ColorResponse> response = ApiResponse.<ColorResponse>builder()
+                .result(colorResponse)
+                .message(Message.UPDATE_COLOR_SUCCESS.getMessage())
+                .build();
+        return ResponseEntity.ok(response);
     }
 }

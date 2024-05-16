@@ -58,7 +58,8 @@ public enum ErrorCode {
     INVALID_COLOR_HEX_SIZE(1045, "Mã màu phải có 7 kí tự", HttpStatus.BAD_REQUEST),
     COLOR_NAME_ALREADY_EXISTS(1046, "Tên màu đã tồn tại", HttpStatus.BAD_REQUEST),
     COLOR_HEX_ALREADY_EXISTS(1047, "Mã màu đã tồn tại", HttpStatus.BAD_REQUEST),
-    COLOR_NOT_FOUND(1048, "Màu không tồn tại", HttpStatus.NOT_FOUND),;
+    COLOR_NOT_FOUND(1048, "Màu không tồn tại", HttpStatus.NOT_FOUND),
+    INVALID_COLOR_SUMMARY_REQUIRED(1049, "Mô tả ngắn màu bắt buộc nhập", HttpStatus.BAD_REQUEST),;
 
 
     private int code;
