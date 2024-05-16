@@ -11,4 +11,6 @@ public interface ISizeService {
     SizeResponse createSize(CreateSizeRequest request);
 
     Page<SizeResponse> getAllSizes(PageRequest pageRequest);
+
+    SizeResponse getSizeById(String id);
 }

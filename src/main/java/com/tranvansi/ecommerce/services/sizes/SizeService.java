@@ -31,4 +31,11 @@ public class SizeService implements ISizeService{
     public Page<SizeResponse> getAllSizes(PageRequest pageRequest) {
         return sizeRepository.findAll(pageRequest).map(sizeMapper::toSizeResponse);
     }
+
+    @Override
+    public SizeResponse getSizeById(String id) {
+        Size size = sizeRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.SIZE_NOT_FOUND));
+        return sizeMapper.toSizeResponse(size);
+    }
 }
