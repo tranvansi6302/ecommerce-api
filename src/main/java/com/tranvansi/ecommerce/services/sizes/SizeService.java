@@ -8,6 +8,8 @@ import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.mappers.SizeMapper;
 import com.tranvansi.ecommerce.repositories.SizeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,5 +25,10 @@ public class SizeService implements ISizeService{
         }
         Size size = sizeMapper.toSize(request);
         return sizeMapper.toSizeResponse(sizeRepository.save(size));
+    }
+
+    @Override
+    public Page<SizeResponse> getAllSizes(PageRequest pageRequest) {
+        return sizeRepository.findAll(pageRequest).map(sizeMapper::toSizeResponse);
     }
 }
