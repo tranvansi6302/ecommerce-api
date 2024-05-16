@@ -41,7 +41,7 @@ public class SizeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<SizeResponse>> getSizeById(@PathVariable String id) {
+    public ResponseEntity<ApiResponse<SizeResponse>> getSizeById(@PathVariable Integer id) {
         SizeResponse sizeResponse = sizeService.getSizeById(id);
         ApiResponse<SizeResponse> response = ApiResponse.<SizeResponse>builder()
                 .result(sizeResponse)
@@ -60,7 +60,7 @@ public class SizeController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<ApiResponse<SizeResponse>> updateSize(
-            @PathVariable String id, @RequestBody @Valid UpdateSizeRequest request) {
+            @PathVariable Integer id, @RequestBody @Valid UpdateSizeRequest request) {
         SizeResponse sizeResponse = sizeService.updateSize(id, request);
         ApiResponse<SizeResponse> response = ApiResponse.<SizeResponse>builder()
                 .result(sizeResponse)
@@ -70,7 +70,7 @@ public class SizeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<String>> deleteSize(@PathVariable String id) {
+    public ResponseEntity<ApiResponse<String>> deleteSize(@PathVariable Integer id) {
         sizeService.deleteSize(id);
         ApiResponse<String> response = ApiResponse.<String>builder()
                 .message(Message.DELETE_SIZE_SUCCESS.getMessage())

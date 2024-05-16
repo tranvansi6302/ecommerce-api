@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ForgotTokenRepository extends JpaRepository<ForgotToken, String> {
+public interface ForgotTokenRepository extends JpaRepository<ForgotToken, Integer> {
     Optional<ForgotToken> findByToken(String token);
     ForgotToken findByEmail(String email);
 }

@@ -34,14 +34,14 @@ public class BrandService implements IBrandService{
     }
 
     @Override
-    public BrandResponse getBrandById(String id) {
+    public BrandResponse getBrandById(Integer id) {
         return brandRepository.findById(id)
                 .map(brandMapper::toBrandResponse)
                 .orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
     }
 
     @Override
-    public BrandResponse updateBrand(String id, UpdateBrandRequest request) {
+    public BrandResponse updateBrand(Integer id, UpdateBrandRequest request) {
         Brand brand = brandRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
 
@@ -54,7 +54,7 @@ public class BrandService implements IBrandService{
     }
 
     @Override
-    public void deleteBrand(String id) {
+    public void deleteBrand(Integer id) {
         Brand brand = brandRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
         brandRepository.delete(brand);

@@ -14,8 +14,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Address {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String fullName;
     private String phoneNumber;
     private String province;

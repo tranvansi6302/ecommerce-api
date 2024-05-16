@@ -13,11 +13,11 @@ public interface IBrandService {
 
     Page<BrandResponse> getAllBrands(PageRequest pageRequest);
 
-    BrandResponse getBrandById(String id);
+    BrandResponse getBrandById(Integer id);
 
     @PreAuthorize("hasRole('ADMIN')")
-    BrandResponse updateBrand(String id, UpdateBrandRequest request);
+    BrandResponse updateBrand(Integer id, UpdateBrandRequest request);
 
     @PreAuthorize("hasRole('ADMIN')")
-    void deleteBrand(String id);
+    void deleteBrand(Integer id);
 }

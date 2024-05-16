@@ -14,11 +14,11 @@ public interface IColorService {
 
     Page<ColorResponse> getAllColors(PageRequest pageRequest);
 
-    ColorResponse getColorById(String id);
+    ColorResponse getColorById(Integer id);
 
     @PreAuthorize("hasRole('ADMIN')")
-    ColorResponse updateColor(String id, UpdateColorRequest request);
+    ColorResponse updateColor(Integer id, UpdateColorRequest request);
 
     @PreAuthorize("hasRole('ADMIN')")
-    void deleteColor(String id);
+    void deleteColor(Integer id);
 }

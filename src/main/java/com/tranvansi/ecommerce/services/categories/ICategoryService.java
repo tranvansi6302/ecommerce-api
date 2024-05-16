@@ -14,10 +14,10 @@ public interface ICategoryService {
     Page<CategoryResponse> getAllCategories(PageRequest pageRequest);
 
     @PreAuthorize("hasRole('ADMIN')")
-    CategoryResponse updateCategory(String id, UpdateCategoryRequest request);
+    CategoryResponse updateCategory(Integer id, UpdateCategoryRequest request);
 
     @PreAuthorize("hasRole('ADMIN')")
-    void deleteCategory(String id);
+    void deleteCategory(Integer id);
 
-    CategoryResponse getCategoryById(String id);
+    CategoryResponse getCategoryById(Integer id);
 }

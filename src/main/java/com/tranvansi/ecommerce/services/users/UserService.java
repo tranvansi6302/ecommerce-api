@@ -76,7 +76,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void uploadUserAvatar(String id, UploadAvatarRequest request) throws IOException {
+    public void uploadUserAvatar(Integer id, UploadAvatarRequest request) throws IOException {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new AppException(ErrorCode.USER_NOT_FOUND)
         );
@@ -91,7 +91,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void deleteUser(String id) {
+    public void deleteUser(Integer id) {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new AppException(ErrorCode.USER_NOT_FOUND)
         );
@@ -111,7 +111,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public AddressResponse updateAddressDefault(String id, UpdateAddressDefaultRequest request) {
+    public AddressResponse updateAddressDefault(Integer id, UpdateAddressDefaultRequest request) {
 
         Address address = addressRepository.findById(id).orElseThrow(
                 () -> new AppException(ErrorCode.USER_NOT_FOUND)
@@ -136,7 +136,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserResponse getUserById(String id) {
+    public UserResponse getUserById(Integer id) {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new AppException(ErrorCode.USER_NOT_FOUND)
         );
@@ -144,7 +144,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserResponse updateUser(String id, UpdateUserRequest request) {
+    public UserResponse updateUser(Integer id, UpdateUserRequest request) {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new AppException(ErrorCode.USER_NOT_FOUND)
         );

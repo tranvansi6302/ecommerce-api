@@ -27,7 +27,7 @@ public interface IUserService {
     AddressResponse createAddress(CreateAddressRequest request);
 
     @PreAuthorize("hasRole('USER')")
-    AddressResponse updateAddressDefault(String id, UpdateAddressDefaultRequest request);
+    AddressResponse updateAddressDefault(Integer id, UpdateAddressDefaultRequest request);
 
     @PreAuthorize("hasRole('ADMIN')")
     Page<UserResponse> getAllUsers(PageRequest pageRequest, Specification<User> specification);
@@ -36,14 +36,14 @@ public interface IUserService {
     ProfileResponse getProfile();
 
     @PreAuthorize("hasRole('ADMIN')")
-    UserResponse getUserById(String id);
+    UserResponse getUserById(Integer id);
 
     @PreAuthorize("hasRole('ADMIN')")
-    UserResponse updateUser(String id, UpdateUserRequest request);
+    UserResponse updateUser(Integer id, UpdateUserRequest request);
 
     @PreAuthorize("hasRole('ADMIN')")
-    void uploadUserAvatar(String id,UploadAvatarRequest request) throws IOException;
+    void uploadUserAvatar(Integer id,UploadAvatarRequest request) throws IOException;
 
     @PreAuthorize("hasRole('ADMIN')")
-    void deleteUser(String id);
+    void deleteUser(Integer id);
 }

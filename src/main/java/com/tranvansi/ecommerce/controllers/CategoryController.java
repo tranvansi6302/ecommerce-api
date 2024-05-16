@@ -41,7 +41,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<CategoryResponse>> getCategoryById(@PathVariable String id) {
+    public ResponseEntity<ApiResponse<CategoryResponse>> getCategoryById(@PathVariable Integer id) {
         CategoryResponse categoryResponse = categoryService.getCategoryById(id);
         ApiResponse<CategoryResponse> response = ApiResponse.<CategoryResponse>builder()
                 .result(categoryResponse)
@@ -63,7 +63,7 @@ public class CategoryController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<ApiResponse<CategoryResponse>> updateCategory(
-            @PathVariable String id,
+            @PathVariable Integer id,
             @RequestBody @Valid UpdateCategoryRequest request) {
         CategoryResponse categoryResponse = categoryService.updateCategory(id, request);
         ApiResponse<CategoryResponse> response = ApiResponse.<CategoryResponse>builder()
@@ -74,7 +74,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<String>> deleteCategory(@PathVariable String id) {
+    public ResponseEntity<ApiResponse<String>> deleteCategory(@PathVariable Integer id) {
         categoryService.deleteCategory(id);
         ApiResponse<String> response = ApiResponse.<String>builder()
                 .message(Message.DELETE_CATEGORY_SUCCESS.getMessage())

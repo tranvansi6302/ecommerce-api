@@ -37,13 +37,13 @@ public class ColorService implements IColorService{
     }
 
     @Override
-    public ColorResponse getColorById(String id) {
+    public ColorResponse getColorById(Integer id) {
         return colorMapper.toColorResponse(colorRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.COLOR_NOT_FOUND)));
     }
 
     @Override
-    public ColorResponse updateColor(String id, UpdateColorRequest request) {
+    public ColorResponse updateColor(Integer id, UpdateColorRequest request) {
         Color color = colorRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.COLOR_NOT_FOUND));
         if(colorRepository.existsByName(request.getName()) && !color.getName().equals(request.getName())){
@@ -57,7 +57,7 @@ public class ColorService implements IColorService{
     }
 
     @Override
-    public void deleteColor(String id) {
+    public void deleteColor(Integer id) {
         Color color = colorRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.COLOR_NOT_FOUND));
         colorRepository.delete(color);

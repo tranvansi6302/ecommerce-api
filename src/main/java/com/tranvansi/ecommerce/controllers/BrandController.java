@@ -40,7 +40,7 @@ public class BrandController {
         return ResponseEntity.ok(response);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<BrandResponse>> getBrandById(@PathVariable String id) {
+    public ResponseEntity<ApiResponse<BrandResponse>> getBrandById(@PathVariable Integer id) {
         BrandResponse brandResponse = brandService.getBrandById(id);
         ApiResponse<BrandResponse> response = ApiResponse.<BrandResponse>builder()
                 .result(brandResponse)
@@ -62,7 +62,7 @@ public class BrandController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<ApiResponse<BrandResponse>> updateBrand(
-            @PathVariable String id,
+            @PathVariable Integer id,
             @RequestBody @Valid UpdateBrandRequest request) {
         BrandResponse brandResponse = brandService.updateBrand(id, request);
         ApiResponse<BrandResponse> response = ApiResponse.<BrandResponse>builder()
@@ -73,7 +73,7 @@ public class BrandController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<BrandResponse>> deleteBrand(@PathVariable String id) {
+    public ResponseEntity<ApiResponse<BrandResponse>> deleteBrand(@PathVariable Integer id) {
         brandService.deleteBrand(id);
         ApiResponse<BrandResponse> response = ApiResponse.<BrandResponse>builder()
                 .message(Message.DELETE_BRAND_SUCCESS.getMessage())
