@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.controllers;
 
 import com.tranvansi.ecommerce.dtos.requests.sizes.CreateSizeRequest;
+import com.tranvansi.ecommerce.dtos.requests.sizes.UpdateSizeRequest;
 import com.tranvansi.ecommerce.dtos.responses.common.ApiResponse;
 import com.tranvansi.ecommerce.dtos.responses.common.BuildResponse;
 import com.tranvansi.ecommerce.dtos.responses.common.PagedResponse;
@@ -53,6 +54,17 @@ public class SizeController {
         ApiResponse<SizeResponse> response = ApiResponse.<SizeResponse>builder()
                 .result(sizeResponse)
                 .message(Message.CREATE_SIZE_SUCCESS.getMessage())
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ApiResponse<SizeResponse>> updateSize(
+            @PathVariable String id, @RequestBody @Valid UpdateSizeRequest request) {
+        SizeResponse sizeResponse = sizeService.updateSize(id, request);
+        ApiResponse<SizeResponse> response = ApiResponse.<SizeResponse>builder()
+                .result(sizeResponse)
+                .message(Message.UPDATE_SIZE_SUCCESS.getMessage())
                 .build();
         return ResponseEntity.ok(response);
     }
