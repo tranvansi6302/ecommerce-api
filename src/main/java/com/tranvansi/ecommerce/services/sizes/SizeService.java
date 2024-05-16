@@ -51,4 +51,11 @@ public class SizeService implements ISizeService {
         sizeMapper.updateSize(size, request);
         return sizeMapper.toSizeResponse(sizeRepository.save(size));
     }
+
+    @Override
+    public void deleteSize(String id) {
+        Size size = sizeRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.SIZE_NOT_FOUND));
+        sizeRepository.delete(size);
+    }
 }
