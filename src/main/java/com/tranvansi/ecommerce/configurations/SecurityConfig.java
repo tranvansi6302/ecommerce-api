@@ -50,6 +50,8 @@ public class SecurityConfig {
                 String.format("%s/categories/{id}", apiPrefix),
                 String.format("%s/brands", apiPrefix),
                 String.format("%s/brands/{id}", apiPrefix),
+                String.format("%s/colors", apiPrefix),
+                String.format("%s/colors/{id}", apiPrefix),
         };
     }
 
