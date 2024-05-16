@@ -9,4 +9,6 @@ public interface IColorService {
     ColorResponse createColor(CreateColorRequest request);
 
     Page<ColorResponse> getAllColors(PageRequest pageRequest);
+
+    ColorResponse getColorById(String id);
 }
