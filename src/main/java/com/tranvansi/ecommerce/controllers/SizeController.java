@@ -68,4 +68,13 @@ public class SizeController {
                 .build();
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<String>> deleteSize(@PathVariable String id) {
+        sizeService.deleteSize(id);
+        ApiResponse<String> response = ApiResponse.<String>builder()
+                .message(Message.DELETE_SIZE_SUCCESS.getMessage())
+                .build();
+        return ResponseEntity.ok(response);
+    }
 }

@@ -17,4 +17,7 @@ public interface ISizeService {
 
     @PreAuthorize("hasRole('ADMIN')")
     SizeResponse updateSize(String id, UpdateSizeRequest request);
+
+    @PreAuthorize("hasRole('ADMIN')")
+    void deleteSize(String id);
 }
