@@ -64,8 +64,12 @@ public enum ErrorCode {
     INVALID_SIZE_SUMMARY_REQUIRED(1051, "Mô tả ngắn size bắt buộc nhập", HttpStatus.BAD_REQUEST),
     SIZE_ALREADY_EXISTS(1052, "Size đã tồn tại", HttpStatus.BAD_REQUEST),
     SIZE_NOT_FOUND(1053, "Size không tồn tại", HttpStatus.NOT_FOUND),
-    INVALID_SIZE_MAX(1054, "Tên size tối đa 5 ký tự", HttpStatus.BAD_REQUEST),;
-
+    INVALID_SIZE_MAX(1054, "Tên size tối đa 5 ký tự", HttpStatus.BAD_REQUEST),
+    INVALID_PRODUCT_NAME_REQUIRED(1055, "Tên sản phẩm bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_PRODUCT_NAME_LENGTH(1056, "Tên sản phẩm phải từ 3 đến 200 ký tự", HttpStatus.BAD_REQUEST),
+    INVALID_CATEGORY_ID_REQUIRED(1057, "ID danh mục bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_BRAND_ID_REQUIRED(1058, "ID thương hiệu bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    PRODUCT_ALREADY_EXISTS(1059, "Sản phẩm đã tồn tại", HttpStatus.BAD_REQUEST),;
 
 
 

@@ -27,6 +27,8 @@ public class User extends BaseEntity {
     private String password;
     private String dateOfBirth;
     private String phoneNumber;
+
+    @Column(columnDefinition = "TINYINT")
     private Integer blocked;
 
     @ManyToMany
