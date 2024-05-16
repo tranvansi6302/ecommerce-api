@@ -59,7 +59,14 @@ public enum ErrorCode {
     COLOR_NAME_ALREADY_EXISTS(1046, "Tên màu đã tồn tại", HttpStatus.BAD_REQUEST),
     COLOR_HEX_ALREADY_EXISTS(1047, "Mã màu đã tồn tại", HttpStatus.BAD_REQUEST),
     COLOR_NOT_FOUND(1048, "Màu không tồn tại", HttpStatus.NOT_FOUND),
-    INVALID_COLOR_SUMMARY_REQUIRED(1049, "Mô tả ngắn màu bắt buộc nhập", HttpStatus.BAD_REQUEST),;
+    INVALID_COLOR_SUMMARY_REQUIRED(1049, "Mô tả ngắn màu bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_SIZE_NAME_REQUIRED(1050, "Tên size bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_SIZE_SUMMARY_REQUIRED(1051, "Mô tả ngắn size bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    SIZE_ALREADY_EXISTS(1052, "Size đã tồn tại", HttpStatus.BAD_REQUEST),
+    SIZE_NOT_FOUND(1053, "Size không tồn tại", HttpStatus.NOT_FOUND),
+    INVALID_SIZE_MAX(1054, "Tên size tối đa 5 ký tự", HttpStatus.BAD_REQUEST),;
+
+
 
 
     private int code;
