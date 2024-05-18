@@ -2,6 +2,10 @@ package com.tranvansi.ecommerce.dtos.responses.products;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.tranvansi.ecommerce.dtos.responses.brans.BrandResponse;
+import com.tranvansi.ecommerce.dtos.responses.categories.CategoryResponse;
+import com.tranvansi.ecommerce.entities.Brand;
+import com.tranvansi.ecommerce.entities.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,9 +26,7 @@ public class ProductResponse {
     @JsonProperty("is_delete")
     private Integer isDeleted;
 
-    @JsonProperty("category_id")
-    private Integer categoryId;
+    private CategoryResponse category;
 
-    @JsonProperty("brand_id")
-    private Integer brandId;
+    private BrandResponse brand;
 }

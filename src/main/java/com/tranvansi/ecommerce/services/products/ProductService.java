@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tranvansi.ecommerce.dtos.requests.products.CreateProductRequest;
+import com.tranvansi.ecommerce.dtos.requests.products.UpdateProductRequest;
 import com.tranvansi.ecommerce.dtos.responses.products.ProductResponse;
 import com.tranvansi.ecommerce.entities.Brand;
 import com.tranvansi.ecommerce.entities.Category;
@@ -78,5 +79,31 @@ public class ProductService implements IProductService {
         product.setIsDeleted(ProductStatus.NOT_DELETED.getValue());
         product.setDeletedAt(null);
         productRepository.save(product);
+    }
+
+    @Override
+    public ProductResponse updateProduct(Integer id, UpdateProductRequest request) {
+        Product product =
+                productRepository
+                        .findById(id)
+                        .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+
+        if (productRepository.existsByName(request.getName())
+                && !product.getName().equals(request.getName())) {
+            throw new AppException(ErrorCode.PRODUCT_ALREADY_EXISTS);
+        }
+        Category category =
+                categoryRepository
+                        .findById(request.getCategoryId())
+                        .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+        Brand brand =
+                brandRepository
+                        .findById(request.getBrandId())
+                        .orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
+
+        productMapper.updateProductFromRequest(product, request);
+        product.setCategory(category);
+        product.setBrand(brand);
+        return productMapper.toProductResponse(productRepository.save(product));
     }
 }

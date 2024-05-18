@@ -101,6 +101,8 @@ public enum ErrorCode {
             1078, "Ngày kết thúc khuyến mãi phải sau ngày bắt đầu", HttpStatus.BAD_REQUEST),
     PROMOTION_PRICE_GREATER_THAN_ORIGINAL_PRICE(
             1079, "Giá khuyến mãi phải nhỏ hơn giá gốc", HttpStatus.BAD_REQUEST),
+    INVALID_PRODUCT_DESCRIPTION_REQUIRED(
+            1080, "Mô tả sản phẩm bắt buộc nhập", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;
