@@ -34,6 +34,7 @@ public enum Message {
     CREATE_VARIANT_SUCCESS("Thêm biến thể sản phẩm thành công"),
     DELETE_SOFT_PRODUCT_SUCCESS("Sản phẩm đã được chuyển sang thùng rác, tự động xóa sau 30 ngày"),
     RESTORE_PRODUCT_SUCCESS("Khôi phục sản phẩm thành công"),
+    UPDATE_PRODUCT_SUCCESS("Cập nhật sản phẩm thành công"),
     ;
     private String message;
 }

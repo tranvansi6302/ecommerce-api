@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.tranvansi.ecommerce.dtos.requests.products.UpdateProductRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,18 @@ public class ProductController {
                 ApiResponse.<ProductResponse>builder()
                         .result(productResponse)
                         .message(Message.CREATE_PRODUCT_SUCCESS.getMessage())
+                        .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ApiResponse<ProductResponse>> updateProduct(
+            @PathVariable Integer id, @RequestBody @Valid UpdateProductRequest request) {
+        ProductResponse productResponse = productService.updateProduct(id, request);
+        ApiResponse<ProductResponse> response =
+                ApiResponse.<ProductResponse>builder()
+                        .result(productResponse)
+                        .message(Message.UPDATE_PRODUCT_SUCCESS.getMessage())
                         .build();
         return ResponseEntity.ok(response);
     }

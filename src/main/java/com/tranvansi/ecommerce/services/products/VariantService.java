@@ -91,6 +91,8 @@ public class VariantService implements IVariantService {
                 variantDetailResponse.setPromotionPrice(
                         variantMapper.toPromotionPriceResponse(promotionPrice));
             }
+            // Update pending update
+            product.setPendingUpdate(ProductStatus.UPDATED.getValue());
 
             variantDetailResponses.add(variantDetailResponse);
         }
