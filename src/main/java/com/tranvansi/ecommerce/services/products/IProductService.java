@@ -19,4 +19,6 @@ public interface IProductService {
 
     @PreAuthorize("hasRole('ADMIN')")
     ProductResponse updateProduct(Integer id, UpdateProductRequest request);
+
+
 }
