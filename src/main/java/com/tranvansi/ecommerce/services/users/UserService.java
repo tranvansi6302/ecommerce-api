@@ -106,7 +106,6 @@ public class UserService implements IUserService {
         );
         Address address = addressMapper.toAddress(request);
         address.setUser(user);
-        address.setIsDefault(0);
         return addressMapper.toAddressResponse(addressRepository.save(address));
     }
 

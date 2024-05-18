@@ -1,10 +1,7 @@
 package com.tranvansi.ecommerce.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "addresses")
@@ -12,6 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +21,10 @@ public class Address {
     private String ward;
     @Column(columnDefinition = "TEXT")
     private String description;
-    private Integer isDefault;
+
+    @Builder.Default
+    private Integer isDefault=0;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

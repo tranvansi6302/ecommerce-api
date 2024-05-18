@@ -17,9 +17,13 @@ import java.util.List;
 @Builder
 public class CreateVariantRequest {
 
+    @JsonProperty("product_id")
+    private Integer productId;
+
     @NotNull(message = "INVALID_SIZE_ID_REQUIRED")
     @JsonProperty("size_id")
     private Integer sizeId;
+
 
     @NotNull(message = "INVALID_VARIANT_REQUIRED")
     @Size(min = 1, message = "INVALID_VARIANT_MINIMUM")

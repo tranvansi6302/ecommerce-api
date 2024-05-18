@@ -51,13 +51,19 @@ public class VariantService implements IVariantService {
             if (variantRepository.existsBySku(sku)) {
                 throw new AppException(ErrorCode.SKU_EXISTS);
             }
-            Variant variant = Variant.builder()
-                    .product(product)
-                    .size(size)
-                    .color(color)
-                    .sold(0)
-                    .sku(sku)
-                    .build();
+
+            Variant variant = variantMapper.toVariant(request);
+            variant.setProduct(product);
+            variant.setSize(size);
+            variant.setColor(color);
+            variant.setSku(sku);
+//            Variant variant = Variant.builder()
+//                    .product(product)
+//                    .size(size)
+//                    .color(color)
+//                    .sold(0)
+//                    .sku(sku)
+//                    .build();
 
             Variant savedVariant = variantRepository.save(variant);
 

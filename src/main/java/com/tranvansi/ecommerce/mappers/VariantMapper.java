@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.mappers;
 
+import com.tranvansi.ecommerce.dtos.requests.products.CreateVariantRequest;
 import com.tranvansi.ecommerce.dtos.requests.products.OriginalPriceRequest;
 import com.tranvansi.ecommerce.dtos.requests.products.PromotionPriceRequest;
 import com.tranvansi.ecommerce.dtos.responses.products.OriginalPriceResponse;
@@ -15,18 +16,20 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface VariantMapper {
 
+    @Mapping(target = "product", ignore = true)
+    @Mapping(target = "size", ignore = true)
+    Variant toVariant(CreateVariantRequest request);
+
     @Mapping(target = "variant", ignore = true)
     OriginalPrice toOriginalPrice(OriginalPriceRequest request);
 
-
+    @Mapping(target = "variant", ignore = true)
+    PromotionPrice toPromotionPrice(PromotionPriceRequest request);
 
     @Mapping(target = "color", source = "color.name")
-
     VariantDetailResponse toVariantDetailResponse(Variant variant);
 
     OriginalPriceResponse toOriginalPriceResponse(OriginalPrice originalPrice);
-
-    PromotionPrice toPromotionPrice(PromotionPriceRequest request);
 
     PromotionPriceResponse toPromotionPriceResponse(PromotionPrice promotionPrice);
 }

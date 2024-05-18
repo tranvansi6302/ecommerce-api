@@ -13,4 +13,6 @@ import lombok.NoArgsConstructor;
 public class OriginalPriceRequest {
     @NotNull(message = "INVALID_PRICE_REQUIRED")
     private Double price;
+
+    private Integer variantId;
 }

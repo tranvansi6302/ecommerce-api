@@ -20,6 +20,8 @@ public class VariantDetailRequest {
     @JsonProperty("color_id")
     private Integer colorId;
 
+    private Integer sold;
+
     @NotBlank(message = "INVALID_SKU_REQUIRED")
     @Size(min = 6, max = 6, message = "INVALID_SKU_LENGTH")
     private String sku;
