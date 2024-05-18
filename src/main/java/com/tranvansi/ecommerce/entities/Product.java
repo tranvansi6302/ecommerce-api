@@ -21,8 +21,9 @@ public class Product extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Builder.Default
     @Column(columnDefinition = "TINYINT")
-    private Integer pendingUpdate;
+    private Integer pendingUpdate = 0;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

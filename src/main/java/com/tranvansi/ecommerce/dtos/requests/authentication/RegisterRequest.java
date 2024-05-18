@@ -23,6 +23,8 @@ public class RegisterRequest {
     @Email(message = "INVALID_EMAIL_FORMAT")
     private String email;
 
+    private Integer blocked;
+
     @NotBlank(message = "INVALID_PASSWORD_REQUIRED")
     @Size(min = 6, message = "INVALID_PASSWORD_MIN_LENGTH")
     @Pattern(regexp = "\\S+", message = "INVALID_PASSWORD_WHITESPACE")

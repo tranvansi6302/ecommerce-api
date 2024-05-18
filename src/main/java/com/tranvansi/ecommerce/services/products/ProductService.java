@@ -36,7 +36,6 @@ public class ProductService implements IProductService{
         Product product = productMapper.toProduct(request);
         product.setCategory(category);
         product.setBrand(brand);
-        product.setPendingUpdate(0);
         return productMapper.toProductResponse(productRepository.save(product));
     }
 }

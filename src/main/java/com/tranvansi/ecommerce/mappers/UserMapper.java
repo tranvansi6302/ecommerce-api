@@ -15,15 +15,20 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
+    @Mapping(target = "password", ignore = true)
+    @Mapping(target = "blocked", ignore = true)
     User toUser(RegisterRequest request);
 
     RegisterResponse toRegisterResponse(User user);
 
 
     UserResponse toUserResponse(User user);
+
     ProfileResponse toProfileResponse(User user);
 
+    @Mapping(target = "password", ignore = true)
     void updateProfile(@MappingTarget User user, UpdateProfileRequest request);
+
     void uploadAvatar(@MappingTarget User user, UploadAvatarRequest request);
 
     @Mapping(target = "roles", ignore = true)

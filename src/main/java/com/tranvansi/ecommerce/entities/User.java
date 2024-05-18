@@ -28,8 +28,9 @@ public class User extends BaseEntity {
     private String dateOfBirth;
     private String phoneNumber;
 
+    @Builder.Default
     @Column(columnDefinition = "TINYINT")
-    private Integer blocked;
+    private Integer blocked =0;
 
     @ManyToMany
     private List<Role> roles;

@@ -18,7 +18,8 @@ public class Variant extends BaseEntity{
     @Column(nullable = false, unique = true)
     private String sku;
 
-    private Integer sold;
+    @Builder.Default
+    private Integer sold=0;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
