@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Product {
+public class Product extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -22,7 +22,7 @@ public class Product {
     private String description;
 
     @Column(columnDefinition = "TINYINT")
-    private Integer pending_update;
+    private Integer pendingUpdate;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
