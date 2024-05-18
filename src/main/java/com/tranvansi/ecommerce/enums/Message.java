@@ -30,7 +30,9 @@ public enum Message {
     CREATE_SIZE_SUCCESS("Thêm size thành công"),
     UPDATE_SIZE_SUCCESS("Cập nhật size thành công"),
     DELETE_SIZE_SUCCESS("Xóa size thành công"),
-    CREATE_PRODUCT_SUCCESS("Thêm sản phẩm thành công"),;
+    CREATE_PRODUCT_SUCCESS("Thêm sản phẩm thành công"),
+    CREATE_VARIANT_SUCCESS("Thêm biến thể sản phẩm thành công"),
+    ;
 
     private String message;
 }

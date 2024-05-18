@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CreateSizeRequest {
     @NotBlank(message = "INVALID_SIZE_NAME_REQUIRED")
-    @Size(max = 5, message = "INVALID_SIZE_MAX")
+    @Size(min = 2, max = 2, message = "INVALID_SIZE_MINIMUM")
     private String name;
 
     @NotBlank(message = "INVALID_SIZE_SUMMARY_REQUIRED")
