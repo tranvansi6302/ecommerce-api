@@ -3,6 +3,7 @@ package com.tranvansi.ecommerce.services.products;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.tranvansi.ecommerce.dtos.responses.products.UpdateVariantRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -101,5 +102,55 @@ public class VariantService implements IVariantService {
                 .size(size.getName())
                 .variantDetailResponses(variantDetailResponses)
                 .build();
+    }
+
+    @Override
+    public void updateVariant(Integer variantId, UpdateVariantRequest request) {
+        Variant variant =
+                variantRepository
+                        .findById(variantId)
+                        .orElseThrow(() -> new AppException(ErrorCode.VARIANT_NOT_FOUND));
+        Color color =
+                colorRepository
+                        .findById(request.getColorId())
+                        .orElseThrow(() -> new AppException(ErrorCode.COLOR_NOT_FOUND));
+
+        Size size =
+                sizeRepository
+                        .findById(request.getSizeId())
+                        .orElseThrow(() -> new AppException(ErrorCode.SIZE_NOT_FOUND));
+        OriginalPrice originalPrice =
+                originalPriceRepository
+                        .findByVariantId(variantId)
+                        .orElseThrow(() -> new AppException(ErrorCode.ORIGINAL_PRICE_NOT_FOUND));
+
+        PromotionPrice promotionPrice =
+                promotionPriceRepository
+                        .findByVariantId(variantId)
+                        .orElse(null);
+
+        if (promotionPrice != null) {
+            if (request.getPromotionPriceRequest() == null) {
+                promotionPriceRepository.delete(promotionPrice);
+            } else {
+                variantMapper.updatePromotionPrice(promotionPrice, request.getPromotionPriceRequest());
+                promotionPriceRepository.save(promotionPrice);
+            }
+        } else {
+            if (request.getPromotionPriceRequest() != null) {
+                PromotionPrice mapperPromotionPrice =
+                        variantMapper.toPromotionPrice(request.getPromotionPriceRequest());
+                mapperPromotionPrice.setVariant(variant);
+                promotionPriceRepository.save(mapperPromotionPrice);
+            }
+        }
+
+        variantMapper.updateVariant(variant, request);
+        variant.setColor(color);
+        variant.setSize(size);
+        originalPrice.setPrice(request.getOriginalPriceRequest().getPrice());
+
+        variantRepository.save(variant);
+
     }
 }

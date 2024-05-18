@@ -5,5 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import com.tranvansi.ecommerce.entities.OriginalPrice;
 
+import java.util.Optional;
+
 @Repository
-public interface OriginalPriceRepository extends JpaRepository<OriginalPrice, Integer> {}
+public interface OriginalPriceRepository extends JpaRepository<OriginalPrice, Integer> {
+    Optional<OriginalPrice> findByVariantId(Integer variantId);
+}

@@ -23,9 +23,11 @@ public class CreateProductRequest {
 
     private String description;
 
+    // Not validated -> Set value class Service
     @JsonProperty("pending_update")
     private Integer pendingUpdate = ProductStatus.PENDING_UPDATE.getValue();
 
+    // Not validated -> Set value class Service
     @JsonProperty("is_deleted")
     private Integer isDeleted = ProductStatus.NOT_DELETED.getValue();
 
