@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.entities;
 
 import jakarta.persistence.*;
+
 import lombok.*;
 
 @Entity
@@ -18,11 +19,9 @@ public class Inventory extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String sku;
 
-    @Builder.Default
-    private Integer quantity=0;
+    @Builder.Default private Integer quantity = 0;
 
     @ManyToOne
     @JoinColumn(name = "variant_id")
     private Variant variant;
-
 }

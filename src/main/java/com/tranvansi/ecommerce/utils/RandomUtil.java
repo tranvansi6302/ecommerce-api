@@ -26,5 +26,4 @@ public class RandomUtil {
     private static boolean isSKUExists(String sku) {
         return false;
     }
-
 }

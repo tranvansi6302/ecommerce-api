@@ -1,7 +1,7 @@
 package com.tranvansi.ecommerce.entities;
 
-import com.tranvansi.ecommerce.enums.ProductStatus;
 import jakarta.persistence.*;
+
 import lombok.*;
 
 @Entity
@@ -33,5 +33,4 @@ public class Variant extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "color_id")
     private Color color;
-
 }

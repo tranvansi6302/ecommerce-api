@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.entities;
 
 import jakarta.persistence.*;
+
 import lombok.*;
 
 @Entity
@@ -10,9 +11,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Role extends BaseEntity{
-    @Id
-    private String name;
+public class Role extends BaseEntity {
+    @Id private String name;
+
     @Column(nullable = false, columnDefinition = "TEXT")
     private String summary;
 }

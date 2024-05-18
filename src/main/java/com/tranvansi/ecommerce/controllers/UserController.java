@@ -1,5 +1,17 @@
 package com.tranvansi.ecommerce.controllers;
 
+import java.io.IOException;
+import java.util.List;
+
+import jakarta.validation.Valid;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.tranvansi.ecommerce.dtos.requests.addresses.CreateAddressRequest;
 import com.tranvansi.ecommerce.dtos.requests.addresses.UpdateAddressDefaultRequest;
 import com.tranvansi.ecommerce.dtos.requests.users.UpdateProfileRequest;
@@ -11,25 +23,15 @@ import com.tranvansi.ecommerce.dtos.responses.common.BuildResponse;
 import com.tranvansi.ecommerce.dtos.responses.common.PagedResponse;
 import com.tranvansi.ecommerce.dtos.responses.users.ProfileResponse;
 import com.tranvansi.ecommerce.dtos.responses.users.UserResponse;
+import com.tranvansi.ecommerce.enums.ErrorCode;
 import com.tranvansi.ecommerce.enums.Message;
 import com.tranvansi.ecommerce.exceptions.AppException;
-import com.tranvansi.ecommerce.enums.ErrorCode;
 import com.tranvansi.ecommerce.filters.UserFilter;
 import com.tranvansi.ecommerce.services.users.IUserService;
 import com.tranvansi.ecommerce.specifications.UserSpecification;
 import com.tranvansi.ecommerce.utils.FileUtil;
-import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.List;
-
 
 @RestController
 @RequestMapping("${api.prefix}/users")
@@ -42,37 +44,36 @@ public class UserController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int limit,
             @RequestParam(defaultValue = "desc") String sort_direction,
-            UserFilter filter
-    ) {
-        Sort sort = sort_direction.equalsIgnoreCase("asc") ?
-                Sort.by("createdAt").ascending() :
-                Sort.by("createdAt").descending();
+            UserFilter filter) {
+        Sort sort =
+                sort_direction.equalsIgnoreCase("asc")
+                        ? Sort.by("createdAt").ascending()
+                        : Sort.by("createdAt").descending();
         PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
-        Page<UserResponse> userResponses = userService.getAllUsers(pageRequest,
-                new UserSpecification(filter));
-        PagedResponse<List<UserResponse>> response = BuildResponse.
-                buildPagedResponse(userResponses, pageRequest);
+        Page<UserResponse> userResponses =
+                userService.getAllUsers(pageRequest, new UserSpecification(filter));
+        PagedResponse<List<UserResponse>> response =
+                BuildResponse.buildPagedResponse(userResponses, pageRequest);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<UserResponse>> getUserById(@PathVariable Integer id) {
         UserResponse userResponse = userService.getUserById(id);
-        ApiResponse<UserResponse> response = ApiResponse.<UserResponse>builder()
-                .result(userResponse)
-                .build();
+        ApiResponse<UserResponse> response =
+                ApiResponse.<UserResponse>builder().result(userResponse).build();
         return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<ApiResponse<UserResponse>> updateUser(
-            @PathVariable Integer id,
-            @RequestBody @Valid UpdateUserRequest request) {
+            @PathVariable Integer id, @RequestBody @Valid UpdateUserRequest request) {
         UserResponse userResponse = userService.updateUser(id, request);
-        ApiResponse<UserResponse> response = ApiResponse.<UserResponse>builder()
-                .message(Message.UPDATE_USER_SUCCESS.getMessage())
-                .result(userResponse)
-                .build();
+        ApiResponse<UserResponse> response =
+                ApiResponse.<UserResponse>builder()
+                        .message(Message.UPDATE_USER_SUCCESS.getMessage())
+                        .result(userResponse)
+                        .build();
         return ResponseEntity.ok(response);
     }
 
@@ -80,10 +81,11 @@ public class UserController {
     public ResponseEntity<ApiResponse<UserResponse>> updateProfile(
             @RequestBody @Valid UpdateProfileRequest request) {
         UserResponse updateProfileResponse = userService.updateProfile(request);
-        ApiResponse<UserResponse> response = ApiResponse.<UserResponse>builder()
-                .message(Message.UPDATE_PROFILE_SUCCESS.getMessage())
-                .result(updateProfileResponse)
-                .build();
+        ApiResponse<UserResponse> response =
+                ApiResponse.<UserResponse>builder()
+                        .message(Message.UPDATE_PROFILE_SUCCESS.getMessage())
+                        .result(updateProfileResponse)
+                        .build();
         return ResponseEntity.ok(response);
     }
 
@@ -101,20 +103,19 @@ public class UserController {
             throw new AppException(ErrorCode.FILE_SIZE_TOO_LARGE);
         }
         String avatarImg = FileUtil.storeImage(avatar);
-        UploadAvatarRequest request = UploadAvatarRequest.builder()
-                .avatar(avatarImg)
-                .build();
+        UploadAvatarRequest request = UploadAvatarRequest.builder().avatar(avatarImg).build();
         userService.uploadProfileAvatar(request);
-        ApiResponse<String> response = ApiResponse.<String>builder()
-                .message(Message.UPLOAD_AVATAR_SUCCESS.getMessage())
-                .build();
+        ApiResponse<String> response =
+                ApiResponse.<String>builder()
+                        .message(Message.UPLOAD_AVATAR_SUCCESS.getMessage())
+                        .build();
         return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{id}/upload")
     public ResponseEntity<ApiResponse<String>> uploadUserAvatar(
-            @PathVariable Integer id,
-            @ModelAttribute("avatar") MultipartFile avatar) throws IOException {
+            @PathVariable Integer id, @ModelAttribute("avatar") MultipartFile avatar)
+            throws IOException {
         if (avatar.isEmpty()) {
             throw new AppException(ErrorCode.INVALID_AVATAR_REQUIRED);
         }
@@ -126,13 +127,12 @@ public class UserController {
             throw new AppException(ErrorCode.FILE_SIZE_TOO_LARGE);
         }
         String avatarImg = FileUtil.storeImage(avatar);
-        UploadAvatarRequest request = UploadAvatarRequest.builder()
-                .avatar(avatarImg)
-                .build();
+        UploadAvatarRequest request = UploadAvatarRequest.builder().avatar(avatarImg).build();
         userService.uploadUserAvatar(id, request);
-        ApiResponse<String> response = ApiResponse.<String>builder()
-                .message(Message.UPLOAD_AVATAR_SUCCESS.getMessage())
-                .build();
+        ApiResponse<String> response =
+                ApiResponse.<String>builder()
+                        .message(Message.UPLOAD_AVATAR_SUCCESS.getMessage())
+                        .build();
         return ResponseEntity.ok(response);
     }
 
@@ -140,40 +140,41 @@ public class UserController {
     public ResponseEntity<ApiResponse<AddressResponse>> createAddress(
             @RequestBody @Valid CreateAddressRequest request) {
         AddressResponse addressResponse = userService.createAddress(request);
-        ApiResponse<AddressResponse> response = ApiResponse.<AddressResponse>builder()
-                .message(Message.CREATE_ADDRESS_SUCCESS.getMessage())
-                .result(addressResponse)
-                .build();
+        ApiResponse<AddressResponse> response =
+                ApiResponse.<AddressResponse>builder()
+                        .message(Message.CREATE_ADDRESS_SUCCESS.getMessage())
+                        .result(addressResponse)
+                        .build();
         return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/address/{id}")
     public ResponseEntity<ApiResponse<AddressResponse>> updateAddressDefault(
-            @PathVariable Integer id,
-            @RequestBody @Valid UpdateAddressDefaultRequest request) {
+            @PathVariable Integer id, @RequestBody @Valid UpdateAddressDefaultRequest request) {
         AddressResponse addressResponse = userService.updateAddressDefault(id, request);
-        ApiResponse<AddressResponse> response = ApiResponse.<AddressResponse>builder()
-                .message(Message.UPDATE_ADDRESS_DEFAULT_SUCCESS.getMessage())
-                .result(addressResponse)
-                .build();
+        ApiResponse<AddressResponse> response =
+                ApiResponse.<AddressResponse>builder()
+                        .message(Message.UPDATE_ADDRESS_DEFAULT_SUCCESS.getMessage())
+                        .result(addressResponse)
+                        .build();
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/profile")
     public ResponseEntity<ApiResponse<ProfileResponse>> getProfile() {
         ProfileResponse profileResponse = userService.getProfile();
-        ApiResponse<ProfileResponse> response = ApiResponse.<ProfileResponse>builder()
-                .result(profileResponse)
-                .build();
+        ApiResponse<ProfileResponse> response =
+                ApiResponse.<ProfileResponse>builder().result(profileResponse).build();
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<String>> deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);
-        ApiResponse<String> response = ApiResponse.<String>builder()
-                .message(Message.DELETE_USER_SUCCESS.getMessage())
-                .build();
+        ApiResponse<String> response =
+                ApiResponse.<String>builder()
+                        .message(Message.DELETE_USER_SUCCESS.getMessage())
+                        .build();
         return ResponseEntity.ok(response);
     }
 }

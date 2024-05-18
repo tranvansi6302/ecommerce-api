@@ -1,14 +1,15 @@
 package com.tranvansi.ecommerce.dtos.requests.users;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
+
 import jakarta.validation.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
-
 
 @Data
 @NoArgsConstructor
@@ -31,8 +32,7 @@ public class UpdateUserRequest {
 
     @JsonProperty("phone_number")
     @NotBlank(message = "INVALID_PHONE_NUMBER_REQUIRED")
-    @Pattern(regexp = "\\d{10}",
-            message = "INVALID_PHONE_NUMBER_FORMAT")
+    @Pattern(regexp = "\\d{10}", message = "INVALID_PHONE_NUMBER_FORMAT")
     private String phoneNumber;
 
     @NotNull(message = "INVALID_BLOCKED_REQUIRED")

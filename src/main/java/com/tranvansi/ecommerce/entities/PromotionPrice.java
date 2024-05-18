@@ -1,10 +1,10 @@
 package com.tranvansi.ecommerce.entities;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.AssertTrue;
-import lombok.*;
-
 import java.time.LocalDateTime;
+
+import jakarta.persistence.*;
+
+import lombok.*;
 
 @Entity
 @Table(name = "promotion_prices")
@@ -26,6 +26,4 @@ public class PromotionPrice {
     @ManyToOne
     @JoinColumn(name = "variant_id")
     private Variant variant;
-
-
 }

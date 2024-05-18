@@ -1,7 +1,7 @@
 package com.tranvansi.ecommerce.entities;
 
-import com.tranvansi.ecommerce.enums.ProductStatus;
 import jakarta.persistence.*;
+
 import lombok.*;
 
 @Entity
@@ -22,10 +22,8 @@ public class Product extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-
     @Column(columnDefinition = "TINYINT")
     private Integer pendingUpdate;
-
 
     @Column(columnDefinition = "TINYINT")
     private Integer isDeleted;
@@ -37,5 +35,4 @@ public class Product extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "brand_id")
     private Brand brand;
-
 }

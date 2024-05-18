@@ -1,11 +1,12 @@
 package com.tranvansi.ecommerce.services.brands;
 
-import com.tranvansi.ecommerce.dtos.requests.brands.CreateBrandRequest;
-import com.tranvansi.ecommerce.dtos.requests.brands.UpdateBrandRequest;
-import com.tranvansi.ecommerce.dtos.responses.brans.BrandResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
+
+import com.tranvansi.ecommerce.dtos.requests.brands.CreateBrandRequest;
+import com.tranvansi.ecommerce.dtos.requests.brands.UpdateBrandRequest;
+import com.tranvansi.ecommerce.dtos.responses.brans.BrandResponse;
 
 public interface IBrandService {
     @PreAuthorize("hasRole('ADMIN')")

@@ -1,15 +1,17 @@
 package com.tranvansi.ecommerce.dtos.requests.products;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.LocalDateTime;
+
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -34,5 +36,4 @@ public class PromotionPriceRequest {
     public boolean isValidEndDate() {
         return endDate.isAfter(startDate);
     }
-
 }

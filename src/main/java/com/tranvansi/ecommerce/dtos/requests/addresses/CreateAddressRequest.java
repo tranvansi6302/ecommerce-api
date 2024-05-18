@@ -1,10 +1,12 @@
 package com.tranvansi.ecommerce.dtos.requests.addresses;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tranvansi.ecommerce.entities.User;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tranvansi.ecommerce.entities.User;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,8 +24,7 @@ public class CreateAddressRequest {
 
     @JsonProperty("phone_number")
     @NotBlank(message = "INVALID_PHONE_NUMBER_REQUIRED")
-    @Pattern(regexp = "\\d{10}",
-            message = "INVALID_PHONE_NUMBER_FORMAT")
+    @Pattern(regexp = "\\d{10}", message = "INVALID_PHONE_NUMBER_FORMAT")
     private String phoneNumber;
 
     @NotBlank(message = "INVALID_PROVINCE_REQUIRED")

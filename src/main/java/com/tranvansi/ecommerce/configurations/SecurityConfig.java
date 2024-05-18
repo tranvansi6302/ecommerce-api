@@ -1,11 +1,8 @@
 package com.tranvansi.ecommerce.configurations;
 
+import javax.crypto.spec.SecretKeySpec;
 
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.NonFinal;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -22,7 +19,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
-import javax.crypto.spec.SecretKeySpec;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
@@ -37,22 +34,22 @@ public class SecurityConfig {
 
     private String[] getPublicPostEndpoints() {
         return new String[] {
-                String.format("%s/auth/register", apiPrefix),
-                String.format("%s/auth/login", apiPrefix),
-                String.format("%s/auth/forgot-password", apiPrefix),
-                String.format("%s/auth/reset-password", apiPrefix),
+            String.format("%s/auth/register", apiPrefix),
+            String.format("%s/auth/login", apiPrefix),
+            String.format("%s/auth/forgot-password", apiPrefix),
+            String.format("%s/auth/reset-password", apiPrefix),
         };
     }
 
     private String[] getPublicGetEndpoints() {
         return new String[] {
-                String.format("%s/categories", apiPrefix),
-                String.format("%s/categories/{id}", apiPrefix),
-                String.format("%s/brands", apiPrefix),
-                String.format("%s/brands/{id}", apiPrefix),
-                String.format("%s/colors", apiPrefix),
-                String.format("%s/colors/{id}", apiPrefix),
-                String.format("%s/sizes", apiPrefix),
+            String.format("%s/categories", apiPrefix),
+            String.format("%s/categories/{id}", apiPrefix),
+            String.format("%s/brands", apiPrefix),
+            String.format("%s/brands/{id}", apiPrefix),
+            String.format("%s/colors", apiPrefix),
+            String.format("%s/colors/{id}", apiPrefix),
+            String.format("%s/sizes", apiPrefix),
         };
     }
 
@@ -60,19 +57,23 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         String[] PUBLIC_POST_ENDPOINTS = getPublicPostEndpoints();
         String[] PUBLIC_GET_ENDPOINTS = getPublicGetEndpoints();
-        httpSecurity
-                .authorizeHttpRequests(request ->
-                        request
-                                .requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS).permitAll()
-                                .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS).permitAll()
-                                .anyRequest().authenticated());
-        httpSecurity.oauth2ResourceServer(oAuth2 ->
-                oAuth2.jwt(jwtConfigurer ->
-                        jwtConfigurer.decoder(jwtDecoder())
-                                .jwtAuthenticationConverter(jwtAuthenticationConverter()))
-                        .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
-
-        );
+        httpSecurity.authorizeHttpRequests(
+                request ->
+                        request.requestMatchers(HttpMethod.POST, PUBLIC_POST_ENDPOINTS)
+                                .permitAll()
+                                .requestMatchers(HttpMethod.GET, PUBLIC_GET_ENDPOINTS)
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated());
+        httpSecurity.oauth2ResourceServer(
+                oAuth2 ->
+                        oAuth2.jwt(
+                                        jwtConfigurer ->
+                                                jwtConfigurer
+                                                        .decoder(jwtDecoder())
+                                                        .jwtAuthenticationConverter(
+                                                                jwtAuthenticationConverter()))
+                                .authenticationEntryPoint(new JwtAuthenticationEntryPoint()));
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
         return httpSecurity.build();
@@ -80,11 +81,13 @@ public class SecurityConfig {
 
     @Bean
     JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+        JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter =
+                new JwtGrantedAuthoritiesConverter();
         jwtGrantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
 
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(
+                jwtGrantedAuthoritiesConverter);
 
         return jwtAuthenticationConverter;
     }
@@ -92,8 +95,7 @@ public class SecurityConfig {
     @Bean
     JwtDecoder jwtDecoder() {
         SecretKeySpec secretKeySpec = new SecretKeySpec(signerKey.getBytes(), "HS512");
-        return NimbusJwtDecoder
-                .withSecretKey(secretKeySpec)
+        return NimbusJwtDecoder.withSecretKey(secretKeySpec)
                 .macAlgorithm(MacAlgorithm.HS512)
                 .build();
     }

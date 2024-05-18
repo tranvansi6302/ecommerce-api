@@ -7,9 +7,8 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class PagedResponse<T> {
-    @Builder.Default
-    private int code= 1000;
+    @Builder.Default private int code = 1000;
+
     private T result;
     private PaginationResponse pagination;
-
 }

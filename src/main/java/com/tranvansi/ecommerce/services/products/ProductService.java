@@ -1,5 +1,12 @@
 package com.tranvansi.ecommerce.services.products;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.tranvansi.ecommerce.dtos.requests.products.CreateProductRequest;
 import com.tranvansi.ecommerce.dtos.responses.products.ProductResponse;
 import com.tranvansi.ecommerce.entities.Brand;
@@ -12,13 +19,8 @@ import com.tranvansi.ecommerce.mappers.ProductMapper;
 import com.tranvansi.ecommerce.repositories.BrandRepository;
 import com.tranvansi.ecommerce.repositories.CategoryRepository;
 import com.tranvansi.ecommerce.repositories.ProductRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -34,10 +36,14 @@ public class ProductService implements IProductService {
             throw new AppException(ErrorCode.PRODUCT_ALREADY_EXISTS);
         }
 
-        Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
-        Brand brand = brandRepository.findById(request.getBrandId())
-                .orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
+        Category category =
+                categoryRepository
+                        .findById(request.getCategoryId())
+                        .orElseThrow(() -> new AppException(ErrorCode.CATEGORY_NOT_FOUND));
+        Brand brand =
+                brandRepository
+                        .findById(request.getBrandId())
+                        .orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
 
         Product product = productMapper.toProduct(request);
         product.setCategory(category);
@@ -47,8 +53,10 @@ public class ProductService implements IProductService {
 
     @Override
     public void deleteSoftProduct(Integer id) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        Product product =
+                productRepository
+                        .findById(id)
+                        .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
         product.setIsDeleted(ProductStatus.SOFT_DELETED.getValue());
         product.setDeletedAt(LocalDateTime.now());
         productRepository.save(product);
@@ -63,12 +71,12 @@ public class ProductService implements IProductService {
 
     @Override
     public void restoreProduct(Integer id) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        Product product =
+                productRepository
+                        .findById(id)
+                        .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
         product.setIsDeleted(ProductStatus.NOT_DELETED.getValue());
         product.setDeletedAt(null);
         productRepository.save(product);
     }
-
-
 }

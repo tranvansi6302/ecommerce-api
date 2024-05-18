@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.dtos.responses.authentication;
 
 import com.tranvansi.ecommerce.dtos.responses.users.UserResponse;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

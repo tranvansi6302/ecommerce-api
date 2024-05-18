@@ -1,5 +1,9 @@
 package com.tranvansi.ecommerce.services.sizes;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
 import com.tranvansi.ecommerce.dtos.requests.sizes.CreateSizeRequest;
 import com.tranvansi.ecommerce.dtos.requests.sizes.UpdateSizeRequest;
 import com.tranvansi.ecommerce.dtos.responses.sizes.SizeResponse;
@@ -8,10 +12,8 @@ import com.tranvansi.ecommerce.enums.ErrorCode;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.mappers.SizeMapper;
 import com.tranvansi.ecommerce.repositories.SizeRepository;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -35,15 +37,19 @@ public class SizeService implements ISizeService {
 
     @Override
     public SizeResponse getSizeById(Integer id) {
-        Size size = sizeRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.SIZE_NOT_FOUND));
+        Size size =
+                sizeRepository
+                        .findById(id)
+                        .orElseThrow(() -> new AppException(ErrorCode.SIZE_NOT_FOUND));
         return sizeMapper.toSizeResponse(size);
     }
 
     @Override
     public SizeResponse updateSize(Integer id, UpdateSizeRequest request) {
-        Size size = sizeRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.SIZE_NOT_FOUND));
+        Size size =
+                sizeRepository
+                        .findById(id)
+                        .orElseThrow(() -> new AppException(ErrorCode.SIZE_NOT_FOUND));
         if (sizeRepository.existsByName(request.getName())
                 && !size.getName().equals(request.getName())) {
             throw new AppException(ErrorCode.SIZE_ALREADY_EXISTS);
@@ -54,8 +60,10 @@ public class SizeService implements ISizeService {
 
     @Override
     public void deleteSize(Integer id) {
-        Size size = sizeRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.SIZE_NOT_FOUND));
+        Size size =
+                sizeRepository
+                        .findById(id)
+                        .orElseThrow(() -> new AppException(ErrorCode.SIZE_NOT_FOUND));
         sizeRepository.delete(size);
     }
 }

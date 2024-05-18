@@ -1,5 +1,9 @@
 package com.tranvansi.ecommerce.services.brands;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
 import com.tranvansi.ecommerce.dtos.requests.brands.CreateBrandRequest;
 import com.tranvansi.ecommerce.dtos.requests.brands.UpdateBrandRequest;
 import com.tranvansi.ecommerce.dtos.responses.brans.BrandResponse;
@@ -8,20 +12,18 @@ import com.tranvansi.ecommerce.enums.ErrorCode;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.mappers.BrandMapper;
 import com.tranvansi.ecommerce.repositories.BrandRepository;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class BrandService implements IBrandService{
+public class BrandService implements IBrandService {
     private final BrandRepository brandRepository;
     private final BrandMapper brandMapper;
 
     @Override
     public BrandResponse createBrand(CreateBrandRequest request) {
-        if(brandRepository.existsByName(request.getName())){
+        if (brandRepository.existsByName(request.getName())) {
             throw new AppException(ErrorCode.BRAND_ALREADY_EXISTS);
         }
         Brand brand = brandMapper.toBrand(request);
@@ -35,18 +37,21 @@ public class BrandService implements IBrandService{
 
     @Override
     public BrandResponse getBrandById(Integer id) {
-        return brandRepository.findById(id)
+        return brandRepository
+                .findById(id)
                 .map(brandMapper::toBrandResponse)
                 .orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
     }
 
     @Override
     public BrandResponse updateBrand(Integer id, UpdateBrandRequest request) {
-        Brand brand = brandRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
+        Brand brand =
+                brandRepository
+                        .findById(id)
+                        .orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
 
-        if(brandRepository.existsByName(request.getName() )
-                && !brand.getName().equals(request.getName())){
+        if (brandRepository.existsByName(request.getName())
+                && !brand.getName().equals(request.getName())) {
             throw new AppException(ErrorCode.BRAND_ALREADY_EXISTS);
         }
         brandMapper.updateBrand(brand, request);
@@ -55,8 +60,10 @@ public class BrandService implements IBrandService{
 
     @Override
     public void deleteBrand(Integer id) {
-        Brand brand = brandRepository.findById(id)
-                .orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
+        Brand brand =
+                brandRepository
+                        .findById(id)
+                        .orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
         brandRepository.delete(brand);
     }
 }

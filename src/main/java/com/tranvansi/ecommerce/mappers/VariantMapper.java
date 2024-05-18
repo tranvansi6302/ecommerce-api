@@ -1,17 +1,17 @@
 package com.tranvansi.ecommerce.mappers;
 
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
 import com.tranvansi.ecommerce.dtos.requests.products.CreateVariantRequest;
 import com.tranvansi.ecommerce.dtos.requests.products.OriginalPriceRequest;
 import com.tranvansi.ecommerce.dtos.requests.products.PromotionPriceRequest;
 import com.tranvansi.ecommerce.dtos.responses.products.OriginalPriceResponse;
 import com.tranvansi.ecommerce.dtos.responses.products.PromotionPriceResponse;
 import com.tranvansi.ecommerce.dtos.responses.products.VariantDetailResponse;
-import com.tranvansi.ecommerce.dtos.responses.products.VariantResponse;
 import com.tranvansi.ecommerce.entities.OriginalPrice;
 import com.tranvansi.ecommerce.entities.PromotionPrice;
 import com.tranvansi.ecommerce.entities.Variant;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface VariantMapper {

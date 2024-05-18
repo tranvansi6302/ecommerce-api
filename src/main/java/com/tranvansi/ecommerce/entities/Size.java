@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.entities;
 
 import jakarta.persistence.*;
+
 import lombok.*;
 
 @Entity
@@ -10,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Size extends BaseEntity{
+public class Size extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

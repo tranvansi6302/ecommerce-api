@@ -1,5 +1,12 @@
 package com.tranvansi.ecommerce.services.users;
 
+import java.io.IOException;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import com.tranvansi.ecommerce.dtos.requests.addresses.CreateAddressRequest;
 import com.tranvansi.ecommerce.dtos.requests.addresses.UpdateAddressDefaultRequest;
 import com.tranvansi.ecommerce.dtos.requests.users.UpdateProfileRequest;
@@ -9,12 +16,6 @@ import com.tranvansi.ecommerce.dtos.responses.addresses.AddressResponse;
 import com.tranvansi.ecommerce.dtos.responses.users.ProfileResponse;
 import com.tranvansi.ecommerce.dtos.responses.users.UserResponse;
 import com.tranvansi.ecommerce.entities.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.security.access.prepost.PreAuthorize;
-
-import java.io.IOException;
 
 public interface IUserService {
     @PreAuthorize("hasRole('USER')")
@@ -42,7 +43,7 @@ public interface IUserService {
     UserResponse updateUser(Integer id, UpdateUserRequest request);
 
     @PreAuthorize("hasRole('ADMIN')")
-    void uploadUserAvatar(Integer id,UploadAvatarRequest request) throws IOException;
+    void uploadUserAvatar(Integer id, UploadAvatarRequest request) throws IOException;
 
     @PreAuthorize("hasRole('ADMIN')")
     void deleteUser(Integer id);

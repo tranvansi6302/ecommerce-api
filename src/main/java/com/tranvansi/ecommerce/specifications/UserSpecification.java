@@ -1,24 +1,30 @@
 package com.tranvansi.ecommerce.specifications;
 
-import com.tranvansi.ecommerce.entities.User;
-import com.tranvansi.ecommerce.filters.UserFilter;
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.tranvansi.ecommerce.entities.User;
+import com.tranvansi.ecommerce.filters.UserFilter;
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class UserSpecification implements Specification<User> {
     private final UserFilter filter;
+
     @Override
-    public Predicate toPredicate(@NonNull Root<User> root,
-                                 @NonNull CriteriaQuery<?> query,@NonNull CriteriaBuilder cb) {
+    public Predicate toPredicate(
+            @NonNull Root<User> root,
+            @NonNull CriteriaQuery<?> query,
+            @NonNull CriteriaBuilder cb) {
         List<Predicate> predicates = new ArrayList<>();
         if (filter.getEmail() != null) {
             predicates.add(cb.like(root.get("email"), "%" + filter.getEmail() + "%"));

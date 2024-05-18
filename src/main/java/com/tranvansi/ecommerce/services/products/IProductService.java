@@ -1,9 +1,9 @@
 package com.tranvansi.ecommerce.services.products;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import com.tranvansi.ecommerce.dtos.requests.products.CreateProductRequest;
 import com.tranvansi.ecommerce.dtos.responses.products.ProductResponse;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 
 public interface IProductService {
 
