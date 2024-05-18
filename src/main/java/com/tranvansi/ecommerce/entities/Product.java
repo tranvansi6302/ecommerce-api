@@ -25,6 +25,10 @@ public class Product extends BaseEntity {
     @Column(columnDefinition = "TINYINT")
     private Integer pendingUpdate = 0;
 
+    @Builder.Default
+    @Column(columnDefinition = "TINYINT")
+    private Integer isDelete = 0;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;

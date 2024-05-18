@@ -78,4 +78,13 @@ public class ProductController {
                 .build();
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/{id}")
+    public ResponseEntity<ApiResponse<?>> deleteSoftProduct(@PathVariable Integer id) {
+        productService.deleteSoftProduct(id);
+        ApiResponse<?> response = ApiResponse.builder()
+                .message(Message.DELETE_SOFT_PRODUCT_SUCCESS.getMessage())
+                .build();
+        return ResponseEntity.ok(response);
+    }
 }

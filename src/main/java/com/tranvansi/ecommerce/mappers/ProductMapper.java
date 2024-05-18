@@ -11,6 +11,7 @@ public interface ProductMapper {
     @Mapping(target = "category", ignore = true)
     @Mapping(target = "brand", ignore = true)
     @Mapping(target = "pendingUpdate", ignore = true)
+    @Mapping(target = "isDelete", ignore = true)
     Product toProduct(CreateProductRequest request);
 
     @Mapping(target = "category_id", source = "category.id")
