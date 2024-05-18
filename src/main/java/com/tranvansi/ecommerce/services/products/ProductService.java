@@ -12,7 +12,12 @@ import com.tranvansi.ecommerce.repositories.BrandRepository;
 import com.tranvansi.ecommerce.repositories.CategoryRepository;
 import com.tranvansi.ecommerce.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -37,5 +42,21 @@ public class ProductService implements IProductService{
         product.setCategory(category);
         product.setBrand(brand);
         return productMapper.toProductResponse(productRepository.save(product));
+    }
+
+    @Override
+    public void deleteSoftProduct(Integer id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        product.setIsDelete(1);
+        product.setDeletedAt(LocalDateTime.now());
+        productRepository.save(product);
+    }
+
+    @Scheduled(cron = "0 0 * * *")
+    @Transactional
+    public void deleteOldSoftDeletedProducts() {
+        LocalDateTime thirtyDaysAgo = LocalDateTime.now().minus(30, ChronoUnit.DAYS);
+        productRepository.deleteByIsDeletedAndDeletedAtBefore(true, thirtyDaysAgo);
     }
 }

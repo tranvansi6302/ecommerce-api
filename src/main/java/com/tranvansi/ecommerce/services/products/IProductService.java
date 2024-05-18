@@ -8,4 +8,7 @@ public interface IProductService {
 
     @PreAuthorize("hasRole('ADMIN')")
     ProductResponse createProduct(CreateProductRequest request);
+
+    @PreAuthorize("hasRole('ADMIN')")
+    void deleteSoftProduct(Integer id);
 }

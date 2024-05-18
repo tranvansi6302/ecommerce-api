@@ -32,6 +32,7 @@ public enum Message {
     DELETE_SIZE_SUCCESS("Xóa size thành công"),
     CREATE_PRODUCT_SUCCESS("Thêm sản phẩm thành công"),
     CREATE_VARIANT_SUCCESS("Thêm biến thể sản phẩm thành công"),
+    DELETE_SOFT_PRODUCT_SUCCESS("Sản phẩm đã được chuyển sang thùng rác"),
     ;
 
     private String message;

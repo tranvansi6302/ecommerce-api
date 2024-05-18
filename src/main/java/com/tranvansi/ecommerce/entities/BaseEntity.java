@@ -18,8 +18,8 @@ import java.time.LocalDateTime;
 
 public class BaseEntity {
     private LocalDateTime createdAt;
-
     private LocalDateTime updatedAt;
+    private LocalDateTime deletedAt;
 
     @PrePersist
     protected void onCreate() {
@@ -31,4 +31,5 @@ public class BaseEntity {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
+
 }

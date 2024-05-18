@@ -23,6 +23,9 @@ public class CreateProductRequest {
     @JsonProperty("pending_update")
     private Integer pendingUpdate;
 
+    @JsonProperty("is_delete")
+    private Integer isDelete;
+
     @NotNull(message = "INVALID_CATEGORY_ID_REQUIRED")
     @JsonProperty("category_id")
     private Integer categoryId;
