@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.entities;
 
+import com.tranvansi.ecommerce.enums.ProductStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Variant extends BaseEntity{
+public class Variant extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -18,8 +19,8 @@ public class Variant extends BaseEntity{
     @Column(nullable = false, unique = true)
     private String sku;
 
-    @Builder.Default
-    private Integer sold=0;
+    @Column(nullable = false)
+    private Integer sold;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

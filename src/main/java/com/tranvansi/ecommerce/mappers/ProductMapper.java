@@ -10,12 +10,9 @@ import org.mapstruct.Mapping;
 public interface ProductMapper {
     @Mapping(target = "category", ignore = true)
     @Mapping(target = "brand", ignore = true)
-    @Mapping(target = "pendingUpdate", ignore = true)
-    @Mapping(target = "isDelete", ignore = true)
     Product toProduct(CreateProductRequest request);
 
-    @Mapping(target = "category_id", source = "category.id")
-    @Mapping(target = "brand_id", source = "brand.id")
-    @Mapping(target = "pending_update", source = "pendingUpdate")
+    @Mapping(target = "categoryId", source = "category.id")
+    @Mapping(target = "brandId", source = "brand.id")
     ProductResponse toProductResponse(Product product);
 }

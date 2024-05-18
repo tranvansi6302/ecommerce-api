@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.dtos.requests.products;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tranvansi.ecommerce.enums.ProductStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -21,10 +22,10 @@ public class CreateProductRequest {
     private String description;
 
     @JsonProperty("pending_update")
-    private Integer pendingUpdate;
+    private Integer pendingUpdate = ProductStatus.PENDING_UPDATE.getValue();
 
-    @JsonProperty("is_delete")
-    private Integer isDelete;
+    @JsonProperty("is_deleted")
+    private Integer isDeleted = ProductStatus.NOT_DELETED.getValue();
 
     @NotNull(message = "INVALID_CATEGORY_ID_REQUIRED")
     @JsonProperty("category_id")

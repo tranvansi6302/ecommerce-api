@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.entities;
 
+import com.tranvansi.ecommerce.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,9 +29,8 @@ public class User extends BaseEntity {
     private String dateOfBirth;
     private String phoneNumber;
 
-    @Builder.Default
     @Column(columnDefinition = "TINYINT")
-    private Integer blocked =0;
+    private Integer isBlocked;
 
     @ManyToMany
     private List<Role> roles;
