@@ -21,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class VariantService implements IVariantService {
+    private final InventoryRepository inventoryRepository;
     private final VariantRepository variantRepository;
     private final ProductRepository productRepository;
     private final OriginalPriceRepository originalPriceRepository;
@@ -28,6 +29,7 @@ public class VariantService implements IVariantService {
     private final VariantMapper variantMapper;
     private final SizeRepository sizeRepository;
     private final ColorRepository colorRepository;
+
 
 
     @Override
@@ -57,15 +59,15 @@ public class VariantService implements IVariantService {
             variant.setSize(size);
             variant.setColor(color);
             variant.setSku(sku);
-//            Variant variant = Variant.builder()
-//                    .product(product)
-//                    .size(size)
-//                    .color(color)
-//                    .sold(0)
-//                    .sku(sku)
-//                    .build();
+
 
             Variant savedVariant = variantRepository.save(variant);
+
+            Inventory inventory = Inventory.builder()
+                    .sku(sku)
+                    .variant(savedVariant)
+                    .build();
+            inventoryRepository.save(inventory);
 
             OriginalPrice originalPrice = variantMapper.toOriginalPrice(variantDetail.getOriginalPrice());
             originalPrice.setVariant(savedVariant);
@@ -76,7 +78,7 @@ public class VariantService implements IVariantService {
 
             if (variantDetail.getPromotionPrice() != null) {
                 PromotionPrice promotionPrice = variantMapper.toPromotionPrice(variantDetail.getPromotionPrice());
-                if(promotionPrice.getPrice()>=originalPrice.getPrice()){
+                if (promotionPrice.getPrice() >= originalPrice.getPrice()) {
                     throw new AppException(ErrorCode.PROMOTION_PRICE_GREATER_THAN_ORIGINAL_PRICE);
                 }
                 promotionPrice.setVariant(savedVariant);
