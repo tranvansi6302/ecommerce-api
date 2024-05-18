@@ -6,6 +6,7 @@ import com.tranvansi.ecommerce.entities.Brand;
 import com.tranvansi.ecommerce.entities.Category;
 import com.tranvansi.ecommerce.entities.Product;
 import com.tranvansi.ecommerce.enums.ErrorCode;
+import com.tranvansi.ecommerce.enums.ProductStatus;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.mappers.ProductMapper;
 import com.tranvansi.ecommerce.repositories.BrandRepository;
@@ -21,7 +22,7 @@ import java.time.temporal.ChronoUnit;
 
 @Service
 @RequiredArgsConstructor
-public class ProductService implements IProductService{
+public class ProductService implements IProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final BrandRepository brandRepository;
@@ -29,7 +30,7 @@ public class ProductService implements IProductService{
 
     @Override
     public ProductResponse createProduct(CreateProductRequest request) {
-        if(productRepository.existsByName(request.getName())){
+        if (productRepository.existsByName(request.getName())) {
             throw new AppException(ErrorCode.PRODUCT_ALREADY_EXISTS);
         }
 
@@ -48,7 +49,7 @@ public class ProductService implements IProductService{
     public void deleteSoftProduct(Integer id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
-        product.setIsDelete(1);
+        product.setIsDeleted(ProductStatus.SOFT_DELETED.getValue());
         product.setDeletedAt(LocalDateTime.now());
         productRepository.save(product);
     }
@@ -57,6 +58,17 @@ public class ProductService implements IProductService{
     @Transactional
     public void deleteOldSoftDeletedProducts() {
         LocalDateTime thirtyDaysAgo = LocalDateTime.now().minus(30, ChronoUnit.DAYS);
-        productRepository.deleteByIsDeletedAndDeletedAtBefore(true, thirtyDaysAgo);
+        productRepository.deleteByIsDeletedAndDeletedAtBefore(1, thirtyDaysAgo);
     }
+
+    @Override
+    public void restoreProduct(Integer id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        product.setIsDeleted(ProductStatus.NOT_DELETED.getValue());
+        product.setDeletedAt(null);
+        productRepository.save(product);
+    }
+
+
 }

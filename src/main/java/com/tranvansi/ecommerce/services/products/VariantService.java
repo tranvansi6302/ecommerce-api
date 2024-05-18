@@ -6,6 +6,7 @@ import com.tranvansi.ecommerce.dtos.responses.products.VariantDetailResponse;
 import com.tranvansi.ecommerce.dtos.responses.products.VariantResponse;
 import com.tranvansi.ecommerce.entities.*;
 import com.tranvansi.ecommerce.enums.ErrorCode;
+import com.tranvansi.ecommerce.enums.ProductStatus;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.mappers.VariantMapper;
 import com.tranvansi.ecommerce.repositories.*;
@@ -59,6 +60,7 @@ public class VariantService implements IVariantService {
             variant.setSize(size);
             variant.setColor(color);
             variant.setSku(sku);
+            variant.setSold(ProductStatus.DEFAULT_SOLD.getValue());
 
 
             Variant savedVariant = variantRepository.save(variant);

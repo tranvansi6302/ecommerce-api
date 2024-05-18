@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.dtos.requests.authentication;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tranvansi.ecommerce.enums.UserStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -23,7 +24,7 @@ public class RegisterRequest {
     @Email(message = "INVALID_EMAIL_FORMAT")
     private String email;
 
-    private Integer blocked;
+    private Integer isBlocked = UserStatus.ENABLE.getValue();
 
     @NotBlank(message = "INVALID_PASSWORD_REQUIRED")
     @Size(min = 6, message = "INVALID_PASSWORD_MIN_LENGTH")

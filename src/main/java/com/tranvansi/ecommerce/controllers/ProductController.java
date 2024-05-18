@@ -79,11 +79,20 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/{id}")
+    @PatchMapping("/{id}/delete")
     public ResponseEntity<ApiResponse<?>> deleteSoftProduct(@PathVariable Integer id) {
         productService.deleteSoftProduct(id);
         ApiResponse<?> response = ApiResponse.builder()
                 .message(Message.DELETE_SOFT_PRODUCT_SUCCESS.getMessage())
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{id}/restore")
+    public ResponseEntity<ApiResponse<?>> restoreProduct(@PathVariable Integer id) {
+        productService.restoreProduct(id);
+        ApiResponse<?> response = ApiResponse.builder()
+                .message(Message.RESTORE_PRODUCT_SUCCESS.getMessage())
                 .build();
         return ResponseEntity.ok(response);
     }

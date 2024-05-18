@@ -16,7 +16,6 @@ import org.mapstruct.MappingTarget;
 public interface UserMapper {
 
     @Mapping(target = "password", ignore = true)
-    @Mapping(target = "blocked", ignore = true)
     User toUser(RegisterRequest request);
 
     RegisterResponse toRegisterResponse(User user);
