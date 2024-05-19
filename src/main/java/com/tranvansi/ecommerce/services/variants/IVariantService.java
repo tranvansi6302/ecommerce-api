@@ -2,8 +2,8 @@ package com.tranvansi.ecommerce.services.variants;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 
-import com.tranvansi.ecommerce.dtos.requests.products.CreateVariantRequest;
-import com.tranvansi.ecommerce.dtos.responses.products.UpdateVariantRequest;
+import com.tranvansi.ecommerce.dtos.requests.variants.CreateVariantRequest;
+import com.tranvansi.ecommerce.dtos.requests.variants.UpdateVariantRequest;
 import com.tranvansi.ecommerce.dtos.responses.variants.CreateVariantResponse;
 import com.tranvansi.ecommerce.dtos.responses.variants.UpdateVariantResponse;
 

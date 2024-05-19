@@ -26,6 +26,9 @@ public class PromotionPrice {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
+    @Column(columnDefinition = "TINYINT")
+    private Integer status;
+
     @ManyToOne
     @JoinColumn(name = "variant_id")
     @OnDelete(action = OnDeleteAction.CASCADE)

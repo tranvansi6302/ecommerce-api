@@ -4,12 +4,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
-import com.tranvansi.ecommerce.dtos.requests.products.CreateVariantRequest;
-import com.tranvansi.ecommerce.dtos.requests.products.OriginalPriceRequest;
-import com.tranvansi.ecommerce.dtos.requests.products.PromotionPriceRequest;
+import com.tranvansi.ecommerce.dtos.requests.prices.OriginalPriceRequest;
+import com.tranvansi.ecommerce.dtos.requests.prices.PromotionPriceRequest;
+import com.tranvansi.ecommerce.dtos.requests.variants.CreateVariantRequest;
+import com.tranvansi.ecommerce.dtos.requests.variants.UpdateVariantRequest;
 import com.tranvansi.ecommerce.dtos.responses.prices.OriginalPriceResponse;
 import com.tranvansi.ecommerce.dtos.responses.prices.PromotionPriceResponse;
-import com.tranvansi.ecommerce.dtos.responses.products.UpdateVariantRequest;
 import com.tranvansi.ecommerce.dtos.responses.variants.VariantDetailResponse;
 import com.tranvansi.ecommerce.entities.OriginalPrice;
 import com.tranvansi.ecommerce.entities.PromotionPrice;

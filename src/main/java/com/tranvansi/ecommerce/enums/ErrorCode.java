@@ -114,6 +114,7 @@ public enum ErrorCode {
     INVALID_IS_DELETED_DEFAULT_VALUE(
             1087, "Trường Is deleted phải có giá trị mặc định", HttpStatus.BAD_REQUEST),
     SIZE_OR_COLOR_EXISTS(1088, "Size hoặc màu đã tồn tại", HttpStatus.BAD_REQUEST),
+    PROMOTION_PRICE_EXISTS(1089, "Sản phẩm này đang có khuyến mãi", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;

@@ -1,11 +1,11 @@
-package com.tranvansi.ecommerce.dtos.responses.products;
+package com.tranvansi.ecommerce.dtos.requests.variants;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tranvansi.ecommerce.dtos.requests.products.OriginalPriceRequest;
-import com.tranvansi.ecommerce.dtos.requests.products.PromotionPriceRequest;
+import com.tranvansi.ecommerce.dtos.requests.prices.OriginalPriceRequest;
+import com.tranvansi.ecommerce.dtos.requests.prices.PromotionPriceRequest;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
