@@ -1,4 +1,4 @@
-package com.tranvansi.ecommerce.dtos.requests.products;
+package com.tranvansi.ecommerce.dtos.requests.prices;
 
 import java.time.LocalDateTime;
 
@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tranvansi.ecommerce.enums.PromotionStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,8 @@ public class PromotionPriceRequest {
 
     @NotNull(message = "INVALID_PROMOTION_PRICE_REQUIRED")
     private Double price;
+
+    private Integer status = PromotionStatus.ACTIVE.getValue();
 
     @NotNull(message = "INVALID_START_DATE_REQUIRED")
     @JsonProperty("start_date")

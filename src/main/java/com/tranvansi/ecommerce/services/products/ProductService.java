@@ -1,7 +1,6 @@
 package com.tranvansi.ecommerce.services.products;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -68,10 +67,10 @@ public class ProductService implements IProductService {
         productRepository.save(product);
     }
 
-    @Scheduled(cron = "0 0 * * *")
+    @Scheduled(cron = "0 0 * * * ?")
     @Transactional
     public void deleteOldSoftDeletedProducts() {
-        LocalDateTime thirtyDaysAgo = LocalDateTime.now().minus(30, ChronoUnit.DAYS);
+        LocalDateTime thirtyDaysAgo = LocalDateTime.now().minusDays(30);
         productRepository.deleteByIsDeletedAndDeletedAtBefore(1, thirtyDaysAgo);
     }
 

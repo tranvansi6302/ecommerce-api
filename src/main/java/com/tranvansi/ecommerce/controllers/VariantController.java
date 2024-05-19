@@ -11,9 +11,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import com.tranvansi.ecommerce.dtos.requests.products.CreateVariantRequest;
+import com.tranvansi.ecommerce.dtos.requests.variants.CreateVariantRequest;
+import com.tranvansi.ecommerce.dtos.requests.variants.UpdateVariantRequest;
 import com.tranvansi.ecommerce.dtos.responses.common.ApiResponse;
-import com.tranvansi.ecommerce.dtos.responses.products.UpdateVariantRequest;
 import com.tranvansi.ecommerce.dtos.responses.variants.CreateVariantResponse;
 import com.tranvansi.ecommerce.dtos.responses.variants.UpdateVariantResponse;
 import com.tranvansi.ecommerce.enums.ErrorCode;

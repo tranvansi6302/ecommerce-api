@@ -1,4 +1,4 @@
-package com.tranvansi.ecommerce.dtos.requests.products;
+package com.tranvansi.ecommerce.dtos.requests.variants;
 
 import java.util.List;
 

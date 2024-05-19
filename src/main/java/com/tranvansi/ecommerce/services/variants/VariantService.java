@@ -1,20 +1,23 @@
 package com.tranvansi.ecommerce.services.variants;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tranvansi.ecommerce.dtos.requests.products.CreateVariantRequest;
-import com.tranvansi.ecommerce.dtos.requests.products.VariantDetailRequest;
-import com.tranvansi.ecommerce.dtos.responses.products.UpdateVariantRequest;
+import com.tranvansi.ecommerce.dtos.requests.variants.CreateVariantRequest;
+import com.tranvansi.ecommerce.dtos.requests.variants.UpdateVariantRequest;
+import com.tranvansi.ecommerce.dtos.requests.variants.VariantDetailRequest;
 import com.tranvansi.ecommerce.dtos.responses.variants.CreateVariantResponse;
 import com.tranvansi.ecommerce.dtos.responses.variants.UpdateVariantResponse;
 import com.tranvansi.ecommerce.dtos.responses.variants.VariantDetailResponse;
 import com.tranvansi.ecommerce.entities.*;
 import com.tranvansi.ecommerce.enums.ErrorCode;
 import com.tranvansi.ecommerce.enums.ProductStatus;
+import com.tranvansi.ecommerce.enums.PromotionStatus;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.mappers.VariantMapper;
 import com.tranvansi.ecommerce.repositories.*;
@@ -78,6 +81,10 @@ public class VariantService implements IVariantService {
             if (variantDetail.getPromotionPrice() != null) {
                 PromotionPrice promotionPrice =
                         variantMapper.createPromotionPrice(variantDetail.getPromotionPrice());
+
+                if (promotionPriceRepository.existsByVariantIdAndStatus(savedVariant.getId(), 1)) {
+                    throw new AppException(ErrorCode.PROMOTION_PRICE_EXISTS);
+                }
 
                 if (promotionPrice.getPrice() > originalPrice.getPrice()) {
                     throw new AppException(ErrorCode.PROMOTION_PRICE_GREATER_THAN_ORIGINAL_PRICE);
@@ -197,5 +204,19 @@ public class VariantService implements IVariantService {
         variant.setSku(sku);
         variant.setSold(ProductStatus.DEFAULT_SOLD.getValue());
         return variantRepository.save(variant);
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?")
+    //    @Scheduled(cron = "0 * * * * ?") test every minute
+    public void updatePromotionPriceStatus() {
+        LocalDateTime currentDate = LocalDateTime.now();
+        List<PromotionPrice> promotionPrices =
+                promotionPriceRepository.findByEndDateBefore(currentDate);
+
+        for (PromotionPrice promotionPrice : promotionPrices) {
+            promotionPrice.setStatus(
+                    PromotionStatus.CLOSED.getValue()); // Assuming 0 means the promotion is closed
+            promotionPriceRepository.save(promotionPrice);
+        }
     }
 }
