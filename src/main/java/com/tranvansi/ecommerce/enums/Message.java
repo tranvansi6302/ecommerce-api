@@ -36,6 +36,7 @@ public enum Message {
     RESTORE_PRODUCT_SUCCESS("Khôi phục sản phẩm thành công"),
     UPDATE_PRODUCT_SUCCESS("Cập nhật sản phẩm thành công"),
     UPDATE_VARIANT_SUCCESS("Cập nhật biến thể sản phẩm thành công"),
+    DELETE_VARIANT_SUCCESS("Xóa biến thể sản phẩm thành công"),
     ;
     private String message;
 }

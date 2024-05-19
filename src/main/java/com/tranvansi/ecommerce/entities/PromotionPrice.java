@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import jakarta.persistence.*;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "promotion_prices")
@@ -25,5 +27,6 @@ public class PromotionPrice {
 
     @ManyToOne
     @JoinColumn(name = "variant_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Variant variant;
 }
