@@ -6,6 +6,7 @@ import org.mapstruct.MappingTarget;
 
 import com.tranvansi.ecommerce.dtos.requests.products.CreateProductRequest;
 import com.tranvansi.ecommerce.dtos.requests.products.UpdateProductRequest;
+import com.tranvansi.ecommerce.dtos.responses.products.CreateProductResponse;
 import com.tranvansi.ecommerce.dtos.responses.products.ProductResponse;
 import com.tranvansi.ecommerce.entities.Product;
 
@@ -16,7 +17,9 @@ public interface ProductMapper {
     @Mapping(target = "category", ignore = true)
     Product createProduct(CreateProductRequest request);
 
-    ProductResponse toProductResponse(Product product);
+    CreateProductResponse toProductResponse(Product product);
+
+    ProductResponse toProductDetailResponse(Product product);
 
     @Mapping(target = "brand", ignore = true)
     @Mapping(target = "category", ignore = true)

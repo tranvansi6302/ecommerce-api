@@ -3,12 +3,15 @@ package com.tranvansi.ecommerce.services.products;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tranvansi.ecommerce.dtos.requests.products.CreateProductRequest;
 import com.tranvansi.ecommerce.dtos.requests.products.UpdateProductRequest;
+import com.tranvansi.ecommerce.dtos.responses.products.CreateProductResponse;
 import com.tranvansi.ecommerce.dtos.responses.products.ProductResponse;
 import com.tranvansi.ecommerce.entities.Brand;
 import com.tranvansi.ecommerce.entities.Category;
@@ -32,7 +35,7 @@ public class ProductService implements IProductService {
     private final ProductMapper productMapper;
 
     @Override
-    public ProductResponse createProduct(CreateProductRequest request) {
+    public CreateProductResponse createProduct(CreateProductRequest request) {
         if (productRepository.existsByName(request.getName())) {
             throw new AppException(ErrorCode.PRODUCT_ALREADY_EXISTS);
         }
@@ -84,7 +87,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public ProductResponse updateProduct(Integer id, UpdateProductRequest request) {
+    public CreateProductResponse updateProduct(Integer id, UpdateProductRequest request) {
         Product product =
                 productRepository
                         .findById(id)
@@ -107,5 +110,12 @@ public class ProductService implements IProductService {
         product.setCategory(category);
         product.setBrand(brand);
         return productMapper.toProductResponse(productRepository.save(product));
+    }
+
+    @Override
+    public Page<ProductResponse> getAllProducts(PageRequest pageRequest) {
+        return productRepository
+                .findAllByIsDeleted(ProductStatus.NOT_DELETED.getValue(), pageRequest)
+                .map(productMapper::toProductDetailResponse);
     }
 }

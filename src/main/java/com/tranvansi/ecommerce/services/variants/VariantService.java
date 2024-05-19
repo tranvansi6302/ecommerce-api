@@ -1,4 +1,4 @@
-package com.tranvansi.ecommerce.services.products;
+package com.tranvansi.ecommerce.services.variants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tranvansi.ecommerce.dtos.requests.products.CreateVariantRequest;
 import com.tranvansi.ecommerce.dtos.requests.products.VariantDetailRequest;
 import com.tranvansi.ecommerce.dtos.responses.products.UpdateVariantRequest;
-import com.tranvansi.ecommerce.dtos.responses.products.UpdateVariantResponse;
-import com.tranvansi.ecommerce.dtos.responses.products.VariantDetailResponse;
-import com.tranvansi.ecommerce.dtos.responses.products.VariantResponse;
+import com.tranvansi.ecommerce.dtos.responses.variants.CreateVariantResponse;
+import com.tranvansi.ecommerce.dtos.responses.variants.UpdateVariantResponse;
+import com.tranvansi.ecommerce.dtos.responses.variants.VariantDetailResponse;
 import com.tranvansi.ecommerce.entities.*;
 import com.tranvansi.ecommerce.enums.ErrorCode;
 import com.tranvansi.ecommerce.enums.ProductStatus;
@@ -37,7 +37,7 @@ public class VariantService implements IVariantService {
 
     @Override
     @Transactional
-    public VariantResponse createVariant(Integer productId, CreateVariantRequest request) {
+    public CreateVariantResponse createVariant(Integer productId, CreateVariantRequest request) {
         Product product =
                 productRepository
                         .findById(productId)
@@ -94,7 +94,7 @@ public class VariantService implements IVariantService {
             variantDetailResponses.add(variantDetailResponse);
         }
 
-        return VariantResponse.builder()
+        return CreateVariantResponse.builder()
                 .size(size.getName())
                 .variantDetailResponses(variantDetailResponses)
                 .build();

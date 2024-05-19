@@ -1,4 +1,4 @@
-package com.tranvansi.ecommerce.dtos.responses.products;
+package com.tranvansi.ecommerce.dtos.responses.variants;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class VariantResponse {
+public class CreateVariantResponse {
     private String size;
 
     @JsonProperty("variant_details")
