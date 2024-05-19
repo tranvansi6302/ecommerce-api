@@ -1,7 +1,5 @@
 package com.tranvansi.ecommerce.controllers;
 
-import com.tranvansi.ecommerce.dtos.responses.products.UpdateVariantResponse;
-import com.tranvansi.ecommerce.enums.Message;
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -9,7 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.tranvansi.ecommerce.dtos.responses.common.ApiResponse;
 import com.tranvansi.ecommerce.dtos.responses.products.UpdateVariantRequest;
-import com.tranvansi.ecommerce.dtos.responses.products.VariantResponse;
+import com.tranvansi.ecommerce.dtos.responses.products.UpdateVariantResponse;
+import com.tranvansi.ecommerce.enums.Message;
 import com.tranvansi.ecommerce.services.products.IVariantService;
 
 import lombok.RequiredArgsConstructor;

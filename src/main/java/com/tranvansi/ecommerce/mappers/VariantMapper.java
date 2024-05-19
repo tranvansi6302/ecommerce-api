@@ -1,7 +1,5 @@
 package com.tranvansi.ecommerce.mappers;
 
-import com.tranvansi.ecommerce.dtos.responses.products.*;
-import com.tranvansi.ecommerce.dtos.responses.products.UpdateVariantRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -9,6 +7,8 @@ import org.mapstruct.MappingTarget;
 import com.tranvansi.ecommerce.dtos.requests.products.CreateVariantRequest;
 import com.tranvansi.ecommerce.dtos.requests.products.OriginalPriceRequest;
 import com.tranvansi.ecommerce.dtos.requests.products.PromotionPriceRequest;
+import com.tranvansi.ecommerce.dtos.responses.products.*;
+import com.tranvansi.ecommerce.dtos.responses.products.UpdateVariantRequest;
 import com.tranvansi.ecommerce.entities.OriginalPrice;
 import com.tranvansi.ecommerce.entities.PromotionPrice;
 import com.tranvansi.ecommerce.entities.Variant;
@@ -37,5 +37,4 @@ public interface VariantMapper {
     @Mapping(target = "variant", ignore = true)
     void updatePromotionPrice(
             @MappingTarget PromotionPrice promotionPrice, PromotionPriceRequest request);
-
 }

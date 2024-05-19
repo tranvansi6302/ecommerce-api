@@ -3,13 +3,13 @@ package com.tranvansi.ecommerce.services.products;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tranvansi.ecommerce.dtos.responses.products.UpdateVariantResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tranvansi.ecommerce.dtos.requests.products.CreateVariantRequest;
 import com.tranvansi.ecommerce.dtos.requests.products.VariantDetailRequest;
 import com.tranvansi.ecommerce.dtos.responses.products.UpdateVariantRequest;
+import com.tranvansi.ecommerce.dtos.responses.products.UpdateVariantResponse;
 import com.tranvansi.ecommerce.dtos.responses.products.VariantDetailResponse;
 import com.tranvansi.ecommerce.dtos.responses.products.VariantResponse;
 import com.tranvansi.ecommerce.entities.*;
@@ -53,9 +53,13 @@ public class VariantService implements IVariantService {
                 throw new AppException(ErrorCode.SKU_EXISTS);
             }
 
-
+            // Check if variant exists
+            if (variantRepository.existsByProductIdAndSizeIdAndColorId(
+                    productId, size.getId(), color.getId())) {
+                throw new AppException(ErrorCode.SIZE_OR_COLOR_EXISTS);
+            }
             // Save variant
-            Variant savedVariant = saveVariant(product, size, color, sku,request);
+            Variant savedVariant = saveVariant(product, size, color, sku, request);
 
             // Save inventory
             Inventory inventory = Inventory.builder().sku(sku).variant(savedVariant).build();
@@ -74,9 +78,11 @@ public class VariantService implements IVariantService {
             if (variantDetail.getPromotionPrice() != null) {
                 PromotionPrice promotionPrice =
                         variantMapper.createPromotionPrice(variantDetail.getPromotionPrice());
-                if (promotionPrice.getPrice() < originalPrice.getPrice()) {
+
+                if (promotionPrice.getPrice() > originalPrice.getPrice()) {
                     throw new AppException(ErrorCode.PROMOTION_PRICE_GREATER_THAN_ORIGINAL_PRICE);
                 }
+
                 promotionPrice.setVariant(savedVariant);
                 promotionPriceRepository.save(promotionPrice);
                 variantDetailResponse.setPromotionPrice(
@@ -112,12 +118,19 @@ public class VariantService implements IVariantService {
         PromotionPrice promotionPrice =
                 promotionPriceRepository.findByVariantId(variantId).orElse(null);
 
+        // Check if variant exists
+        if (variantRepository.existsByProductIdAndSizeIdAndColorId(
+                        variant.getProduct().getId(), size.getId(), color.getId())
+                && !variant.getColor().getId().equals(color.getId())
+                && !variant.getSize().getId().equals(size.getId())) {
+            throw new AppException(ErrorCode.SIZE_OR_COLOR_EXISTS);
+        }
 
         if (promotionPrice != null) {
             if (request.getPromotionPriceRequest() == null) {
                 promotionPriceRepository.delete(promotionPrice);
             } else {
-                if (promotionPrice.getPrice() < originalPrice.getPrice()) {
+                if (originalPrice.getPrice() < request.getPromotionPriceRequest().getPrice()) {
                     throw new AppException(ErrorCode.PROMOTION_PRICE_GREATER_THAN_ORIGINAL_PRICE);
                 }
 
@@ -142,7 +155,6 @@ public class VariantService implements IVariantService {
         variantRepository.save(variant);
         originalPriceRepository.save(originalPrice);
 
-
         return UpdateVariantResponse.builder()
                 .color(color.getName())
                 .size(size.getName())
@@ -152,18 +164,23 @@ public class VariantService implements IVariantService {
                                 ? null
                                 : variantMapper.toPromotionPriceResponse(promotionPrice))
                 .build();
-
     }
 
     Size findSizeById(Integer sizeId) {
-        return sizeRepository.findById(sizeId).orElseThrow(() -> new AppException(ErrorCode.SIZE_NOT_FOUND));
+        return sizeRepository
+                .findById(sizeId)
+                .orElseThrow(() -> new AppException(ErrorCode.SIZE_NOT_FOUND));
     }
 
     Color findColorById(Integer colorId) {
-        return colorRepository.findById(colorId).orElseThrow(() -> new AppException(ErrorCode.COLOR_NOT_FOUND));
+        return colorRepository
+                .findById(colorId)
+                .orElseThrow(() -> new AppException(ErrorCode.COLOR_NOT_FOUND));
     }
 
-    Variant saveVariant(Product product, Size size, Color color, String sku, CreateVariantRequest request) {
+    Variant saveVariant(
+            Product product, Size size, Color color, String sku, CreateVariantRequest request) {
+
         Variant variant = variantMapper.createVariant(request);
         variant.setProduct(product);
         variant.setSize(size);

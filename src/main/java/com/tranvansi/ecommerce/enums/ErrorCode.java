@@ -113,6 +113,7 @@ public enum ErrorCode {
             1086, "Trường Pending update phải có giá trị mặc định", HttpStatus.BAD_REQUEST),
     INVALID_IS_DELETED_DEFAULT_VALUE(
             1087, "Trường Is deleted phải có giá trị mặc định", HttpStatus.BAD_REQUEST),
+    SIZE_OR_COLOR_EXISTS(1088, "Size hoặc màu đã tồn tại", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;
