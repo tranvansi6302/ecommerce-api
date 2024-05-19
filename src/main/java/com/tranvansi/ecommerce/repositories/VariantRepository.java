@@ -8,4 +8,7 @@ import com.tranvansi.ecommerce.entities.Variant;
 @Repository
 public interface VariantRepository extends JpaRepository<Variant, Integer> {
     boolean existsBySku(String sku);
+
+    boolean existsByProductIdAndSizeIdAndColorId(
+            Integer productId, Integer sizeId, Integer colorId);
 }
