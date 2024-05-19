@@ -13,4 +13,7 @@ public interface IVariantService {
 
     @PreAuthorize("hasRole('ADMIN')")
     UpdateVariantResponse updateVariant(Integer variantId, UpdateVariantRequest request);
+
+    @PreAuthorize("hasRole('ADMIN')")
+    void deleteVariant(Integer variantId);
 }

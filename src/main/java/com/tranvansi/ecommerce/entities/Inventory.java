@@ -3,6 +3,8 @@ package com.tranvansi.ecommerce.entities;
 import jakarta.persistence.*;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "inventories")
@@ -23,5 +25,6 @@ public class Inventory extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "variant_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Variant variant;
 }

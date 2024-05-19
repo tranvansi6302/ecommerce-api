@@ -166,6 +166,15 @@ public class VariantService implements IVariantService {
                 .build();
     }
 
+    @Override
+    public void deleteVariant(Integer variantId) {
+        Variant variant =
+                variantRepository
+                        .findById(variantId)
+                        .orElseThrow(() -> new AppException(ErrorCode.VARIANT_NOT_FOUND));
+        variantRepository.delete(variant);
+    }
+
     Size findSizeById(Integer sizeId) {
         return sizeRepository
                 .findById(sizeId)
