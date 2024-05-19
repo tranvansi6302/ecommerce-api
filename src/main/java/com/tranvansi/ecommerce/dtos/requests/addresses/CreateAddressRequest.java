@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tranvansi.ecommerce.entities.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,6 +37,4 @@ public class CreateAddressRequest {
 
     @NotBlank(message = "INVALID_DESCRIPTION_REQUIRED")
     private String description;
-
-    private User user;
 }

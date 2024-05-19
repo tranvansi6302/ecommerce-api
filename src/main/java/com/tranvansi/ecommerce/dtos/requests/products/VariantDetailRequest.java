@@ -21,7 +21,6 @@ public class VariantDetailRequest {
     @JsonProperty("color_id")
     private Integer colorId;
 
-
     // Not validated -> Set value class Service
     private Integer sold;
 

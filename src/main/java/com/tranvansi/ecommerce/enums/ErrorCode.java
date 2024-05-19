@@ -106,7 +106,8 @@ public enum ErrorCode {
     VARIANT_NOT_FOUND(1081, "Biến thể không tồn tại", HttpStatus.NOT_FOUND),
     ORIGINAL_PRICE_NOT_FOUND(1082, "Không tìm thấy giá gốc cho biến thể này", HttpStatus.NOT_FOUND),
     INVALID_VARIANT_ID_REQUIRED(1083, "ID biến thể bắt buộc nhập", HttpStatus.BAD_REQUEST),
-    INVALID_SOLD_DEFAULT_VALUE(1084, "Số lượng bán bắt buộc có giá trị mặc định", HttpStatus.BAD_REQUEST),
+    INVALID_SOLD_DEFAULT_VALUE(
+            1084, "Số lượng bán bắt buộc có giá trị mặc định", HttpStatus.BAD_REQUEST),
     INVALID_PRODUCT_ID_REQUIRED(1085, "ID sản phẩm bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_PENDING_UPDATE_DEFAULT_VALUE(
             1086, "Trường Pending update phải có giá trị mặc định", HttpStatus.BAD_REQUEST),

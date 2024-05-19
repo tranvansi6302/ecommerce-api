@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.tranvansi.ecommerce.dtos.requests.products.UpdateProductRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.tranvansi.ecommerce.dtos.requests.products.CreateProductRequest;
 import com.tranvansi.ecommerce.dtos.requests.products.CreateVariantRequest;
+import com.tranvansi.ecommerce.dtos.requests.products.UpdateProductRequest;
 import com.tranvansi.ecommerce.dtos.responses.common.ApiResponse;
 import com.tranvansi.ecommerce.dtos.responses.products.ProductResponse;
 import com.tranvansi.ecommerce.dtos.responses.products.VariantResponse;
@@ -112,7 +112,4 @@ public class ProductController {
                 ApiResponse.builder().message(Message.RESTORE_PRODUCT_SUCCESS.getMessage()).build();
         return ResponseEntity.ok(response);
     }
-
-
-
 }

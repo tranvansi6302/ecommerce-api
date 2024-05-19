@@ -10,7 +10,7 @@ import com.tranvansi.ecommerce.entities.Size;
 
 @Mapper(componentModel = "spring")
 public interface SizeMapper {
-    Size toSize(CreateSizeRequest request);
+    Size createSize(CreateSizeRequest request);
 
     SizeResponse toSizeResponse(Size size);
 

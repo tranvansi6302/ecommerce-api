@@ -26,7 +26,7 @@ public class BrandService implements IBrandService {
         if (brandRepository.existsByName(request.getName())) {
             throw new AppException(ErrorCode.BRAND_ALREADY_EXISTS);
         }
-        Brand brand = brandMapper.toBrand(request);
+        Brand brand = brandMapper.createBrand(request);
         return brandMapper.toBrandResponse(brandRepository.save(brand));
     }
 

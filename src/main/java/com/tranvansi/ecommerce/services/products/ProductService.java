@@ -46,9 +46,11 @@ public class ProductService implements IProductService {
                         .findById(request.getBrandId())
                         .orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
 
-        Product product = productMapper.toProduct(request);
+        Product product = productMapper.createProduct(request);
         product.setCategory(category);
         product.setBrand(brand);
+        product.setPendingUpdate(ProductStatus.PENDING_UPDATE.getValue());
+        product.setIsDeleted(ProductStatus.NOT_DELETED.getValue());
         return productMapper.toProductResponse(productRepository.save(product));
     }
 
@@ -101,7 +103,7 @@ public class ProductService implements IProductService {
                         .findById(request.getBrandId())
                         .orElseThrow(() -> new AppException(ErrorCode.BRAND_NOT_FOUND));
 
-        productMapper.updateProductFromRequest(product, request);
+        productMapper.updateProduct(product, request);
         product.setCategory(category);
         product.setBrand(brand);
         return productMapper.toProductResponse(productRepository.save(product));

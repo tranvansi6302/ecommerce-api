@@ -7,5 +7,5 @@ import com.tranvansi.ecommerce.entities.ForgotToken;
 
 @Mapper(componentModel = "spring")
 public interface ForgotTokenMapper {
-    ForgotToken toForgotToken(ForgotPasswordRequest request);
+    ForgotToken createForgotToken(ForgotPasswordRequest request);
 }

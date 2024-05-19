@@ -10,7 +10,7 @@ import com.tranvansi.ecommerce.entities.Category;
 
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
-    Category toCategory(CreateCategoryRequest request);
+    Category createCategory(CreateCategoryRequest request);
 
     CategoryResponse toCategoryResponse(Category category);
 

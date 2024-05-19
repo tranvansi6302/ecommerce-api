@@ -35,6 +35,7 @@ public enum Message {
     DELETE_SOFT_PRODUCT_SUCCESS("Sản phẩm đã được chuyển sang thùng rác, tự động xóa sau 30 ngày"),
     RESTORE_PRODUCT_SUCCESS("Khôi phục sản phẩm thành công"),
     UPDATE_PRODUCT_SUCCESS("Cập nhật sản phẩm thành công"),
+    UPDATE_VARIANT_SUCCESS("Cập nhật biến thể sản phẩm thành công"),
     ;
     private String message;
 }

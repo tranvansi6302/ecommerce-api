@@ -26,7 +26,7 @@ public class CategoryService implements ICategoryService {
         if (categoryRepository.existsByName(request.getName())) {
             throw new AppException(ErrorCode.CATEGORY_ALREADY_EXISTS);
         }
-        Category category = categoryMapper.toCategory(request);
+        Category category = categoryMapper.createCategory(request);
         return categoryMapper.toCategoryResponse(categoryRepository.save(category));
     }
 

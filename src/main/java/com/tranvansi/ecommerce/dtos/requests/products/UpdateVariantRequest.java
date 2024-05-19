@@ -1,10 +1,12 @@
 package com.tranvansi.ecommerce.dtos.responses.products;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tranvansi.ecommerce.dtos.requests.products.OriginalPriceRequest;
 import com.tranvansi.ecommerce.dtos.requests.products.PromotionPriceRequest;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,11 +24,6 @@ public class UpdateVariantRequest {
     @NotNull(message = "INVALID_SIZE_ID_REQUIRED")
     @JsonProperty("size_id")
     private Integer sizeId;
-
-
-    @JsonProperty("product_id")
-    // Not validated -> Set value class Service
-    private Integer productId;
 
     @NotNull(message = "INVALID_ORIGINAL_PRICE_REQUIRED")
     @JsonProperty("original_price")

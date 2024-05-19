@@ -11,14 +11,14 @@ import com.tranvansi.ecommerce.entities.Product;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
-    @Mapping(target = "category", ignore = true)
-    @Mapping(target = "brand", ignore = true)
-    Product toProduct(CreateProductRequest request);
 
+    @Mapping(target = "brand", ignore = true)
+    @Mapping(target = "category", ignore = true)
+    Product createProduct(CreateProductRequest request);
 
     ProductResponse toProductResponse(Product product);
 
-    @Mapping(target = "category", ignore = true)
     @Mapping(target = "brand", ignore = true)
-    void updateProductFromRequest(@MappingTarget Product product, UpdateProductRequest request);
+    @Mapping(target = "category", ignore = true)
+    void updateProduct(@MappingTarget Product product, UpdateProductRequest request);
 }
