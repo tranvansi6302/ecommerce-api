@@ -1,4 +1,4 @@
-package com.tranvansi.ecommerce.dtos.responses.products;
+package com.tranvansi.ecommerce.dtos.responses.prices;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

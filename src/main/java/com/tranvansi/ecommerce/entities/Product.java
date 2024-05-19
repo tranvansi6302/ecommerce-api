@@ -1,6 +1,10 @@
 package com.tranvansi.ecommerce.entities;
 
+import java.util.List;
+
 import jakarta.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.*;
 
@@ -35,4 +39,8 @@ public class Product extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "brand_id")
     private Brand brand;
+
+    @OneToMany(mappedBy = "product")
+    @JsonManagedReference
+    private List<Variant> variants;
 }

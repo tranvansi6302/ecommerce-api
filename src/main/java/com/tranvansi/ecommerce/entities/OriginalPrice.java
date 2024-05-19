@@ -2,9 +2,10 @@ package com.tranvansi.ecommerce.entities;
 
 import jakarta.persistence.*;
 
-import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+
+import lombok.*;
 
 @Entity
 @Table(name = "original_prices")

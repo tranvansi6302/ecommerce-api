@@ -1,15 +1,18 @@
 package com.tranvansi.ecommerce.services.products;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.tranvansi.ecommerce.dtos.requests.products.CreateProductRequest;
 import com.tranvansi.ecommerce.dtos.requests.products.UpdateProductRequest;
+import com.tranvansi.ecommerce.dtos.responses.products.CreateProductResponse;
 import com.tranvansi.ecommerce.dtos.responses.products.ProductResponse;
 
 public interface IProductService {
 
     @PreAuthorize("hasRole('ADMIN')")
-    ProductResponse createProduct(CreateProductRequest request);
+    CreateProductResponse createProduct(CreateProductRequest request);
 
     @PreAuthorize("hasRole('ADMIN')")
     void deleteSoftProduct(Integer id);
@@ -18,5 +21,7 @@ public interface IProductService {
     void restoreProduct(Integer id);
 
     @PreAuthorize("hasRole('ADMIN')")
-    ProductResponse updateProduct(Integer id, UpdateProductRequest request);
+    CreateProductResponse updateProduct(Integer id, UpdateProductRequest request);
+
+    Page<ProductResponse> getAllProducts(PageRequest pageRequest);
 }

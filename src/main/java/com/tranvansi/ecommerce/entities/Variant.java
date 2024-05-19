@@ -2,6 +2,8 @@ package com.tranvansi.ecommerce.entities;
 
 import jakarta.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.*;
 
 @Entity
@@ -24,6 +26,7 @@ public class Variant extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @JsonBackReference
     private Product product;
 
     @ManyToOne
@@ -33,4 +36,10 @@ public class Variant extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "color_id")
     private Color color;
+
+    @OneToOne(mappedBy = "variant")
+    private OriginalPrice originalPrice;
+
+    @OneToOne(mappedBy = "variant")
+    private PromotionPrice promotionPrice;
 }
