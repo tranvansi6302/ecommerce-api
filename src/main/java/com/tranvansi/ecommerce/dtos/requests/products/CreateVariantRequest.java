@@ -19,10 +19,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CreateVariantRequest {
 
-    // Not validated -> Set value class Service
-    @JsonProperty("product_id")
-    private Integer productId;
-
     @NotNull(message = "INVALID_SIZE_ID_REQUIRED")
     @JsonProperty("size_id")
     private Integer sizeId;

@@ -26,7 +26,7 @@ public class SizeService implements ISizeService {
         if (sizeRepository.existsByName(request.getName())) {
             throw new AppException(ErrorCode.SIZE_ALREADY_EXISTS);
         }
-        Size size = sizeMapper.toSize(request);
+        Size size = sizeMapper.createSize(request);
         return sizeMapper.toSizeResponse(sizeRepository.save(size));
     }
 

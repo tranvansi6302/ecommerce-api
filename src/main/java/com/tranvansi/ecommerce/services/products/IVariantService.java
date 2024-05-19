@@ -1,9 +1,10 @@
 package com.tranvansi.ecommerce.services.products;
 
-import com.tranvansi.ecommerce.dtos.responses.products.UpdateVariantRequest;
+import com.tranvansi.ecommerce.dtos.responses.products.UpdateVariantResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.tranvansi.ecommerce.dtos.requests.products.CreateVariantRequest;
+import com.tranvansi.ecommerce.dtos.responses.products.UpdateVariantRequest;
 import com.tranvansi.ecommerce.dtos.responses.products.VariantResponse;
 
 public interface IVariantService {
@@ -11,6 +12,5 @@ public interface IVariantService {
     VariantResponse createVariant(Integer productId, CreateVariantRequest request);
 
     @PreAuthorize("hasRole('ADMIN')")
-    void updateVariant(Integer variantId, UpdateVariantRequest request);
-
+    UpdateVariantResponse updateVariant(Integer variantId, UpdateVariantRequest request);
 }

@@ -113,7 +113,7 @@ public class UserService implements IUserService {
                 userRepository
                         .findByEmail(email)
                         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-        Address address = addressMapper.toAddress(request);
+        Address address = addressMapper.createAddress(request);
         address.setUser(user);
         return addressMapper.toAddressResponse(addressRepository.save(address));
     }

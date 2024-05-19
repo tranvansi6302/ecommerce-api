@@ -10,7 +10,7 @@ import com.tranvansi.ecommerce.entities.Brand;
 
 @Mapper(componentModel = "spring")
 public interface BrandMapper {
-    Brand toBrand(CreateBrandRequest request);
+    Brand createBrand(CreateBrandRequest request);
 
     BrandResponse toBrandResponse(Brand brand);
 

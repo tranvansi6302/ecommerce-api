@@ -25,6 +25,7 @@ import com.tranvansi.ecommerce.entities.Role;
 import com.tranvansi.ecommerce.entities.User;
 import com.tranvansi.ecommerce.enums.ErrorCode;
 import com.tranvansi.ecommerce.enums.RoleName;
+import com.tranvansi.ecommerce.enums.UserStatus;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.mappers.ForgotTokenMapper;
 import com.tranvansi.ecommerce.mappers.UserMapper;
@@ -58,9 +59,10 @@ public class AuthenticationService implements IAuthenticationService {
         }
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         List<Role> roles = roleRepository.findAllById(Collections.singleton(RoleName.USER.name()));
-        User user = userMapper.toUser(request);
+        User user = userMapper.createUser(request);
         user.setRoles(roles);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setIsBlocked(UserStatus.ENABLE.getValue());
         return userMapper.toRegisterResponse(userRepository.save(user));
     }
 
@@ -149,7 +151,7 @@ public class AuthenticationService implements IAuthenticationService {
                         .findByEmail(request.getEmail())
                         .orElseThrow(() -> new AppException(ErrorCode.EMAIL_NOT_FOUND));
         String token = generatePasswordResetToken(user);
-        ForgotToken forgotToken = forgotTokenMapper.toForgotToken(request);
+        ForgotToken forgotToken = forgotTokenMapper.createForgotToken(request);
         forgotToken.setToken(token);
         forgotTokenRepository.save(forgotToken);
         // send email to user, ** Refactor later **

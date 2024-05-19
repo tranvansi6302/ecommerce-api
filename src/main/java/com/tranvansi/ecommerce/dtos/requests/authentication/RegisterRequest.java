@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tranvansi.ecommerce.enums.UserStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,8 +24,6 @@ public class RegisterRequest {
     @NotBlank(message = "INVALID_EMAIL_REQUIRED")
     @Email(message = "INVALID_EMAIL_FORMAT")
     private String email;
-
-    private Integer isBlocked = UserStatus.ENABLE.getValue();
 
     @NotBlank(message = "INVALID_PASSWORD_REQUIRED")
     @Size(min = 6, message = "INVALID_PASSWORD_MIN_LENGTH")

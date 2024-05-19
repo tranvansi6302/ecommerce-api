@@ -29,7 +29,7 @@ public class ColorService implements IColorService {
         if (colorRepository.existsByHex(request.getHex())) {
             throw new AppException(ErrorCode.COLOR_HEX_ALREADY_EXISTS);
         }
-        Color color = colorMapper.toColor(request);
+        Color color = colorMapper.createColor(request);
         return colorMapper.toColorResponse(colorRepository.save(color));
     }
 

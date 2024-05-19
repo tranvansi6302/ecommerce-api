@@ -17,7 +17,7 @@ import com.tranvansi.ecommerce.entities.User;
 public interface UserMapper {
 
     @Mapping(target = "password", ignore = true)
-    User toUser(RegisterRequest request);
+    User createUser(RegisterRequest request);
 
     RegisterResponse toRegisterResponse(User user);
 

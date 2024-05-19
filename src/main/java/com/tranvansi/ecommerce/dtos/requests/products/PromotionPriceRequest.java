@@ -27,10 +27,6 @@ public class PromotionPriceRequest {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startDate;
 
-    // Not validated -> Set value class Service
-    @JsonProperty("variant_id")
-    private Integer variantId;
-
     @NotNull(message = "INVALID_END_DATE_REQUIRED")
     @JsonProperty("end_date")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

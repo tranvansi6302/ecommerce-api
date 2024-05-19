@@ -10,7 +10,7 @@ import com.tranvansi.ecommerce.entities.Color;
 
 @Mapper(componentModel = "spring")
 public interface ColorMapper {
-    Color toColor(CreateColorRequest request);
+    Color createColor(CreateColorRequest request);
 
     ColorResponse toColorResponse(Color color);
 
