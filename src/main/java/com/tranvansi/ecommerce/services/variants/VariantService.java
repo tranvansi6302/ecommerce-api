@@ -1,10 +1,8 @@
 package com.tranvansi.ecommerce.services.variants;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +15,6 @@ import com.tranvansi.ecommerce.dtos.responses.variants.VariantDetailResponse;
 import com.tranvansi.ecommerce.entities.*;
 import com.tranvansi.ecommerce.enums.ErrorCode;
 import com.tranvansi.ecommerce.enums.ProductStatus;
-import com.tranvansi.ecommerce.enums.PromotionStatus;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.mappers.VariantMapper;
 import com.tranvansi.ecommerce.repositories.*;
@@ -32,8 +29,6 @@ public class VariantService implements IVariantService {
     private final InventoryRepository inventoryRepository;
     private final VariantRepository variantRepository;
     private final ProductRepository productRepository;
-    private final OriginalPriceRepository originalPriceRepository;
-    private final PromotionPriceRepository promotionPriceRepository;
     private final VariantMapper variantMapper;
     private final SizeRepository sizeRepository;
     private final ColorRepository colorRepository;
@@ -64,40 +59,10 @@ public class VariantService implements IVariantService {
             // Save variant
             Variant savedVariant = saveVariant(product, size, color, sku, request);
 
-            // Save inventory
-            Inventory inventory = Inventory.builder().sku(sku).variant(savedVariant).build();
-            inventoryRepository.save(inventory);
-
-            OriginalPrice originalPrice =
-                    variantMapper.createOriginalPrice(variantDetail.getOriginalPrice());
-            originalPrice.setVariant(savedVariant);
-            originalPriceRepository.save(originalPrice);
-
             VariantDetailResponse variantDetailResponse =
                     variantMapper.toVariantDetailResponse(savedVariant);
-            variantDetailResponse.setOriginalPrice(
-                    variantMapper.toOriginalPriceResponse(originalPrice));
 
-            if (variantDetail.getPromotionPrice() != null) {
-                PromotionPrice promotionPrice =
-                        variantMapper.createPromotionPrice(variantDetail.getPromotionPrice());
-
-                if (promotionPriceRepository.existsByVariantIdAndStatus(savedVariant.getId(), 1)) {
-                    throw new AppException(ErrorCode.PROMOTION_PRICE_EXISTS);
-                }
-
-                if (promotionPrice.getPrice() > originalPrice.getPrice()) {
-                    throw new AppException(ErrorCode.PROMOTION_PRICE_GREATER_THAN_ORIGINAL_PRICE);
-                }
-
-                promotionPrice.setVariant(savedVariant);
-                promotionPriceRepository.save(promotionPrice);
-                variantDetailResponse.setPromotionPrice(
-                        variantMapper.toPromotionPriceResponse(promotionPrice));
-            }
-            // Update pending update
             product.setPendingUpdate(ProductStatus.UPDATED.getValue());
-
             variantDetailResponses.add(variantDetailResponse);
         }
 
@@ -117,13 +82,6 @@ public class VariantService implements IVariantService {
         Color color = findColorById(request.getColorId());
 
         Size size = findSizeById(request.getSizeId());
-        OriginalPrice originalPrice =
-                originalPriceRepository
-                        .findByVariantId(variantId)
-                        .orElseThrow(() -> new AppException(ErrorCode.ORIGINAL_PRICE_NOT_FOUND));
-
-        PromotionPrice promotionPrice =
-                promotionPriceRepository.findByVariantId(variantId).orElse(null);
 
         // Check if variant exists
         if (variantRepository.existsByProductIdAndSizeIdAndColorId(
@@ -133,44 +91,12 @@ public class VariantService implements IVariantService {
             throw new AppException(ErrorCode.SIZE_OR_COLOR_EXISTS);
         }
 
-        if (promotionPrice != null) {
-            if (request.getPromotionPriceRequest() == null) {
-                promotionPriceRepository.delete(promotionPrice);
-            } else {
-                if (originalPrice.getPrice() < request.getPromotionPriceRequest().getPrice()) {
-                    throw new AppException(ErrorCode.PROMOTION_PRICE_GREATER_THAN_ORIGINAL_PRICE);
-                }
-
-                variantMapper.updatePromotionPrice(
-                        promotionPrice, request.getPromotionPriceRequest());
-                promotionPriceRepository.save(promotionPrice);
-            }
-        } else {
-            if (request.getPromotionPriceRequest() != null) {
-                PromotionPrice mapperPromotionPrice =
-                        variantMapper.createPromotionPrice(request.getPromotionPriceRequest());
-                mapperPromotionPrice.setVariant(variant);
-                promotionPriceRepository.save(mapperPromotionPrice);
-            }
-        }
-
         variantMapper.updateVariant(variant, request);
         variant.setColor(color);
         variant.setSize(size);
-        originalPrice.setPrice(request.getOriginalPriceRequest().getPrice());
 
         variantRepository.save(variant);
-        originalPriceRepository.save(originalPrice);
-
-        return UpdateVariantResponse.builder()
-                .color(color.getName())
-                .size(size.getName())
-                .originalPriceResponse(variantMapper.toOriginalPriceResponse(originalPrice))
-                .promotionPriceResponse(
-                        promotionPrice == null
-                                ? null
-                                : variantMapper.toPromotionPriceResponse(promotionPrice))
-                .build();
+        return UpdateVariantResponse.builder().color(color.getName()).size(size.getName()).build();
     }
 
     @Override
@@ -204,19 +130,5 @@ public class VariantService implements IVariantService {
         variant.setSku(sku);
         variant.setSold(ProductStatus.DEFAULT_SOLD.getValue());
         return variantRepository.save(variant);
-    }
-
-    @Scheduled(cron = "0 0 0 * * ?")
-    //    @Scheduled(cron = "0 * * * * ?") test every minute
-    public void updatePromotionPriceStatus() {
-        LocalDateTime currentDate = LocalDateTime.now();
-        List<PromotionPrice> promotionPrices =
-                promotionPriceRepository.findByEndDateBefore(currentDate);
-
-        for (PromotionPrice promotionPrice : promotionPrices) {
-            promotionPrice.setStatus(
-                    PromotionStatus.CLOSED.getValue()); // Assuming 0 means the promotion is closed
-            promotionPriceRepository.save(promotionPrice);
-        }
     }
 }

@@ -1,7 +1,5 @@
 package com.tranvansi.ecommerce.entities;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.*;
 
 import org.hibernate.annotations.OnDelete;
@@ -10,25 +8,23 @@ import org.hibernate.annotations.OnDeleteAction;
 import lombok.*;
 
 @Entity
-@Table(name = "inventories")
+@Table(name = "purchase_details")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Inventory extends BaseEntity {
+public class PurchaseDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String sku;
 
     private Integer quantity;
 
-    private LocalDateTime lastUpdated;
-
-    private String location;
+    private Double purchasePrice;
 
     @ManyToOne
     @JoinColumn(name = "variant_id")
@@ -36,7 +32,7 @@ public class Inventory extends BaseEntity {
     private Variant variant;
 
     @ManyToOne
-    @JoinColumn(name = "purchase_detail_id")
+    @JoinColumn(name = "purchase_order_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private PurchaseDetail purchaseDetail;
+    private PurchaseOrder purchaseOrder;
 }

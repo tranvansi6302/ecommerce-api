@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     ResponseEntity<ApiResponse<?>> handleRuntimeException(RuntimeException e) {
+        log.error("Uncaught exception", e);
         ApiResponse<?> response =
                 ApiResponse.builder()
                         .code(ErrorCode.UNCAUGHT_EXCEPTION.getCode())

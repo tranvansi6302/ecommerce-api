@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -112,9 +113,10 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Page<ProductResponse> getAllProducts(PageRequest pageRequest) {
+    public Page<ProductResponse> getAllProducts(
+            PageRequest pageRequest, Specification<Product> specification) {
         return productRepository
-                .findAllByIsDeleted(ProductStatus.NOT_DELETED.getValue(), pageRequest)
+                .findAll(specification, pageRequest)
                 .map(productMapper::toProductDetailResponse);
     }
 }

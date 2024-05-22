@@ -18,8 +18,10 @@ import com.tranvansi.ecommerce.dtos.responses.common.PagedResponse;
 import com.tranvansi.ecommerce.dtos.responses.products.CreateProductResponse;
 import com.tranvansi.ecommerce.dtos.responses.products.ProductResponse;
 import com.tranvansi.ecommerce.enums.Message;
+import com.tranvansi.ecommerce.filters.ProductFilter;
 import com.tranvansi.ecommerce.services.products.IProductService;
 import com.tranvansi.ecommerce.services.variants.IVariantService;
+import com.tranvansi.ecommerce.specifications.ProductSpecification;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,13 +38,15 @@ public class ProductController {
     public ResponseEntity<PagedResponse<List<ProductResponse>>> getAllProducts(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int limit,
-            @RequestParam(defaultValue = "desc") String sort_direction) {
+            @RequestParam(defaultValue = "desc") String sort_direction,
+            ProductFilter filter) {
         Sort sort =
                 sort_direction.equalsIgnoreCase("asc")
                         ? Sort.by("createdAt").ascending()
                         : Sort.by("createdAt").descending();
         PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
-        Page<ProductResponse> productDetailResponses = productService.getAllProducts(pageRequest);
+        Page<ProductResponse> productDetailResponses =
+                productService.getAllProducts(pageRequest, new ProductSpecification(filter));
         PagedResponse<List<ProductResponse>> response =
                 BuildResponse.buildPagedResponse(productDetailResponses, pageRequest);
         return ResponseEntity.ok(response);

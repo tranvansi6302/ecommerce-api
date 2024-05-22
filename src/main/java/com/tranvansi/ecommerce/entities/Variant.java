@@ -36,10 +36,4 @@ public class Variant extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "color_id")
     private Color color;
-
-    @OneToOne(mappedBy = "variant")
-    private OriginalPrice originalPrice;
-
-    @OneToOne(mappedBy = "variant")
-    private PromotionPrice promotionPrice;
 }

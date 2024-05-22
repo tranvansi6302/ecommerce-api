@@ -37,6 +37,10 @@ public enum Message {
     UPDATE_PRODUCT_SUCCESS("Cập nhật sản phẩm thành công"),
     UPDATE_VARIANT_SUCCESS("Cập nhật biến thể sản phẩm thành công"),
     DELETE_VARIANT_SUCCESS("Xóa biến thể sản phẩm thành công"),
+    PURCHASE_ORDER_CREATED_SUCCESSFULLY("Tạo đơn hàng thành công"),
+    PURCHASE_ORDER_DETAIL_CREATED_SUCCESSFULLY("Thêm các sản phẩm vào đơn hàng thành công"),
+    PURCHASE_ORDER_UPDATED_SUCCESSFULLY("Cập nhật đơn hàng thành công"),
+    CREATE_PRICE_LIST_SUCCESS("Tạo bảng giá thành công"),
     ;
     private String message;
 }
