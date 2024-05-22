@@ -115,6 +115,17 @@ public enum ErrorCode {
             1087, "Trường Is deleted phải có giá trị mặc định", HttpStatus.BAD_REQUEST),
     SIZE_OR_COLOR_EXISTS(1088, "Size hoặc màu đã tồn tại", HttpStatus.BAD_REQUEST),
     PROMOTION_PRICE_EXISTS(1089, "Sản phẩm này đang có khuyến mãi", HttpStatus.BAD_REQUEST),
+    SUPPLIER_NOT_FOUND(1090, "Nhà cung cấp không tồn tại", HttpStatus.NOT_FOUND),
+    PURCHASE_NOT_FOUND(1091, "Hóa đơn nhập hàng không tồn tại", HttpStatus.NOT_FOUND),
+    PURCHASE_DETAIL_ALREADY_EXISTS(
+            1092, "Hóa đơn nhập hàng này đã có biến thể này", HttpStatus.BAD_REQUEST),
+    PURCHASE_DETAIL_NOT_FOUND(1093, "Hóa đơn nhập hàng không tồn tại", HttpStatus.NOT_FOUND),
+    PURCHASE_ORDER_CODE_EXISTED(1094, "Mã hóa đơn nhập hàng đã tồn tại", HttpStatus.BAD_REQUEST),
+    PURCHASE_ORDER_PENDING(1095, "Hóa đơn nhập hàng đang được xử lý", HttpStatus.BAD_REQUEST),
+    PURCHASE_ORDER_COMPLETED(1096, "Hóa đơn nhập hàng đã hoàn thành", HttpStatus.BAD_REQUEST),
+    INVENTORY_NOT_FOUND(1097, "Kho không tồn tại", HttpStatus.NOT_FOUND),
+    INSUFFICIENT_STOCK(1098, "Số lượng tồn kho không đủ", HttpStatus.BAD_REQUEST),
+    INVENTORY_NOT_FOUND_VARIANT(1099, "Kho không tồn tại biến thể này", HttpStatus.NOT_FOUND),
     ;
 
     private int code;
