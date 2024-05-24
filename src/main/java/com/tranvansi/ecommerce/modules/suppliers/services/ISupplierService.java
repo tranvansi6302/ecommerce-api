@@ -2,6 +2,7 @@ package com.tranvansi.ecommerce.modules.suppliers.services;
 
 import com.tranvansi.ecommerce.modules.colors.responses.ColorResponse;
 import com.tranvansi.ecommerce.modules.suppliers.requests.CreateSupplierRequest;
+import com.tranvansi.ecommerce.modules.suppliers.requests.UpdateSupplierRequest;
 import com.tranvansi.ecommerce.modules.suppliers.responses.SupplierResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,4 +18,6 @@ public interface ISupplierService {
     @PreAuthorize("hasRole('ADMIN')")
     SupplierResponse getSupplierById(Integer id);
 
+    @PreAuthorize("hasRole('ADMIN')")
+    SupplierResponse updateSupplier(Integer id, UpdateSupplierRequest request);
 }
