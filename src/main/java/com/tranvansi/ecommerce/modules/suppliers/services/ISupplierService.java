@@ -14,4 +14,7 @@ public interface ISupplierService {
     @PreAuthorize("hasRole('ADMIN')")
     Page<SupplierResponse> getAllSuppliers(PageRequest pageRequest);
 
+    @PreAuthorize("hasRole('ADMIN')")
+    SupplierResponse getSupplierById(Integer id);
+
 }

@@ -30,6 +30,14 @@ public class SupplierService implements ISupplierService {
         return supplierRepository.findAll(pageRequest).map(supplierMapper::toSupplierResponse);
     }
 
+    @Override
+    public SupplierResponse getSupplierById(Integer id) {
+        return supplierMapper.toSupplierResponse(
+                supplierRepository
+                        .findById(id)
+                        .orElseThrow(() -> new AppException(ErrorCode.SUPPLIER_NOT_FOUND)));
+    }
+
     private void checkExistingSupplier(CreateSupplierRequest request) {
         if (supplierRepository.existsByName(request.getName())) {
             throw new AppException(ErrorCode.SUPPLIER_NAME_ALREADY_EXISTS);

@@ -39,6 +39,14 @@ public class SupplierController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<SupplierResponse>> getSupplierById(@PathVariable Integer id) {
+        SupplierResponse supplierResponse = supplierService.getSupplierById(id);
+        ApiResponse<SupplierResponse> response =
+                ApiResponse.<SupplierResponse>builder().result(supplierResponse).build();
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("")
     public ResponseEntity<ApiResponse<SupplierResponse>> createSupplier(
             @RequestBody @Valid CreateSupplierRequest request) {
