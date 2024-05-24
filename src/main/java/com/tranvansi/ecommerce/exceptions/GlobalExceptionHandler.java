@@ -8,8 +8,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.tranvansi.ecommerce.dtos.responses.common.ApiResponse;
-import com.tranvansi.ecommerce.enums.ErrorCode;
+import com.tranvansi.ecommerce.common.enums.ErrorCode;
+import com.tranvansi.ecommerce.common.responses.ApiResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
