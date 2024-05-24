@@ -1,24 +1,21 @@
 package com.tranvansi.ecommerce.modules.products.services;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tranvansi.ecommerce.modules.brands.mappers.BrandMapper;
-import com.tranvansi.ecommerce.modules.categories.mappers.CategoryMapper;
-import com.tranvansi.ecommerce.modules.products.responses.VariantResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.tranvansi.ecommerce.common.enums.ErrorCode;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.brands.entities.Brand;
+import com.tranvansi.ecommerce.modules.brands.mappers.BrandMapper;
 import com.tranvansi.ecommerce.modules.brands.repositories.BrandRepository;
 import com.tranvansi.ecommerce.modules.categories.entities.Category;
+import com.tranvansi.ecommerce.modules.categories.mappers.CategoryMapper;
 import com.tranvansi.ecommerce.modules.categories.repositories.CategoryRepository;
 import com.tranvansi.ecommerce.modules.colors.entities.Color;
 import com.tranvansi.ecommerce.modules.colors.mappers.ColorMapper;
@@ -33,6 +30,7 @@ import com.tranvansi.ecommerce.modules.products.requests.CreateProductRequest;
 import com.tranvansi.ecommerce.modules.products.requests.UpdateProductRequest;
 import com.tranvansi.ecommerce.modules.products.responses.CreateProductResponse;
 import com.tranvansi.ecommerce.modules.products.responses.ProductResponse;
+import com.tranvansi.ecommerce.modules.products.responses.VariantResponse;
 import com.tranvansi.ecommerce.modules.sizes.entities.Size;
 import com.tranvansi.ecommerce.modules.sizes.mappers.SizeMapper;
 import com.tranvansi.ecommerce.modules.sizes.repositories.SizeRepository;
@@ -82,17 +80,21 @@ public class ProductService implements IProductService {
         List<VariantResponse> variantResponses = new ArrayList<>();
 
         for (Integer colorId : request.getColors()) {
-            Color color = colorRepository.findById(colorId)
-                    .orElseThrow(() -> new AppException(ErrorCode.COLOR_NOT_FOUND));
-            
+            Color color =
+                    colorRepository
+                            .findById(colorId)
+                            .orElseThrow(() -> new AppException(ErrorCode.COLOR_NOT_FOUND));
+
             ColorResponse colorResponse = colorMapper.toColorResponse(color);
             if (!colors.contains(colorResponse)) {
                 colors.add(colorResponse);
             }
 
             for (Integer sizeId : request.getSizes()) {
-                Size size = sizeRepository.findById(sizeId)
-                        .orElseThrow(() -> new AppException(ErrorCode.SIZE_NOT_FOUND));
+                Size size =
+                        sizeRepository
+                                .findById(sizeId)
+                                .orElseThrow(() -> new AppException(ErrorCode.SIZE_NOT_FOUND));
                 SizeResponse sizeResponse = sizeMapper.toSizeResponse(size);
                 if (!sizes.contains(sizeResponse)) {
                     sizes.add(sizeResponse);
@@ -104,19 +106,21 @@ public class ProductService implements IProductService {
                     throw new AppException(ErrorCode.SKU_ALREADY_EXISTS);
                 }
 
-                Variant variant = Variant.builder()
-                        .product(savedProduct)
-                        .color(color)
-                        .size(size)
-                        .sku(sku)
-                        .build();
+                Variant variant =
+                        Variant.builder()
+                                .product(savedProduct)
+                                .color(color)
+                                .size(size)
+                                .sku(sku)
+                                .build();
                 variants.add(variant);
 
-                VariantResponse variantResponse = VariantResponse.builder()
-                        .sku(sku)
-                        .color(colorResponse)
-                        .size(sizeResponse)
-                        .build();
+                VariantResponse variantResponse =
+                        VariantResponse.builder()
+                                .sku(sku)
+                                .color(colorResponse)
+                                .size(sizeResponse)
+                                .build();
                 variantResponses.add(variantResponse);
             }
         }
@@ -132,12 +136,10 @@ public class ProductService implements IProductService {
                 .build();
     }
 
-
     private String generateSKU(String sku, String sizeName, String colorName) {
         String colorInitial = colorName.substring(0, 1).toUpperCase();
         return String.format("%s-%s-%s", sku, sizeName, colorInitial);
     }
-
 
     @Override
     public CreateProductResponse updateProduct(Integer id, UpdateProductRequest request) {

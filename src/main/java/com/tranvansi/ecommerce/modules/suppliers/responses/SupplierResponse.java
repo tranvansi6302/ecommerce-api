@@ -2,6 +2,7 @@ package com.tranvansi.ecommerce.modules.suppliers.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tranvansi.ecommerce.common.enums.SupplierStatus;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

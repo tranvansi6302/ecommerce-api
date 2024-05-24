@@ -1,11 +1,12 @@
 package com.tranvansi.ecommerce.modules.suppliers.mappers;
 
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+
 import com.tranvansi.ecommerce.modules.suppliers.entities.Supplier;
 import com.tranvansi.ecommerce.modules.suppliers.requests.CreateSupplierRequest;
 import com.tranvansi.ecommerce.modules.suppliers.requests.UpdateSupplierRequest;
 import com.tranvansi.ecommerce.modules.suppliers.responses.SupplierResponse;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface SupplierMapper {
@@ -13,6 +14,5 @@ public interface SupplierMapper {
 
     SupplierResponse toSupplierResponse(Supplier supplier);
 
-    void updateSupplier(@MappingTarget  Supplier supplier, UpdateSupplierRequest request);
-
+    void updateSupplier(@MappingTarget Supplier supplier, UpdateSupplierRequest request);
 }

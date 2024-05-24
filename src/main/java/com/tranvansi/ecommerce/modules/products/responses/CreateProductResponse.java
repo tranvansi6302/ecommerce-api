@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.tranvansi.ecommerce.modules.brands.responses.BrandResponse;
 import com.tranvansi.ecommerce.modules.categories.responses.CategoryResponse;
-import com.tranvansi.ecommerce.modules.colors.responses.ColorResponse;
-import com.tranvansi.ecommerce.modules.sizes.responses.SizeResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +22,6 @@ public class CreateProductResponse {
     private CategoryResponse category;
 
     private BrandResponse brand;
-
 
     private List<VariantResponse> variants;
 }

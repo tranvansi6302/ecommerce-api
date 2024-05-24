@@ -28,8 +28,6 @@ public class Product extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-
-
     private LocalDateTime deletedAt;
 
     @ManyToOne
