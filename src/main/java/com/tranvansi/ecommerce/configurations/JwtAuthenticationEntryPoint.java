@@ -11,8 +11,8 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tranvansi.ecommerce.dtos.responses.common.ApiResponse;
-import com.tranvansi.ecommerce.enums.ErrorCode;
+import com.tranvansi.ecommerce.common.enums.ErrorCode;
+import com.tranvansi.ecommerce.common.responses.ApiResponse;
 
 // Handle unauthorized error
 @Component
