@@ -1,5 +1,15 @@
 package com.tranvansi.ecommerce.modules.suppliers.controllers;
 
+import java.util.List;
+
+import jakarta.validation.Valid;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import com.tranvansi.ecommerce.common.enums.Message;
 import com.tranvansi.ecommerce.common.responses.ApiResponse;
 import com.tranvansi.ecommerce.common.responses.BuildResponse;
@@ -9,15 +19,8 @@ import com.tranvansi.ecommerce.modules.suppliers.requests.UpdateStatusSupplierRe
 import com.tranvansi.ecommerce.modules.suppliers.requests.UpdateSupplierRequest;
 import com.tranvansi.ecommerce.modules.suppliers.responses.SupplierResponse;
 import com.tranvansi.ecommerce.modules.suppliers.services.ISupplierService;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("${api.prefix}/suppliers")
@@ -63,8 +66,7 @@ public class SupplierController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<ApiResponse<SupplierResponse>> updateSupplier(
-            @PathVariable Integer id,
-            @RequestBody @Valid UpdateSupplierRequest request) {
+            @PathVariable Integer id, @RequestBody @Valid UpdateSupplierRequest request) {
         SupplierResponse supplierResponse = supplierService.updateSupplier(id, request);
         ApiResponse<SupplierResponse> response =
                 ApiResponse.<SupplierResponse>builder()
@@ -76,9 +78,9 @@ public class SupplierController {
 
     @PatchMapping("/{id}/status")
     public ResponseEntity<ApiResponse<SupplierResponse>> deleteSoftOrRestoreSupplier(
-            @PathVariable Integer id,
-            @RequestBody @Valid UpdateStatusSupplierRequest request) {
-        SupplierResponse supplierResponse = supplierService.deleteSoftOrRestoreSupplier(id, request);
+            @PathVariable Integer id, @RequestBody @Valid UpdateStatusSupplierRequest request) {
+        SupplierResponse supplierResponse =
+                supplierService.deleteSoftOrRestoreSupplier(id, request);
         ApiResponse<SupplierResponse> response =
                 ApiResponse.<SupplierResponse>builder()
                         .result(supplierResponse)
@@ -86,5 +88,4 @@ public class SupplierController {
                         .build();
         return ResponseEntity.ok(response);
     }
-
 }

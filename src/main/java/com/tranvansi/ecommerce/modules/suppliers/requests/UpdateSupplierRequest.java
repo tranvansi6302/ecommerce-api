@@ -1,9 +1,11 @@
 package com.tranvansi.ecommerce.modules.suppliers.requests;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,5 +34,4 @@ public class UpdateSupplierRequest {
 
     @NotBlank(message = "INVALID_SUPPLIER_ADDRESS_REQUIRED")
     private String address;
-
 }

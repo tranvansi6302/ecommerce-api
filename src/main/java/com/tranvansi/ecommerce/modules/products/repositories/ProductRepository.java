@@ -10,5 +10,4 @@ import com.tranvansi.ecommerce.modules.products.entities.Product;
 public interface ProductRepository
         extends JpaRepository<Product, Integer>, JpaSpecificationExecutor<Product> {
     boolean existsByName(String name);
-
 }

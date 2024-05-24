@@ -42,10 +42,10 @@ public enum Message {
     PURCHASE_ORDER_UPDATED_SUCCESSFULLY("Cập nhật đơn hàng thành công"),
     CREATE_PRICE_LIST_SUCCESS("Tạo bảng giá thành công"),
 
-
     SUPPLIER_CREATED_SUCCESSFULLY("Thêm nhà cung cấp thành công"),
     SUPPLIER_UPDATED_SUCCESSFULLY("Cập nhật nhà cung cấp thành công"),
     SUPPLIER_UPDATED_STATUS_SUCCESSFULLY("Cập nhật trạng thái nhà cung cấp thành công"),
+
     ;
     private String message;
 }

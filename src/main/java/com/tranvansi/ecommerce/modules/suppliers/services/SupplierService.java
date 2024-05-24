@@ -1,5 +1,9 @@
 package com.tranvansi.ecommerce.modules.suppliers.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
 import com.tranvansi.ecommerce.common.enums.ErrorCode;
 import com.tranvansi.ecommerce.common.enums.SupplierStatus;
 import com.tranvansi.ecommerce.exceptions.AppException;
@@ -10,10 +14,8 @@ import com.tranvansi.ecommerce.modules.suppliers.requests.CreateSupplierRequest;
 import com.tranvansi.ecommerce.modules.suppliers.requests.UpdateStatusSupplierRequest;
 import com.tranvansi.ecommerce.modules.suppliers.requests.UpdateSupplierRequest;
 import com.tranvansi.ecommerce.modules.suppliers.responses.SupplierResponse;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -49,16 +51,20 @@ public class SupplierService implements ISupplierService {
                 supplierRepository
                         .findById(id)
                         .orElseThrow(() -> new AppException(ErrorCode.SUPPLIER_NOT_FOUND));
-        if (supplierRepository.existsByName(request.getName()) && !supplier.getName().equals(request.getName())) {
+        if (supplierRepository.existsByName(request.getName())
+                && !supplier.getName().equals(request.getName())) {
             throw new AppException(ErrorCode.SUPPLIER_NAME_ALREADY_EXISTS);
         }
-        if (supplierRepository.existsByTaxCode(request.getTaxCode()) && !supplier.getTaxCode().equals(request.getTaxCode())) {
+        if (supplierRepository.existsByTaxCode(request.getTaxCode())
+                && !supplier.getTaxCode().equals(request.getTaxCode())) {
             throw new AppException(ErrorCode.SUPPLIER_TAX_CODE_ALREADY_EXISTS);
         }
-        if (supplierRepository.existsByEmail(request.getEmail()) && !supplier.getEmail().equals(request.getEmail())) {
+        if (supplierRepository.existsByEmail(request.getEmail())
+                && !supplier.getEmail().equals(request.getEmail())) {
             throw new AppException(ErrorCode.SUPPLIER_EMAIL_ALREADY_EXISTS);
         }
-        if (supplierRepository.existsByPhoneNumber(request.getPhoneNumber()) && !supplier.getPhoneNumber().equals(request.getPhoneNumber())) {
+        if (supplierRepository.existsByPhoneNumber(request.getPhoneNumber())
+                && !supplier.getPhoneNumber().equals(request.getPhoneNumber())) {
             throw new AppException(ErrorCode.SUPPLIER_PHONE_NUMBER_ALREADY_EXISTS);
         }
         supplierMapper.updateSupplier(supplier, request);
@@ -66,7 +72,8 @@ public class SupplierService implements ISupplierService {
     }
 
     @Override
-    public SupplierResponse deleteSoftOrRestoreSupplier(Integer id, UpdateStatusSupplierRequest request) {
+    public SupplierResponse deleteSoftOrRestoreSupplier(
+            Integer id, UpdateStatusSupplierRequest request) {
         Supplier supplier =
                 supplierRepository
                         .findById(id)

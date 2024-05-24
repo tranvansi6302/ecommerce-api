@@ -1,8 +1,10 @@
 package com.tranvansi.ecommerce.modules.suppliers.entities;
 
+import jakarta.persistence.*;
+
 import com.tranvansi.ecommerce.common.entities.BaseEntity;
 import com.tranvansi.ecommerce.common.enums.SupplierStatus;
-import jakarta.persistence.*;
+
 import lombok.*;
 
 @Entity
@@ -33,5 +35,4 @@ public class Supplier extends BaseEntity {
     private String address;
 
     private SupplierStatus status;
-
 }

@@ -21,7 +21,6 @@ public class ProductResponse {
     @JsonProperty("pending_update")
     private Integer pendingUpdate;
 
-
     private CategoryResponse category;
 
     private BrandResponse brand;

@@ -103,17 +103,39 @@ public enum ErrorCode {
 
     INVALID_SUPPLIER_NAME_REQUIRED(1070, "Tên nhà cung cấp bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_SUPPLIER_TAX_CODE_REQUIRED(1071, "Mã số thuế bắt buộc nhập", HttpStatus.BAD_REQUEST),
-    INVALID_SUPPLIER_EMAIL_REQUIRED(1072, "Email nhà cung cấp bắt buộc nhập", HttpStatus.BAD_REQUEST),
-    INVALID_SUPPLIER_EMAIL_FORMAT(1073, "Email nhà cung cấp không đúng định dạng", HttpStatus.BAD_REQUEST),
-    INVALID_SUPPLIER_PHONE_NUMBER_REQUIRED(1074, "Số điện thoại nhà cung cấp bắt buộc nhập", HttpStatus.BAD_REQUEST),
-    INVALID_SUPPLIER_PHONE_NUMBER_FORMAT(1075, "Số điện thoại nhà cung cấp không đúng định dạng", HttpStatus.BAD_REQUEST),
-    INVALID_SUPPLIER_ADDRESS_REQUIRED(1076, "Địa chỉ nhà cung cấp bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_SUPPLIER_EMAIL_REQUIRED(
+            1072, "Email nhà cung cấp bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_SUPPLIER_EMAIL_FORMAT(
+            1073, "Email nhà cung cấp không đúng định dạng", HttpStatus.BAD_REQUEST),
+    INVALID_SUPPLIER_PHONE_NUMBER_REQUIRED(
+            1074, "Số điện thoại nhà cung cấp bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_SUPPLIER_PHONE_NUMBER_FORMAT(
+            1075, "Số điện thoại nhà cung cấp không đúng định dạng", HttpStatus.BAD_REQUEST),
+    INVALID_SUPPLIER_ADDRESS_REQUIRED(
+            1076, "Địa chỉ nhà cung cấp bắt buộc nhập", HttpStatus.BAD_REQUEST),
     SUPPLIER_NAME_ALREADY_EXISTS(1077, "Tên nhà cung cấp đã tồn tại", HttpStatus.BAD_REQUEST),
     SUPPLIER_TAX_CODE_ALREADY_EXISTS(1078, "Mã số thuế đã tồn tại", HttpStatus.BAD_REQUEST),
     SUPPLIER_EMAIL_ALREADY_EXISTS(1079, "Email nhà cung cấp đã tồn tại", HttpStatus.BAD_REQUEST),
-    SUPPLIER_PHONE_NUMBER_ALREADY_EXISTS(1080, "Số điện thoại nhà cung cấp đã tồn tại", HttpStatus.BAD_REQUEST),
+    SUPPLIER_PHONE_NUMBER_ALREADY_EXISTS(
+            1080, "Số điện thoại nhà cung cấp đã tồn tại", HttpStatus.BAD_REQUEST),
     SUPPLIER_NOT_FOUND(1081, "Nhà cung cấp không tồn tại", HttpStatus.NOT_FOUND),
-    INVALID_SUPPLIER_STATUS_REQUIRED(1082, "Trạng thái nhà cung cấp bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_SUPPLIER_STATUS_REQUIRED(
+            1082, "Trạng thái nhà cung cấp bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    VARIANT_NOT_FOUND(1083, "Biến thể không tồn tại", HttpStatus.NOT_FOUND),
+    INVALID_PURCHASE_SUPPLIER_ID_REQUIRED(
+            1084, "ID nhà cung cấp bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_PURCHASE_ORDER_CODE_REQUIRED(
+            1085, "Mã đơn hàng bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_PURCHASE_DETAILS_REQUIRED(
+            1086, "Danh sách sản phẩm đơn hàng bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_PURCHASE_DETAIL_QUANTITY_REQUIRED(
+            1087, "Số lượng sản phẩm đơn hàng bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_PURCHASE_DETAIL_VARIANT_ID_REQUIRED(
+            1088, "ID biến thể sản phẩm đơn hàng bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_PURCHASE_DETAIL_PURCHASE_PRICE_REQUIRED(
+            1089, "Giá mua sản phẩm đơn hàng bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    PURCHASE_ORDER_CODE_ALREADY_EXISTS(
+            1090, "Mã đơn hàng đã tồn tại", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;
