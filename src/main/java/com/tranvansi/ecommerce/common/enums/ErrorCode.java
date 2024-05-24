@@ -113,6 +113,7 @@ public enum ErrorCode {
     SUPPLIER_EMAIL_ALREADY_EXISTS(1079, "Email nhà cung cấp đã tồn tại", HttpStatus.BAD_REQUEST),
     SUPPLIER_PHONE_NUMBER_ALREADY_EXISTS(1080, "Số điện thoại nhà cung cấp đã tồn tại", HttpStatus.BAD_REQUEST),
     SUPPLIER_NOT_FOUND(1081, "Nhà cung cấp không tồn tại", HttpStatus.NOT_FOUND),
+    INVALID_SUPPLIER_STATUS_REQUIRED(1082, "Trạng thái nhà cung cấp bắt buộc nhập", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;

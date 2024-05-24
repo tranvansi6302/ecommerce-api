@@ -1,11 +1,13 @@
 package com.tranvansi.ecommerce.modules.suppliers.services;
 
 import com.tranvansi.ecommerce.common.enums.ErrorCode;
+import com.tranvansi.ecommerce.common.enums.SupplierStatus;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.suppliers.entities.Supplier;
 import com.tranvansi.ecommerce.modules.suppliers.mappers.SupplierMapper;
 import com.tranvansi.ecommerce.modules.suppliers.repositories.SupplierRepository;
 import com.tranvansi.ecommerce.modules.suppliers.requests.CreateSupplierRequest;
+import com.tranvansi.ecommerce.modules.suppliers.requests.UpdateStatusSupplierRequest;
 import com.tranvansi.ecommerce.modules.suppliers.requests.UpdateSupplierRequest;
 import com.tranvansi.ecommerce.modules.suppliers.responses.SupplierResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class SupplierService implements ISupplierService {
     public SupplierResponse createSupplier(CreateSupplierRequest request) {
         checkExistingSupplier(request);
         Supplier supplier = supplierMapper.createSupplier(request);
+        supplier.setStatus(SupplierStatus.ACTIVE);
         return supplierMapper.toSupplierResponse(supplierRepository.save(supplier));
     }
 
@@ -59,6 +62,16 @@ public class SupplierService implements ISupplierService {
             throw new AppException(ErrorCode.SUPPLIER_PHONE_NUMBER_ALREADY_EXISTS);
         }
         supplierMapper.updateSupplier(supplier, request);
+        return supplierMapper.toSupplierResponse(supplierRepository.save(supplier));
+    }
+
+    @Override
+    public SupplierResponse deleteSoftOrRestoreSupplier(Integer id, UpdateStatusSupplierRequest request) {
+        Supplier supplier =
+                supplierRepository
+                        .findById(id)
+                        .orElseThrow(() -> new AppException(ErrorCode.SUPPLIER_NOT_FOUND));
+        supplier.setStatus(request.getStatus());
         return supplierMapper.toSupplierResponse(supplierRepository.save(supplier));
     }
 
