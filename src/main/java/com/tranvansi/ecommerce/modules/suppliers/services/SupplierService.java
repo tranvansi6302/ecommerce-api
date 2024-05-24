@@ -8,6 +8,8 @@ import com.tranvansi.ecommerce.modules.suppliers.repositories.SupplierRepository
 import com.tranvansi.ecommerce.modules.suppliers.requests.CreateSupplierRequest;
 import com.tranvansi.ecommerce.modules.suppliers.responses.SupplierResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,6 +23,11 @@ public class SupplierService implements ISupplierService {
         checkExistingSupplier(request);
         Supplier supplier = supplierMapper.createSupplier(request);
         return supplierMapper.toSupplierResponse(supplierRepository.save(supplier));
+    }
+
+    @Override
+    public Page<SupplierResponse> getAllSuppliers(PageRequest pageRequest) {
+        return supplierRepository.findAll(pageRequest).map(supplierMapper::toSupplierResponse);
     }
 
     private void checkExistingSupplier(CreateSupplierRequest request) {
