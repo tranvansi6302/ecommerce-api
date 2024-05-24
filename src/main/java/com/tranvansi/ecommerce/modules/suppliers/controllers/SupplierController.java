@@ -5,6 +5,7 @@ import com.tranvansi.ecommerce.common.responses.ApiResponse;
 import com.tranvansi.ecommerce.common.responses.BuildResponse;
 import com.tranvansi.ecommerce.common.responses.PagedResponse;
 import com.tranvansi.ecommerce.modules.suppliers.requests.CreateSupplierRequest;
+import com.tranvansi.ecommerce.modules.suppliers.requests.UpdateStatusSupplierRequest;
 import com.tranvansi.ecommerce.modules.suppliers.requests.UpdateSupplierRequest;
 import com.tranvansi.ecommerce.modules.suppliers.responses.SupplierResponse;
 import com.tranvansi.ecommerce.modules.suppliers.services.ISupplierService;
@@ -69,6 +70,19 @@ public class SupplierController {
                 ApiResponse.<SupplierResponse>builder()
                         .result(supplierResponse)
                         .message(Message.SUPPLIER_UPDATED_SUCCESSFULLY.getMessage())
+                        .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<ApiResponse<SupplierResponse>> deleteSoftOrRestoreSupplier(
+            @PathVariable Integer id,
+            @RequestBody @Valid UpdateStatusSupplierRequest request) {
+        SupplierResponse supplierResponse = supplierService.deleteSoftOrRestoreSupplier(id, request);
+        ApiResponse<SupplierResponse> response =
+                ApiResponse.<SupplierResponse>builder()
+                        .result(supplierResponse)
+                        .message(Message.SUPPLIER_UPDATED_STATUS_SUCCESSFULLY.getMessage())
                         .build();
         return ResponseEntity.ok(response);
     }

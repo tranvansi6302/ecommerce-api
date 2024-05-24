@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.modules.suppliers.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tranvansi.ecommerce.common.enums.SupplierStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,4 +25,6 @@ public class SupplierResponse {
     private String phoneNumber;
 
     private String address;
+
+    private SupplierStatus status;
 }
