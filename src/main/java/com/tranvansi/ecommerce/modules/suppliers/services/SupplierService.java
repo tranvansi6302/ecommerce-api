@@ -6,6 +6,7 @@ import com.tranvansi.ecommerce.modules.suppliers.entities.Supplier;
 import com.tranvansi.ecommerce.modules.suppliers.mappers.SupplierMapper;
 import com.tranvansi.ecommerce.modules.suppliers.repositories.SupplierRepository;
 import com.tranvansi.ecommerce.modules.suppliers.requests.CreateSupplierRequest;
+import com.tranvansi.ecommerce.modules.suppliers.requests.UpdateSupplierRequest;
 import com.tranvansi.ecommerce.modules.suppliers.responses.SupplierResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -36,6 +37,29 @@ public class SupplierService implements ISupplierService {
                 supplierRepository
                         .findById(id)
                         .orElseThrow(() -> new AppException(ErrorCode.SUPPLIER_NOT_FOUND)));
+    }
+
+    @Override
+    public SupplierResponse updateSupplier(Integer id, UpdateSupplierRequest request) {
+
+        Supplier supplier =
+                supplierRepository
+                        .findById(id)
+                        .orElseThrow(() -> new AppException(ErrorCode.SUPPLIER_NOT_FOUND));
+        if (supplierRepository.existsByName(request.getName()) && !supplier.getName().equals(request.getName())) {
+            throw new AppException(ErrorCode.SUPPLIER_NAME_ALREADY_EXISTS);
+        }
+        if (supplierRepository.existsByTaxCode(request.getTaxCode()) && !supplier.getTaxCode().equals(request.getTaxCode())) {
+            throw new AppException(ErrorCode.SUPPLIER_TAX_CODE_ALREADY_EXISTS);
+        }
+        if (supplierRepository.existsByEmail(request.getEmail()) && !supplier.getEmail().equals(request.getEmail())) {
+            throw new AppException(ErrorCode.SUPPLIER_EMAIL_ALREADY_EXISTS);
+        }
+        if (supplierRepository.existsByPhoneNumber(request.getPhoneNumber()) && !supplier.getPhoneNumber().equals(request.getPhoneNumber())) {
+            throw new AppException(ErrorCode.SUPPLIER_PHONE_NUMBER_ALREADY_EXISTS);
+        }
+        supplierMapper.updateSupplier(supplier, request);
+        return supplierMapper.toSupplierResponse(supplierRepository.save(supplier));
     }
 
     private void checkExistingSupplier(CreateSupplierRequest request) {

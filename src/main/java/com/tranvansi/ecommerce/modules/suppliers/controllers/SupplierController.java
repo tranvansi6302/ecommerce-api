@@ -5,6 +5,7 @@ import com.tranvansi.ecommerce.common.responses.ApiResponse;
 import com.tranvansi.ecommerce.common.responses.BuildResponse;
 import com.tranvansi.ecommerce.common.responses.PagedResponse;
 import com.tranvansi.ecommerce.modules.suppliers.requests.CreateSupplierRequest;
+import com.tranvansi.ecommerce.modules.suppliers.requests.UpdateSupplierRequest;
 import com.tranvansi.ecommerce.modules.suppliers.responses.SupplierResponse;
 import com.tranvansi.ecommerce.modules.suppliers.services.ISupplierService;
 import jakarta.validation.Valid;
@@ -55,6 +56,19 @@ public class SupplierController {
                 ApiResponse.<SupplierResponse>builder()
                         .result(supplierResponse)
                         .message(Message.SUPPLIER_CREATED_SUCCESSFULLY.getMessage())
+                        .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ApiResponse<SupplierResponse>> updateSupplier(
+            @PathVariable Integer id,
+            @RequestBody @Valid UpdateSupplierRequest request) {
+        SupplierResponse supplierResponse = supplierService.updateSupplier(id, request);
+        ApiResponse<SupplierResponse> response =
+                ApiResponse.<SupplierResponse>builder()
+                        .result(supplierResponse)
+                        .message(Message.SUPPLIER_UPDATED_SUCCESSFULLY.getMessage())
                         .build();
         return ResponseEntity.ok(response);
     }
