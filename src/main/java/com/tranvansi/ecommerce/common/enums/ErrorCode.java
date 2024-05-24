@@ -100,6 +100,18 @@ public enum ErrorCode {
     INVALID_COLOR_IDS_REQUIRED(1067, "Danh sách id màu bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_SIZE_IDS_REQUIRED(1068, "Danh sách id size bắt buộc nhập", HttpStatus.BAD_REQUEST),
     SKU_ALREADY_EXISTS(1069, "SKU đã tồn tại", HttpStatus.BAD_REQUEST),
+
+    INVALID_SUPPLIER_NAME_REQUIRED(1070, "Tên nhà cung cấp bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_SUPPLIER_TAX_CODE_REQUIRED(1071, "Mã số thuế bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_SUPPLIER_EMAIL_REQUIRED(1072, "Email nhà cung cấp bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_SUPPLIER_EMAIL_FORMAT(1073, "Email nhà cung cấp không đúng định dạng", HttpStatus.BAD_REQUEST),
+    INVALID_SUPPLIER_PHONE_NUMBER_REQUIRED(1074, "Số điện thoại nhà cung cấp bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_SUPPLIER_PHONE_NUMBER_FORMAT(1075, "Số điện thoại nhà cung cấp không đúng định dạng", HttpStatus.BAD_REQUEST),
+    INVALID_SUPPLIER_ADDRESS_REQUIRED(1076, "Địa chỉ nhà cung cấp bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    SUPPLIER_NAME_ALREADY_EXISTS(1077, "Tên nhà cung cấp đã tồn tại", HttpStatus.BAD_REQUEST),
+    SUPPLIER_TAX_CODE_ALREADY_EXISTS(1078, "Mã số thuế đã tồn tại", HttpStatus.BAD_REQUEST),
+    SUPPLIER_EMAIL_ALREADY_EXISTS(1079, "Email nhà cung cấp đã tồn tại", HttpStatus.BAD_REQUEST),
+    SUPPLIER_PHONE_NUMBER_ALREADY_EXISTS(1080, "Số điện thoại nhà cung cấp đã tồn tại", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;
