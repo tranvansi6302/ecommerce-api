@@ -1,14 +1,16 @@
 package com.tranvansi.ecommerce.modules.purchases.requests;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -24,7 +26,6 @@ public class CreatePurchaseOrderRequest {
     private String purchaseOrderCode;
 
     private String note;
-
 
     @JsonProperty("purchase_details")
     @NotNull(message = "INVALID_PURCHASE_DETAILS_REQUIRED")
@@ -42,6 +43,5 @@ public class CreatePurchaseOrderRequest {
         @JsonProperty("purchase_price")
         @NotNull(message = "INVALID_PURCHASE_DETAIL_PURCHASE_PRICE_REQUIRED")
         private Double purchasePrice;
-
     }
 }

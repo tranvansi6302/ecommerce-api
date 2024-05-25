@@ -1,11 +1,11 @@
 package com.tranvansi.ecommerce.modules.purchases.mappers;
 
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import com.tranvansi.ecommerce.modules.purchases.entities.PurchaseOrder;
 import com.tranvansi.ecommerce.modules.purchases.requests.CreatePurchaseOrderRequest;
 import com.tranvansi.ecommerce.modules.purchases.responses.PurchaseOrderResponse;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface PurchaseOrderMapper {
@@ -14,6 +14,9 @@ public interface PurchaseOrderMapper {
     @Mapping(target = "purchaseDetails", ignore = true)
     PurchaseOrder createPurchaseOrder(CreatePurchaseOrderRequest request);
 
-    @Mapping(target = "purchaseOrderDate", source = "purchaseOrderDate", dateFormat = "dd-MM-yyyy HH:mm:ss")
+    @Mapping(
+            target = "purchaseOrderDate",
+            source = "purchaseOrderDate",
+            dateFormat = "dd-MM-yyyy HH:mm:ss")
     PurchaseOrderResponse toPurchaseOrderResponse(PurchaseOrder purchaseOrder);
 }

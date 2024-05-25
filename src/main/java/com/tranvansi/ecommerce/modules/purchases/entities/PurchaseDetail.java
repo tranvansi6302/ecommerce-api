@@ -1,7 +1,9 @@
 package com.tranvansi.ecommerce.modules.purchases.entities;
 
-import com.tranvansi.ecommerce.modules.products.entities.Variant;
 import jakarta.persistence.*;
+
+import com.tranvansi.ecommerce.modules.products.entities.Variant;
+
 import lombok.*;
 
 @Entity
@@ -31,5 +33,4 @@ public class PurchaseDetail {
     @ManyToOne
     @JoinColumn(name = "variant_id")
     private Variant variant;
-
 }

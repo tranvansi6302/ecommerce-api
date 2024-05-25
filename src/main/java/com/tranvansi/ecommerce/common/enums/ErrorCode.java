@@ -124,8 +124,7 @@ public enum ErrorCode {
     VARIANT_NOT_FOUND(1083, "Biến thể không tồn tại", HttpStatus.NOT_FOUND),
     INVALID_PURCHASE_SUPPLIER_ID_REQUIRED(
             1084, "ID nhà cung cấp bắt buộc nhập", HttpStatus.BAD_REQUEST),
-    INVALID_PURCHASE_ORDER_CODE_REQUIRED(
-            1085, "Mã đơn hàng bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_PURCHASE_ORDER_CODE_REQUIRED(1085, "Mã đơn hàng bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_PURCHASE_DETAILS_REQUIRED(
             1086, "Danh sách sản phẩm đơn hàng bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_PURCHASE_DETAIL_QUANTITY_REQUIRED(
@@ -134,8 +133,15 @@ public enum ErrorCode {
             1088, "ID biến thể sản phẩm đơn hàng bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_PURCHASE_DETAIL_PURCHASE_PRICE_REQUIRED(
             1089, "Giá mua sản phẩm đơn hàng bắt buộc nhập", HttpStatus.BAD_REQUEST),
-    PURCHASE_ORDER_CODE_ALREADY_EXISTS(
-            1090, "Mã đơn hàng đã tồn tại", HttpStatus.BAD_REQUEST),
+    PURCHASE_ORDER_CODE_ALREADY_EXISTS(1090, "Mã đơn hàng đã tồn tại", HttpStatus.BAD_REQUEST),
+    PURCHASE_ORDER_NOT_FOUND(1091, "Đơn hàng không tồn tại", HttpStatus.NOT_FOUND),
+    PURCHASE_DETAIL_NOT_FOUND(1092, "Chi tiết đơn hàng không tồn tại", HttpStatus.NOT_FOUND),
+    INVALID_QUANTITY_RECEIVED_REQUIRED(
+            1093, "Số lượng nhận sản phẩm đơn hàng bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    QUANTITY_RECEIVED_GREATER_THAN_PURCHASED(
+            1094, "Số lượng nhận lớn hơn số lượng mua", HttpStatus.BAD_REQUEST),
+    INVALID_PURCHASE_ORDER_STATUS_REQUIRED(
+            1095, "Trạng thái đơn hàng bắt buộc nhập", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;

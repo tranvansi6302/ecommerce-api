@@ -1,14 +1,16 @@
 package com.tranvansi.ecommerce.modules.purchases.entities;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import jakarta.persistence.*;
+
 import com.tranvansi.ecommerce.common.entities.BaseEntity;
 import com.tranvansi.ecommerce.common.enums.PurchaseOrderStatus;
 import com.tranvansi.ecommerce.modules.suppliers.entities.Supplier;
 import com.tranvansi.ecommerce.modules.users.entities.User;
-import jakarta.persistence.*;
-import lombok.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import lombok.*;
 
 @Entity
 @Table(name = "purchase_orders")
@@ -42,5 +44,4 @@ public class PurchaseOrder extends BaseEntity {
 
     @OneToMany(mappedBy = "purchaseOrder")
     private List<PurchaseDetail> purchaseDetails;
-
 }

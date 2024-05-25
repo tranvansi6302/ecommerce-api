@@ -45,7 +45,6 @@ public enum Message {
     SUPPLIER_CREATED_SUCCESSFULLY("Thêm nhà cung cấp thành công"),
     SUPPLIER_UPDATED_SUCCESSFULLY("Cập nhật nhà cung cấp thành công"),
     SUPPLIER_UPDATED_STATUS_SUCCESSFULLY("Cập nhật trạng thái nhà cung cấp thành công"),
-
     ;
     private String message;
 }
