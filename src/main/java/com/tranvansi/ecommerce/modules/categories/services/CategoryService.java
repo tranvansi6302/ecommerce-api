@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.tranvansi.ecommerce.common.enums.ErrorCode;
+import com.tranvansi.ecommerce.common.utils.ConvertUtil;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.categories.entities.Category;
 import com.tranvansi.ecommerce.modules.categories.mappers.CategoryMapper;
@@ -27,6 +28,7 @@ public class CategoryService implements ICategoryService {
             throw new AppException(ErrorCode.CATEGORY_ALREADY_EXISTS);
         }
         Category category = categoryMapper.createCategory(request);
+        category.setSlug(ConvertUtil.toSlug(request.getName()));
         return categoryMapper.toCategoryResponse(categoryRepository.save(category));
     }
 
@@ -46,6 +48,7 @@ public class CategoryService implements ICategoryService {
             throw new AppException(ErrorCode.CATEGORY_ALREADY_EXISTS);
         }
         categoryMapper.updateCategory(category, request);
+        category.setSlug(ConvertUtil.toSlug(request.getName()));
         return categoryMapper.toCategoryResponse(categoryRepository.save(category));
     }
 
