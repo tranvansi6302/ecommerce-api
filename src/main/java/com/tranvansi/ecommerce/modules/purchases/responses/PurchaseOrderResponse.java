@@ -1,24 +1,24 @@
 package com.tranvansi.ecommerce.modules.purchases.responses;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tranvansi.ecommerce.common.enums.PurchaseOrderStatus;
-
 import com.tranvansi.ecommerce.modules.products.responses.VariantResponse;
 import com.tranvansi.ecommerce.modules.suppliers.responses.SupplierResponse;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.context.annotation.Primary;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class PurchaseOrderResponse {
+
+    private Integer id;
 
     @JsonProperty("purchase_order_code")
     private String purchaseOrderCode;
@@ -40,6 +40,13 @@ public class PurchaseOrderResponse {
     @Builder
     public static class PurchaseDetailResponse {
         private Integer quantity;
+
+        @JsonProperty("purchase_price")
+        private Double purchasePrice;
+
+        @JsonProperty("quantity_received")
+        private Integer quantityReceived;
+
         private VariantResponse variant;
     }
 }
