@@ -109,22 +109,30 @@ public class ProductService implements IProductService {
                 Variant variant =
                         Variant.builder()
                                 .product(savedProduct)
+                                .variantName(
+                                        String.format(
+                                                "%s - %s - %s",
+                                                request.getName(), size.getName(), color.getName()))
                                 .color(color)
                                 .size(size)
                                 .sku(sku)
                                 .build();
-                variants.add(variant);
+                Variant savedVariant = variantRepository.save(variant);
 
                 VariantResponse variantResponse =
                         VariantResponse.builder()
+                                .id(savedVariant.getId())
                                 .sku(sku)
                                 .color(colorResponse)
+                                .variantName(
+                                        String.format(
+                                                "%s - %s - %s",
+                                                request.getName(), size.getName(), color.getName()))
                                 .size(sizeResponse)
                                 .build();
                 variantResponses.add(variantResponse);
             }
         }
-        variantRepository.saveAll(variants);
 
         return CreateProductResponse.builder()
                 .id(savedProduct.getId())

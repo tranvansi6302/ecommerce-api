@@ -20,6 +20,8 @@ public class Variant extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String variantName;
+
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;

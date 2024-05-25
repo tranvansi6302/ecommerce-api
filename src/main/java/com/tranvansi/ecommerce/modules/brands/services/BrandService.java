@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.tranvansi.ecommerce.common.enums.ErrorCode;
+import com.tranvansi.ecommerce.common.utils.ConvertUtil;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.brands.entities.Brand;
 import com.tranvansi.ecommerce.modules.brands.mappers.BrandMapper;
@@ -27,6 +28,7 @@ public class BrandService implements IBrandService {
             throw new AppException(ErrorCode.BRAND_ALREADY_EXISTS);
         }
         Brand brand = brandMapper.createBrand(request);
+        brand.setSlug(ConvertUtil.toSlug(request.getName()));
         return brandMapper.toBrandResponse(brandRepository.save(brand));
     }
 
@@ -55,6 +57,7 @@ public class BrandService implements IBrandService {
             throw new AppException(ErrorCode.BRAND_ALREADY_EXISTS);
         }
         brandMapper.updateBrand(brand, request);
+        brand.setSlug(ConvertUtil.toSlug(request.getName()));
         return brandMapper.toBrandResponse(brandRepository.save(brand));
     }
 
