@@ -91,6 +91,16 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<ProductDetailResponse>> getProductById(@PathVariable Integer id) {
+        ProductDetailResponse productDetailResponse = productService.getProductById(id);
+        ApiResponse<ProductDetailResponse> response =
+                ApiResponse.<ProductDetailResponse>builder()
+                        .result(productDetailResponse)
+                        .build();
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("")
     public ResponseEntity<ApiResponse<CreateProductResponse>> createProduct(
             @RequestBody @Valid CreateProductRequest request) {

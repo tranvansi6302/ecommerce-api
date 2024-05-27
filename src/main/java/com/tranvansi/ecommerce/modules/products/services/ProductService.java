@@ -204,6 +204,25 @@ public class ProductService implements IProductService {
                 });
     }
 
+    @Override
+    public ProductDetailResponse getProductById(Integer id) {
+        Product product =
+                productRepository
+                        .findById(id)
+                        .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+        ProductDetailResponse response = productMapper.toProductDetailResponse(product);
+        response.getVariants()
+                .forEach(
+                        variantDetail -> {
+                            PricePlan currentPricePlan = getCurrentPricePlan(variantDetail.getId());
+                            if (currentPricePlan != null) {
+                                variantDetail.setCurrentPricePlan(
+                                        pricePlanMapper.toPricePlanResponse(currentPricePlan));
+                            }
+                        });
+        return response;
+    }
+
     private PricePlan getCurrentPricePlan(Integer variantId) {
         List<PricePlan> pricePlans =
                 pricePlanRepository.findByVariantIdOrderByStartDateDesc(variantId);

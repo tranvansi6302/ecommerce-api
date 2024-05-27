@@ -21,4 +21,6 @@ public interface IProductService {
 
     Page<ProductDetailResponse> getAllProducts(
             PageRequest pageRequest, Specification<Product> specification);
+
+    ProductDetailResponse getProductById(Integer id);
 }
