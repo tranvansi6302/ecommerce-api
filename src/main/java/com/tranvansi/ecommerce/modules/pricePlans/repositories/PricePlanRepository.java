@@ -3,13 +3,14 @@ package com.tranvansi.ecommerce.modules.pricePlans.repositories;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.tranvansi.ecommerce.modules.pricePlans.entities.PricePlan;
 
 @Repository
-public interface PricePlanRepository extends JpaRepository<PricePlan, Integer> {
+public interface PricePlanRepository extends JpaRepository<PricePlan, Integer>, JpaSpecificationExecutor<PricePlan> {
     List<PricePlan> findByVariantIdOrderByStartDateDesc(Integer variantId);
 
     @Query(

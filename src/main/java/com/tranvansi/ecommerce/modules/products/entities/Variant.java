@@ -10,6 +10,7 @@ import com.tranvansi.ecommerce.common.entities.BaseEntity;
 import com.tranvansi.ecommerce.modules.colors.entities.Color;
 import com.tranvansi.ecommerce.modules.pricePlans.entities.PricePlan;
 import com.tranvansi.ecommerce.modules.sizes.entities.Size;
+import com.tranvansi.ecommerce.modules.warehouses.entities.Warehouse;
 
 import lombok.*;
 
@@ -46,4 +47,8 @@ public class Variant extends BaseEntity {
     @OneToMany(mappedBy = "variant")
     @JsonManagedReference
     private List<PricePlan> pricePlans;
+
+    @OneToOne(mappedBy = "variant")
+    @JsonBackReference
+    private Warehouse warehouse;
 }
