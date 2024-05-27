@@ -88,7 +88,7 @@ public class PricePlanController {
     }
 
     @GetMapping("/history")
-    public ResponseEntity<PagedResponse<List<PricePlanDetailResponse>>> getAllColors(
+    public ResponseEntity<PagedResponse<List<PricePlanDetailResponse>>> getHistoryPricePlans(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int limit,
             @RequestParam(name = "name", required = false) String variantName,
