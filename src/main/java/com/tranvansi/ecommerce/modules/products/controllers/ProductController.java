@@ -44,14 +44,19 @@ public class ProductController {
             @RequestParam(name = "category", required = false) String categorySlug,
             @RequestParam(name = "brand", required = false) String brandSlug,
             @RequestParam(name = "sort_by", required = false) String sortBy,
-            @RequestParam(name = "sort_order", required = false) String sortOrder,
+            @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder,
             @RequestParam(name = "price_min", required = false) Double priceMin,
-            @RequestParam(name = "price_max", required = false) Double priceMax,
-            @RequestParam(defaultValue = "desc") String sort_direction) {
-        Sort sort =
-                sort_direction.equalsIgnoreCase("asc")
-                        ? Sort.by("createdAt").ascending()
-                        : Sort.by("createdAt").descending();
+            @RequestParam(name = "price_max", required = false) Double priceMax) {
+
+        Sort sort;
+        if (!"price".equalsIgnoreCase(sortBy)) {
+            sort =
+                    "asc".equalsIgnoreCase(sortOrder)
+                            ? Sort.by("createdAt").ascending()
+                            : Sort.by("createdAt").descending();
+        } else {
+            sort = Sort.unsorted();
+        }
 
         ProductFilter filter =
                 ProductFilter.builder()
@@ -61,12 +66,13 @@ public class ProductController {
                         .priceMin(priceMin)
                         .priceMax(priceMax)
                         .build();
+
         PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
         Page<ProductDetailResponse> productDetailResponses =
                 productService.getAllProducts(pageRequest, new ProductSpecification(filter));
 
-        // Sort by price
-        if ("price".equals(sortBy)) {
+        // Sort by price in-memory if requested
+        if ("price".equalsIgnoreCase(sortBy)) {
             Comparator<ProductDetailResponse> comparator =
                     Comparator.comparing(
                             product ->
@@ -76,16 +82,23 @@ public class ProductController {
                                                             ::getCurrentPricePlan)
                                             .map(PricePlanResponse::getSalePrice)
                                             .max(Double::compare)
-                                            .orElseThrow(IllegalStateException::new));
-            if ("desc".equals(sortOrder)) {
+                                            .orElse(0.0)); // Use 0.0 as default if no salePrice is
+            // found
+
+            if ("desc".equalsIgnoreCase(sortOrder)) {
                 comparator = comparator.reversed();
             }
+
             List<ProductDetailResponse> sortedProducts =
-                    productDetailResponses.stream().sorted(comparator).collect(Collectors.toList());
+                    productDetailResponses.getContent().stream()
+                            .sorted(comparator)
+                            .collect(Collectors.toList());
+
             productDetailResponses =
                     new PageImpl<>(
                             sortedProducts, pageRequest, productDetailResponses.getTotalElements());
         }
+
         PagedResponse<List<ProductDetailResponse>> response =
                 BuildResponse.buildPagedResponse(productDetailResponses, pageRequest);
         return ResponseEntity.ok(response);

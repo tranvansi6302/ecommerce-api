@@ -8,8 +8,8 @@ import com.tranvansi.ecommerce.modules.categories.responses.CategoryResponse;
 import com.tranvansi.ecommerce.modules.colors.responses.ColorResponse;
 import com.tranvansi.ecommerce.modules.pricePlans.responses.PricePlanResponse;
 import com.tranvansi.ecommerce.modules.sizes.responses.SizeResponse;
-
 import com.tranvansi.ecommerce.modules.warehouses.responses.WarehousePurchasePriceAndAvailableQuantity;
+
 import lombok.*;
 
 @Data

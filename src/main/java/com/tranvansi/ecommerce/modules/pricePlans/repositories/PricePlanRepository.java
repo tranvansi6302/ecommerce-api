@@ -10,7 +10,8 @@ import org.springframework.stereotype.Repository;
 import com.tranvansi.ecommerce.modules.pricePlans.entities.PricePlan;
 
 @Repository
-public interface PricePlanRepository extends JpaRepository<PricePlan, Integer>, JpaSpecificationExecutor<PricePlan> {
+public interface PricePlanRepository
+        extends JpaRepository<PricePlan, Integer>, JpaSpecificationExecutor<PricePlan> {
     List<PricePlan> findByVariantIdOrderByStartDateDesc(Integer variantId);
 
     @Query(

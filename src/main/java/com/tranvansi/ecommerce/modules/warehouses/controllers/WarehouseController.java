@@ -30,7 +30,7 @@ public class WarehouseController {
     public ResponseEntity<PagedResponse<List<WarehouseResponse>>> getAllWarehouses(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int limit,
-            @RequestParam(name = "sort", required = false) String sortDirection,
+            @RequestParam(name = "sort_order", required = false) String sortOrder,
             @RequestParam(name = "last-updated", required = false) String lastUpdatedSort,
             @RequestParam(name = "name", required = false) String variantName,
             @RequestParam(name = "category", required = false) String categorySlug,
@@ -51,10 +51,10 @@ public class WarehouseController {
                             lastUpdatedSort.equalsIgnoreCase("asc")
                                     ? Sort.Order.asc("lastUpdated")
                                     : Sort.Order.desc("lastUpdated"));
-        } else if (sortDirection != null && !sortDirection.isEmpty()) {
+        } else if (sortOrder != null && !sortOrder.isEmpty()) {
             sort =
                     Sort.by(
-                            sortDirection.equalsIgnoreCase("asc")
+                            sortOrder.equalsIgnoreCase("asc")
                                     ? Sort.Order.asc("createdAt")
                                     : Sort.Order.desc("createdAt"));
         }

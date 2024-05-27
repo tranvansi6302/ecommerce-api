@@ -1,7 +1,10 @@
 package com.tranvansi.ecommerce.modules.pricePlans.services;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -93,7 +96,8 @@ public class PricePlanService implements IPricePlanService {
     }
 
     @Override
-    public Page<PricePlanDetailResponse> getHistoryPricePlans(PageRequest pageRequest, Specification<PricePlan> specification) {
+    public Page<PricePlanDetailResponse> getHistoryPricePlans(
+            PageRequest pageRequest, Specification<PricePlan> specification) {
         Page<PricePlan> pricePlans = pricePlanRepository.findAll(specification, pageRequest);
         List<PricePlanDetailResponse> pricePlanResponses = new ArrayList<>();
         for (PricePlan pricePlan : pricePlans) {
@@ -105,5 +109,46 @@ public class PricePlanService implements IPricePlanService {
             pricePlanResponses.add(pricePlanResponse);
         }
         return new PageImpl<>(pricePlanResponses, pageRequest, pricePlans.getTotalElements());
+    }
+
+    @Override
+    public Page<PricePlanDetailResponse> getAllCurrentPricePlans(
+            PageRequest pageRequest, Specification<PricePlan> specification) {
+
+        List<PricePlan> pricePlans = pricePlanRepository.findAll(specification);
+        List<PricePlanDetailResponse> pricePlanResponses = new ArrayList<>();
+        Set<Integer> processedVariants = new HashSet<>();
+
+        for (PricePlan pricePlan : pricePlans) {
+            VariantResponse variantResponse =
+                    variantMapper.toVariantResponse(pricePlan.getVariant());
+            Integer variantId = variantResponse.getId();
+            if (!processedVariants.contains(variantId)) {
+                PricePlan checkPricePlan = getCurrentPricePlan(variantId);
+                if (checkPricePlan != null) {
+                    PricePlanDetailResponse pricePlanResponse =
+                            pricePlanMapper.toPricePlanDetailResponse(checkPricePlan);
+                    pricePlanResponse.setVariant(variantResponse);
+                    pricePlanResponses.add(pricePlanResponse);
+                    processedVariants.add(variantId);
+                }
+            }
+        }
+
+        return new PageImpl<>(pricePlanResponses, pageRequest, pricePlanResponses.size());
+    }
+
+    private PricePlan getCurrentPricePlan(Integer variantId) {
+        List<PricePlan> pricePlans =
+                pricePlanRepository.findByVariantIdOrderByStartDateDesc(variantId);
+        LocalDateTime now = LocalDateTime.now();
+
+        for (PricePlan pricePlan : pricePlans) {
+            if (pricePlan.getStartDate().isBefore(now)
+                    && (pricePlan.getEndDate() == null || pricePlan.getEndDate().isAfter(now))) {
+                return pricePlan;
+            }
+        }
+        return null;
     }
 }
