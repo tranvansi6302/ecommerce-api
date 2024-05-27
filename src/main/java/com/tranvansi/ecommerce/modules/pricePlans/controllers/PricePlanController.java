@@ -4,6 +4,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import jakarta.validation.Valid;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +19,7 @@ import com.tranvansi.ecommerce.common.responses.BuildResponse;
 import com.tranvansi.ecommerce.common.responses.PagedResponse;
 import com.tranvansi.ecommerce.modules.pricePlans.filters.PricePlanFilter;
 import com.tranvansi.ecommerce.modules.pricePlans.requests.CreatePricePlanRequest;
+import com.tranvansi.ecommerce.modules.pricePlans.requests.UpdatePricePlanRequest;
 import com.tranvansi.ecommerce.modules.pricePlans.responses.PricePlanDetailResponse;
 import com.tranvansi.ecommerce.modules.pricePlans.services.IPricePlanService;
 import com.tranvansi.ecommerce.modules.pricePlans.specifications.PricePlanSpecification;
@@ -110,12 +113,24 @@ public class PricePlanController {
 
     @PostMapping("")
     public ResponseEntity<ApiResponse<List<PricePlanDetailResponse>>> createPricePlan(
-            @RequestBody CreatePricePlanRequest request) {
+            @RequestBody @Valid CreatePricePlanRequest request) {
         List<PricePlanDetailResponse> createdPricePlans = pricePlanService.createPricePlan(request);
         ApiResponse<List<PricePlanDetailResponse>> response =
                 ApiResponse.<List<PricePlanDetailResponse>>builder()
                         .result(createdPricePlans)
                         .message(Message.CREATE_PRICE_PLAN_SUCCESSFUL.getMessage())
+                        .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ApiResponse<PricePlanDetailResponse>> updatePricePlan(
+            @PathVariable("id") Integer id, @RequestBody @Valid UpdatePricePlanRequest request) {
+        PricePlanDetailResponse updatedPricePlan = pricePlanService.updatePricePlan(id, request);
+        ApiResponse<PricePlanDetailResponse> response =
+                ApiResponse.<PricePlanDetailResponse>builder()
+                        .result(updatedPricePlan)
+                        .message(Message.UPDATE_PRICE_PLAN_SUCCESSFUL.getMessage())
                         .build();
         return ResponseEntity.ok(response);
     }

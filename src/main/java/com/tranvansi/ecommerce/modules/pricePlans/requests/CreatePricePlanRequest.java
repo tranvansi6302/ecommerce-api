@@ -18,6 +18,7 @@ import lombok.*;
 public class CreatePricePlanRequest {
 
     @JsonProperty("price_plans")
+    @NotNull(message = "INVALID_PRICE_PLAN_REQUIRED")
     private List<PricePlanRequest> pricePlans;
 
     @Data
