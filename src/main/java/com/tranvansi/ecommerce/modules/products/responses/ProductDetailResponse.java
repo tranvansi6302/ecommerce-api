@@ -1,0 +1,43 @@
+package com.tranvansi.ecommerce.modules.products.responses;
+
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tranvansi.ecommerce.modules.brands.responses.BrandResponse;
+import com.tranvansi.ecommerce.modules.categories.responses.CategoryResponse;
+import com.tranvansi.ecommerce.modules.colors.responses.ColorResponse;
+import com.tranvansi.ecommerce.modules.pricePlans.responses.PricePlanResponse;
+import com.tranvansi.ecommerce.modules.sizes.responses.SizeResponse;
+
+import lombok.*;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class ProductDetailResponse {
+    private Integer id;
+    private String name;
+    private String description;
+    private BrandResponse brand;
+    private CategoryResponse category;
+    private List<VariantDetail> variants;
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class VariantDetail {
+        private Integer id;
+
+        @JsonProperty("variant_name")
+        private String variantName;
+
+        private String sku;
+        private ColorResponse color;
+        private SizeResponse size;
+
+        @JsonProperty("current_price_plan")
+        private PricePlanResponse currentPricePlan;
+    }
+}

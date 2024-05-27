@@ -1,9 +1,11 @@
 package com.tranvansi.ecommerce.modules.products.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tranvansi.ecommerce.common.entities.BaseEntity;
 import com.tranvansi.ecommerce.modules.brands.entities.Brand;
 import com.tranvansi.ecommerce.modules.categories.entities.Category;
@@ -37,4 +39,8 @@ public class Product extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "brand_id")
     private Brand brand;
+
+    @OneToMany(mappedBy = "product")
+    @JsonManagedReference
+    private List<Variant> variants;
 }

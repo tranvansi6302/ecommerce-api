@@ -1,9 +1,14 @@
 package com.tranvansi.ecommerce.modules.products.entities;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tranvansi.ecommerce.common.entities.BaseEntity;
 import com.tranvansi.ecommerce.modules.colors.entities.Color;
+import com.tranvansi.ecommerce.modules.pricePlans.entities.PricePlan;
 import com.tranvansi.ecommerce.modules.sizes.entities.Size;
 
 import lombok.*;
@@ -24,6 +29,7 @@ public class Variant extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
+    @JsonBackReference
     private Product product;
 
     @Column(nullable = false, unique = true)
@@ -36,4 +42,8 @@ public class Variant extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "size_id")
     private Size size;
+
+    @OneToMany(mappedBy = "variant")
+    @JsonManagedReference
+    private List<PricePlan> pricePlans;
 }

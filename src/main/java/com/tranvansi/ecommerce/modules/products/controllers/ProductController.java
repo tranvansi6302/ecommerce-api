@@ -14,13 +14,11 @@ import com.tranvansi.ecommerce.common.enums.Message;
 import com.tranvansi.ecommerce.common.responses.ApiResponse;
 import com.tranvansi.ecommerce.common.responses.BuildResponse;
 import com.tranvansi.ecommerce.common.responses.PagedResponse;
-import com.tranvansi.ecommerce.modules.products.filters.ProductFilter;
 import com.tranvansi.ecommerce.modules.products.requests.CreateProductRequest;
 import com.tranvansi.ecommerce.modules.products.requests.UpdateProductRequest;
 import com.tranvansi.ecommerce.modules.products.responses.CreateProductResponse;
-import com.tranvansi.ecommerce.modules.products.responses.ProductResponse;
+import com.tranvansi.ecommerce.modules.products.responses.ProductDetailResponse;
 import com.tranvansi.ecommerce.modules.products.services.IProductService;
-import com.tranvansi.ecommerce.modules.products.specifications.ProductSpecification;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,19 +31,18 @@ public class ProductController {
     private final IProductService productService;
 
     @GetMapping("")
-    public ResponseEntity<PagedResponse<List<ProductResponse>>> getAllProducts(
+    public ResponseEntity<PagedResponse<List<ProductDetailResponse>>> getAllProducts(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int limit,
-            @RequestParam(defaultValue = "desc") String sort_direction,
-            ProductFilter filter) {
+            @RequestParam(defaultValue = "desc") String sort_direction) {
         Sort sort =
                 sort_direction.equalsIgnoreCase("asc")
                         ? Sort.by("createdAt").ascending()
                         : Sort.by("createdAt").descending();
         PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
-        Page<ProductResponse> productDetailResponses =
-                productService.getAllProducts(pageRequest, new ProductSpecification(filter));
-        PagedResponse<List<ProductResponse>> response =
+        Page<ProductDetailResponse> productDetailResponses =
+                productService.getAllProducts(pageRequest);
+        PagedResponse<List<ProductDetailResponse>> response =
                 BuildResponse.buildPagedResponse(productDetailResponses, pageRequest);
         return ResponseEntity.ok(response);
     }

@@ -4,18 +4,21 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+import com.tranvansi.ecommerce.modules.brands.mappers.BrandMapper;
+import com.tranvansi.ecommerce.modules.categories.mappers.CategoryMapper;
 import com.tranvansi.ecommerce.modules.products.entities.Product;
 import com.tranvansi.ecommerce.modules.products.requests.CreateProductRequest;
 import com.tranvansi.ecommerce.modules.products.requests.UpdateProductRequest;
 import com.tranvansi.ecommerce.modules.products.responses.CreateProductResponse;
-import com.tranvansi.ecommerce.modules.products.responses.ProductResponse;
+import com.tranvansi.ecommerce.modules.products.responses.ProductDetailResponse;
 
-@Mapper(componentModel = "spring")
+@Mapper(
+        componentModel = "spring",
+        uses = {VariantMapper.class, BrandMapper.class, CategoryMapper.class})
 public interface ProductMapper {
+    ProductDetailResponse toProductDetailResponse(Product product);
 
     CreateProductResponse toProductResponse(Product product);
-
-    ProductResponse toProductDetailResponse(Product product);
 
     @Mapping(target = "brand", ignore = true)
     @Mapping(target = "category", ignore = true)

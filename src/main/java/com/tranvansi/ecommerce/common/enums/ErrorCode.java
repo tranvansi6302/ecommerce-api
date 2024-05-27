@@ -142,6 +142,11 @@ public enum ErrorCode {
             1094, "Số lượng nhận lớn hơn số lượng mua", HttpStatus.BAD_REQUEST),
     INVALID_PURCHASE_ORDER_STATUS_REQUIRED(
             1095, "Trạng thái đơn hàng bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    WAREHOUSE_VARIANT_NOT_FOUND(1096, "Biến thể không tồn tại trong kho", HttpStatus.BAD_REQUEST),
+    PRICE_PLAN_START_DATE_INVALID(1097, "Ngày bắt đầu không hợp lệ", HttpStatus.BAD_REQUEST),
+    INVALID_VARIANT_ID(1098, "ID biến thể bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_PRICE_PLAN_START_DATE_REQUIRED(
+            1099, "Ngày bắt đầu giá bán bắt buộc nhập", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;

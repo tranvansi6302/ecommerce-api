@@ -1,11 +1,11 @@
 package com.tranvansi.ecommerce.modules.products.services;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +21,9 @@ import com.tranvansi.ecommerce.modules.colors.entities.Color;
 import com.tranvansi.ecommerce.modules.colors.mappers.ColorMapper;
 import com.tranvansi.ecommerce.modules.colors.repositories.ColorRepository;
 import com.tranvansi.ecommerce.modules.colors.responses.ColorResponse;
+import com.tranvansi.ecommerce.modules.pricePlans.entities.PricePlan;
+import com.tranvansi.ecommerce.modules.pricePlans.mappers.PricePlanMapper;
+import com.tranvansi.ecommerce.modules.pricePlans.repositories.PricePlanRepository;
 import com.tranvansi.ecommerce.modules.products.entities.Product;
 import com.tranvansi.ecommerce.modules.products.entities.Variant;
 import com.tranvansi.ecommerce.modules.products.mappers.ProductMapper;
@@ -29,7 +32,7 @@ import com.tranvansi.ecommerce.modules.products.repositories.VariantRepository;
 import com.tranvansi.ecommerce.modules.products.requests.CreateProductRequest;
 import com.tranvansi.ecommerce.modules.products.requests.UpdateProductRequest;
 import com.tranvansi.ecommerce.modules.products.responses.CreateProductResponse;
-import com.tranvansi.ecommerce.modules.products.responses.ProductResponse;
+import com.tranvansi.ecommerce.modules.products.responses.ProductDetailResponse;
 import com.tranvansi.ecommerce.modules.products.responses.VariantResponse;
 import com.tranvansi.ecommerce.modules.sizes.entities.Size;
 import com.tranvansi.ecommerce.modules.sizes.mappers.SizeMapper;
@@ -52,6 +55,8 @@ public class ProductService implements IProductService {
     private final CategoryMapper categoryMapper;
     private final BrandMapper brandMapper;
     private final ColorMapper colorMapper;
+    private final PricePlanRepository pricePlanRepository;
+    private final PricePlanMapper pricePlanMapper;
 
     @Override
     @Transactional
@@ -176,10 +181,38 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Page<ProductResponse> getAllProducts(
-            PageRequest pageRequest, Specification<Product> specification) {
-        return productRepository
-                .findAll(specification, pageRequest)
-                .map(productMapper::toProductDetailResponse);
+    public Page<ProductDetailResponse> getAllProducts(PageRequest pageRequest) {
+        Page<Product> products = productRepository.findAll(pageRequest);
+
+        return products.map(
+                product -> {
+                    ProductDetailResponse response = productMapper.toProductDetailResponse(product);
+                    response.getVariants()
+                            .forEach(
+                                    variantDetail -> {
+                                        PricePlan currentPricePlan =
+                                                getCurrentPricePlan(variantDetail.getId());
+                                        if (currentPricePlan != null) {
+                                            variantDetail.setCurrentPricePlan(
+                                                    pricePlanMapper.toPricePlanResponse(
+                                                            currentPricePlan));
+                                        }
+                                    });
+                    return response;
+                });
+    }
+
+    private PricePlan getCurrentPricePlan(Integer variantId) {
+        List<PricePlan> pricePlans =
+                pricePlanRepository.findByVariantIdOrderByStartDateDesc(variantId);
+        LocalDateTime now = LocalDateTime.now();
+
+        for (PricePlan pricePlan : pricePlans) {
+            if (pricePlan.getStartDate().isBefore(now)
+                    && (pricePlan.getEndDate() == null || pricePlan.getEndDate().isAfter(now))) {
+                return pricePlan;
+            }
+        }
+        return null;
     }
 }
