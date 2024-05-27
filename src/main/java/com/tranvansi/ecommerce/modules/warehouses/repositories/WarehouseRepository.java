@@ -13,4 +13,6 @@ import com.tranvansi.ecommerce.modules.warehouses.entities.Warehouse;
 public interface WarehouseRepository
         extends JpaRepository<Warehouse, Integer>, JpaSpecificationExecutor<Warehouse> {
     Optional<Warehouse> findByVariantAndSku(Variant variant, String sku);
+
+    boolean existsByVariant(Variant variant);
 }
