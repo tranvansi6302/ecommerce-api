@@ -147,6 +147,8 @@ public enum ErrorCode {
     INVALID_VARIANT_ID(1098, "ID biến thể bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_PRICE_PLAN_START_DATE_REQUIRED(
             1099, "Ngày bắt đầu giá bán bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    PRICE_PLAN_NOT_FOUND(1100, "Không tìm thấy giá bán", HttpStatus.NOT_FOUND),
+    INVALID_PRICE_PLAN_REQUIRED(1101, "Giá bán bắt buộc nhập", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;

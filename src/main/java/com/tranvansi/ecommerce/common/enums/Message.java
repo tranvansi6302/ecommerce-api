@@ -46,6 +46,7 @@ public enum Message {
     SUPPLIER_UPDATED_SUCCESSFULLY("Cập nhật nhà cung cấp thành công"),
     SUPPLIER_UPDATED_STATUS_SUCCESSFULLY("Cập nhật trạng thái nhà cung cấp thành công"),
     CREATE_PRICE_PLAN_SUCCESSFUL("Lên bảng giá thành công"),
+    UPDATE_PRICE_PLAN_SUCCESSFUL("Cập nhật bảng giá thành công"),
     ;
     private String message;
 }

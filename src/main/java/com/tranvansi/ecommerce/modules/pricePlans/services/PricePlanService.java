@@ -19,6 +19,7 @@ import com.tranvansi.ecommerce.modules.pricePlans.entities.PricePlan;
 import com.tranvansi.ecommerce.modules.pricePlans.mappers.PricePlanMapper;
 import com.tranvansi.ecommerce.modules.pricePlans.repositories.PricePlanRepository;
 import com.tranvansi.ecommerce.modules.pricePlans.requests.CreatePricePlanRequest;
+import com.tranvansi.ecommerce.modules.pricePlans.requests.UpdatePricePlanRequest;
 import com.tranvansi.ecommerce.modules.pricePlans.responses.PricePlanDetailResponse;
 import com.tranvansi.ecommerce.modules.products.entities.Variant;
 import com.tranvansi.ecommerce.modules.products.mappers.VariantMapper;
@@ -136,6 +137,59 @@ public class PricePlanService implements IPricePlanService {
         }
 
         return new PageImpl<>(pricePlanResponses, pageRequest, pricePlanResponses.size());
+    }
+
+    @Override
+    public PricePlanDetailResponse updatePricePlan(
+            Integer pricePlanId, UpdatePricePlanRequest request) {
+        PricePlan pricePlan =
+                pricePlanRepository
+                        .findById(pricePlanId)
+                        .orElseThrow(() -> new AppException(ErrorCode.PRICE_PLAN_NOT_FOUND));
+
+        List<PricePlan> existingPlans =
+                pricePlanRepository.findByVariantIdOrderByStartDateDesc(
+                        pricePlan.getVariant().getId());
+
+        LocalDateTime newStartDate = request.getStartDate();
+        LocalDateTime newEndDate = request.getEndDate();
+        LocalDateTime now = LocalDateTime.now();
+
+        for (PricePlan existingPlan : existingPlans) {
+            if (!existingPlan.getId().equals(pricePlanId)) {
+                if (newStartDate.isBefore(existingPlan.getEndDate())
+                        && (newEndDate == null
+                                || newEndDate.isAfter(existingPlan.getStartDate()))) {
+                    throw new AppException(ErrorCode.PRICE_PLAN_START_DATE_INVALID);
+                }
+            }
+        }
+
+        if (newStartDate.isBefore(now)) {
+            throw new AppException(ErrorCode.PRICE_PLAN_START_DATE_INVALID);
+        }
+
+        pricePlanMapper.updatePricePlan(pricePlan, request);
+
+        if (request.getEndDate() == null) {
+            for (PricePlan existingPlan : existingPlans) {
+                if (!existingPlan.getId().equals(pricePlanId)
+                        && existingPlan.getEndDate() == null) {
+                    existingPlan.setEndDate(newStartDate);
+                    pricePlanRepository.save(existingPlan);
+                    break;
+                }
+            }
+        }
+
+        PricePlan updatedPricePlan = pricePlanRepository.save(pricePlan);
+
+        VariantResponse variantResponse =
+                variantMapper.toVariantResponse(updatedPricePlan.getVariant());
+        PricePlanDetailResponse pricePlanResponse =
+                pricePlanMapper.toPricePlanDetailResponse(updatedPricePlan);
+        pricePlanResponse.setVariant(variantResponse);
+        return pricePlanResponse;
     }
 
     private PricePlan getCurrentPricePlan(Integer variantId) {
