@@ -9,6 +9,7 @@ import com.tranvansi.ecommerce.modules.colors.responses.ColorResponse;
 import com.tranvansi.ecommerce.modules.pricePlans.responses.PricePlanResponse;
 import com.tranvansi.ecommerce.modules.sizes.responses.SizeResponse;
 
+import com.tranvansi.ecommerce.modules.warehouses.responses.WarehousePurchasePriceAndAvailableQuantity;
 import lombok.*;
 
 @Data
@@ -36,6 +37,7 @@ public class ProductDetailResponse {
         private String sku;
         private ColorResponse color;
         private SizeResponse size;
+        private WarehousePurchasePriceAndAvailableQuantity warehouse;
 
         @JsonProperty("current_price_plan")
         private PricePlanResponse currentPricePlan;

@@ -3,6 +3,10 @@ package com.tranvansi.ecommerce.modules.pricePlans.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -86,5 +90,20 @@ public class PricePlanService implements IPricePlanService {
             createdPricePlans.add(pricePlanResponse);
         }
         return createdPricePlans;
+    }
+
+    @Override
+    public Page<PricePlanDetailResponse> getHistoryPricePlans(PageRequest pageRequest, Specification<PricePlan> specification) {
+        Page<PricePlan> pricePlans = pricePlanRepository.findAll(specification, pageRequest);
+        List<PricePlanDetailResponse> pricePlanResponses = new ArrayList<>();
+        for (PricePlan pricePlan : pricePlans) {
+            VariantResponse variantResponse =
+                    variantMapper.toVariantResponse(pricePlan.getVariant());
+            PricePlanDetailResponse pricePlanResponse =
+                    pricePlanMapper.toPricePlanDetailResponse(pricePlan);
+            pricePlanResponse.setVariant(variantResponse);
+            pricePlanResponses.add(pricePlanResponse);
+        }
+        return new PageImpl<>(pricePlanResponses, pageRequest, pricePlans.getTotalElements());
     }
 }

@@ -133,6 +133,7 @@ public class PurchaseOrderService implements IPurchaseOrderService {
                     warehouse.setAvailableQuantity(
                             warehouse.getAvailableQuantity() + purchaseDetail.getQuantity());
                     warehouse.setLastUpdated(LocalDateTime.now());
+                    warehouse.setPurchasePrice(purchaseDetail.getPurchasePrice());
                 } else {
                     warehouse =
                             Warehouse.builder()
@@ -140,6 +141,7 @@ public class PurchaseOrderService implements IPurchaseOrderService {
                                     .sku(purchaseDetail.getSku())
                                     .availableQuantity(purchaseDetail.getQuantity())
                                     .totalQuantity(purchaseDetail.getQuantity())
+                                    .purchasePrice(purchaseDetail.getPurchasePrice())
                                     .lastUpdated(LocalDateTime.now())
                                     .build();
                 }

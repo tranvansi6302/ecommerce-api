@@ -92,12 +92,11 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<ProductDetailResponse>> getProductById(@PathVariable Integer id) {
+    public ResponseEntity<ApiResponse<ProductDetailResponse>> getProductById(
+            @PathVariable Integer id) {
         ProductDetailResponse productDetailResponse = productService.getProductById(id);
         ApiResponse<ProductDetailResponse> response =
-                ApiResponse.<ProductDetailResponse>builder()
-                        .result(productDetailResponse)
-                        .build();
+                ApiResponse.<ProductDetailResponse>builder().result(productDetailResponse).build();
         return ResponseEntity.ok(response);
     }
 
