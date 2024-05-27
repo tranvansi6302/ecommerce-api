@@ -10,11 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ProductFilter {
-    // CategoryId
-    private Integer category;
-
-    // BrandId
-    private Integer brand;
-
-    private Boolean sortPrice;
+    private String productName;
+    private String categorySlug;
+    private String brandSlug;
+    private Double priceMin;
+    private Double priceMax;
+    // Filter rating, sold ...
 }
