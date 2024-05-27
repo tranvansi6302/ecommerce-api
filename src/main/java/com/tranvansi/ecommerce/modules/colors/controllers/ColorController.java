@@ -31,9 +31,9 @@ public class ColorController {
     public ResponseEntity<PagedResponse<List<ColorResponse>>> getAllColors(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int limit,
-            @RequestParam(defaultValue = "desc") String sort_direction) {
+            @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder) {
         Sort sort =
-                sort_direction.equalsIgnoreCase("asc")
+                sortOrder.equalsIgnoreCase("asc")
                         ? Sort.by("createdAt").ascending()
                         : Sort.by("createdAt").descending();
         PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);

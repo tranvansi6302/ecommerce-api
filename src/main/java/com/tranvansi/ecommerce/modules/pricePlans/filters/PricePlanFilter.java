@@ -12,4 +12,6 @@ import lombok.NoArgsConstructor;
 public class PricePlanFilter {
     private String variantName;
     private String sku;
+    private String categorySlug;
+    private String brandSlug;
 }

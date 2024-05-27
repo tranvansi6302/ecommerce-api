@@ -1,17 +1,20 @@
 package com.tranvansi.ecommerce.modules.pricePlans.specifications;
 
-import com.tranvansi.ecommerce.modules.pricePlans.entities.PricePlan;
-import com.tranvansi.ecommerce.modules.pricePlans.filters.PricePlanFilter;
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.tranvansi.ecommerce.modules.pricePlans.entities.PricePlan;
+import com.tranvansi.ecommerce.modules.pricePlans.filters.PricePlanFilter;
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class PricePlanSpecification implements Specification<PricePlan> {
@@ -24,23 +27,32 @@ public class PricePlanSpecification implements Specification<PricePlan> {
             @NonNull CriteriaBuilder cb) {
         List<Predicate> predicates = new ArrayList<>();
 
-        if(filter.getVariantName() != null) {
+        if (filter.getVariantName() != null) {
             predicates.add(
                     cb.like(
                             root.join("variant").get("variantName"),
-                            "%" + filter.getVariantName() + "%"
-                    )
-            );
+                            "%" + filter.getVariantName() + "%"));
         }
 
-        if(filter.getSku() != null) {
+        if (filter.getSku() != null) {
+            predicates.add(cb.like(root.join("variant").get("sku"), "%" + filter.getSku() + "%"));
+        }
+
+        if (filter.getCategorySlug() != null) {
             predicates.add(
                     cb.like(
-                            root.join("variant").get("sku"),
-                            "%" + filter.getSku() + "%"
-                    )
-            );
+                            root.join("variant").join("product").join("category").get("slug"),
+                            "%" + filter.getCategorySlug() + "%"));
         }
+
+        if (filter.getBrandSlug() != null) {
+            predicates.add(
+                    cb.like(
+                            root.join("variant").join("product").join("brand").get("slug"),
+                            "%" + filter.getBrandSlug() + "%"));
+        }
+
+        query.distinct(true);
 
         return cb.and(predicates.toArray(new Predicate[0]));
     }
