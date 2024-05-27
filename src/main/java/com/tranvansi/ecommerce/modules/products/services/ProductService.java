@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -181,8 +182,9 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Page<ProductDetailResponse> getAllProducts(PageRequest pageRequest) {
-        Page<Product> products = productRepository.findAll(pageRequest);
+    public Page<ProductDetailResponse> getAllProducts(
+            PageRequest pageRequest, Specification<Product> specification) {
+        Page<Product> products = productRepository.findAll(specification, pageRequest);
 
         return products.map(
                 product -> {

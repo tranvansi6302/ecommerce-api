@@ -45,12 +45,12 @@ public class PricePlanService implements IPricePlanService {
             if (!warehouseRepository.existsByVariant(variant)) {
                 throw new AppException(ErrorCode.WAREHOUSE_VARIANT_NOT_FOUND);
             }
-
+            PricePlan latestPlan = null;
             List<PricePlan> existingPlans =
                     pricePlanRepository.findByVariantIdAndEndDateIsNullOrderByStartDateDesc(
                             pricePlanRequest.getVariantId());
             if (!existingPlans.isEmpty()) {
-                PricePlan latestPlan = existingPlans.getFirst(); // Use get(0) for the first element
+                latestPlan = existingPlans.getFirst(); // Use get(0) for the first element
                 if (pricePlanRequest.getStartDate().isEqual(latestPlan.getStartDate())
                         || pricePlanRequest.getStartDate().isBefore(latestPlan.getStartDate())) {
                     throw new AppException(ErrorCode.PRICE_PLAN_START_DATE_INVALID);
@@ -72,6 +72,10 @@ public class PricePlanService implements IPricePlanService {
                             .startDate(pricePlanRequest.getStartDate())
                             .endDate(pricePlanRequest.getEndDate())
                             .build();
+            if (pricePlanRequest.getEndDate() != null && latestPlan != null) {
+                newPricePlan.setSalePrice(latestPlan.getSalePrice());
+            }
+
             PricePlan savedPricePlan = pricePlanRepository.save(newPricePlan);
 
             VariantResponse variantResponse = variantMapper.toVariantResponse(variant);
