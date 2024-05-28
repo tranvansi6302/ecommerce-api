@@ -1,7 +1,14 @@
 package com.tranvansi.ecommerce.modules.carts.controllers;
 
+import com.tranvansi.ecommerce.common.responses.BuildResponse;
+import com.tranvansi.ecommerce.common.responses.PagedResponse;
+import com.tranvansi.ecommerce.modules.brands.responses.BrandResponse;
+import com.tranvansi.ecommerce.modules.carts.responses.CartDetailResponse;
 import jakarta.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +21,29 @@ import com.tranvansi.ecommerce.modules.carts.services.ICartService;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("${api.prefix}/carts")
 @RequiredArgsConstructor
 public class CartController {
     private final ICartService cartService;
+
+    @GetMapping("")
+    public ResponseEntity<PagedResponse<List<CartDetailResponse>>> getAllBrands(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "15") int limit,
+            @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder) {
+        Sort sort =
+                sortOrder.equalsIgnoreCase("asc")
+                        ? Sort.by("createdAt").ascending()
+                        : Sort.by("createdAt").descending();
+        PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
+        Page<CartDetailResponse> cartDetailResponses = cartService.getCarts(pageRequest);
+        PagedResponse<List<CartDetailResponse>> response =
+                BuildResponse.buildPagedResponse(cartDetailResponses, pageRequest);
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping("")
     public ResponseEntity<ApiResponse<CartResponse>> addToCart(

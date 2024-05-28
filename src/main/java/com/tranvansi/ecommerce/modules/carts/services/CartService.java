@@ -1,5 +1,7 @@
 package com.tranvansi.ecommerce.modules.carts.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,8 @@ import com.tranvansi.ecommerce.modules.users.repositories.UserRepository;
 import com.tranvansi.ecommerce.modules.warehouses.repositories.WarehouseRepository;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -66,10 +70,10 @@ public class CartService implements ICartService {
         cartDetail.setCart(existingCart);
         cartDetailRepository.save(cartDetail);
 
-        CartDetailResponse cartDetailResponse = cartMapper.cartDetailResponse(cartDetail);
+        CartDetailResponse toCartDetailResponse = cartMapper.toCartDetailResponse(cartDetail);
 
         CartResponse response = cartMapper.addToCartResponse(existingCart);
-        response.setCartDetail(cartDetailResponse);
+        response.setCartDetail(toCartDetailResponse);
 
         return response;
     }
@@ -92,17 +96,32 @@ public class CartService implements ICartService {
 
         cartMapper.updateCart(cartDetail, request);
 
-        CartDetailResponse cartDetailResponse = cartMapper.cartDetailResponse(cartDetail);
+        CartDetailResponse toCartDetailResponse = cartMapper.toCartDetailResponse(cartDetail);
 
         Variant variant =
                 variantRepository
                         .findById(cartDetail.getVariant().getId())
                         .orElseThrow(() -> new AppException(ErrorCode.VARIANT_NOT_FOUND));
 
-        cartDetailResponse.setVariant(variantMapper.toVariantResponse(variant));
+        toCartDetailResponse.setVariant(variantMapper.toVariantResponse(variant));
         CartResponse response = cartMapper.addToCartResponse(existingCart);
-        response.setCartDetail(cartDetailResponse);
+        response.setCartDetail(toCartDetailResponse);
 
         return response;
+    }
+
+
+    @Override
+    public Page<CartDetailResponse> getCarts(PageRequest pageRequest) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user =
+                userRepository
+                        .findByEmail(email)
+                        .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        Cart cart =
+                cartRepository
+                        .findByUserId(user.getId())
+                        .orElseThrow(() -> new AppException(ErrorCode.CART_NOT_FOUND));
+           return cartDetailRepository.findAllByCart(cart, pageRequest).map(cartMapper::toCartDetailResponse);
     }
 }
