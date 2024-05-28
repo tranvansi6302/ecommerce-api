@@ -13,11 +13,14 @@ import java.util.List;
 
 public interface ICartService {
     @PreAuthorize("hasRole('USER')")
-    CartResponse addToCart(AddToCartRequest request);
+    CartResponse addProductToCart(AddToCartRequest request);
 
     @PreAuthorize("hasRole('USER')")
-    CartResponse updateCart(Integer cartDetailId, UpdateCartRequest request);
+    CartResponse updateProductFromCart(Integer cartDetailId, UpdateCartRequest request);
 
     @PreAuthorize("hasRole('USER')")
-    Page<CartDetailResponse> getCarts(PageRequest pageRequest);
+    Page<CartDetailResponse> getAllProductFromCarts(PageRequest pageRequest);
+
+    @PreAuthorize("hasRole('USER')")
+    void deleteProductFromCart(Integer cartDetailId);
 }
