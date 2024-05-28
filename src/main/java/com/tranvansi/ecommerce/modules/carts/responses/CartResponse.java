@@ -1,8 +1,8 @@
 package com.tranvansi.ecommerce.modules.carts.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tranvansi.ecommerce.modules.products.responses.VariantResponse;
 import com.tranvansi.ecommerce.modules.users.responses.ProfileResponse;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AddToCartResponse {
+public class CartResponse {
     private Integer id;
     private ProfileResponse user;
 

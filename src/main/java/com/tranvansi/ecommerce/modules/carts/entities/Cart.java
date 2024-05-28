@@ -1,9 +1,10 @@
 package com.tranvansi.ecommerce.modules.carts.entities;
 
-import com.tranvansi.ecommerce.common.entities.BaseEntity;
-import com.tranvansi.ecommerce.modules.products.entities.Variant;
-import com.tranvansi.ecommerce.modules.users.entities.User;
 import jakarta.persistence.*;
+
+import com.tranvansi.ecommerce.common.entities.BaseEntity;
+import com.tranvansi.ecommerce.modules.users.entities.User;
+
 import lombok.*;
 
 @Entity
@@ -21,5 +22,4 @@ public class Cart extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
 }
