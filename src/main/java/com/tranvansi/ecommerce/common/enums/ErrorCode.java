@@ -150,6 +150,9 @@ public enum ErrorCode {
     PRICE_PLAN_NOT_FOUND(1100, "Không tìm thấy giá bán", HttpStatus.NOT_FOUND),
     INVALID_PRICE_PLAN_REQUIRED(1101, "Giá bán bắt buộc nhập", HttpStatus.BAD_REQUEST),
     PRODUCT_ALREADY_IN_CART(1102, "Sản phẩm đã tồn tại trong giỏ hàng", HttpStatus.BAD_REQUEST),
+    INVALID_CART_QUANTITY(1103, "Số lượng sản phẩm bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    CART_DETAIL_NOT_FOUND(
+            1104, "Không tìm thấy sản phẩm trong chi tiết giỏ hàng", HttpStatus.NOT_FOUND),
     ;
 
     private int code;

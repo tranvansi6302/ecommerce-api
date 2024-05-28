@@ -48,7 +48,7 @@ public enum Message {
     CREATE_PRICE_PLAN_SUCCESSFUL("Lên bảng giá thành công"),
     UPDATE_PRICE_PLAN_SUCCESSFUL("Cập nhật bảng giá thành công"),
     ADD_TO_CART_SUCCESS("Thêm vào giỏ hàng thành công"),
+    UPDATE_CART_SUCCESS("Cập nhật giỏ hàng thành công"),
     ;
     private String message;
-
 }

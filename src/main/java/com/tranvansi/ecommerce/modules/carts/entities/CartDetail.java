@@ -1,7 +1,10 @@
 package com.tranvansi.ecommerce.modules.carts.entities;
 
-import com.tranvansi.ecommerce.modules.products.entities.Variant;
 import jakarta.persistence.*;
+
+import com.tranvansi.ecommerce.common.entities.BaseEntity;
+import com.tranvansi.ecommerce.modules.products.entities.Variant;
+
 import lombok.*;
 
 @Entity
@@ -11,13 +14,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CartDetail {
+public class CartDetail extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private Integer quantity;
-
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
