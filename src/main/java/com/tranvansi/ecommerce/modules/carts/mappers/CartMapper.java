@@ -19,7 +19,7 @@ public interface CartMapper {
 
     CartResponse addToCartResponse(Cart cart);
 
-    CartDetailResponse cartDetailResponse(CartDetail cartDetail);
+    CartDetailResponse toCartDetailResponse(CartDetail cartDetail);
 
     void updateCart(@MappingTarget CartDetail cartDetail, UpdateCartRequest request);
 }
