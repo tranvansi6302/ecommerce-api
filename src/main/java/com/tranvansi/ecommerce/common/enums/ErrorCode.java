@@ -149,6 +149,7 @@ public enum ErrorCode {
             1099, "Ngày bắt đầu giá bán bắt buộc nhập", HttpStatus.BAD_REQUEST),
     PRICE_PLAN_NOT_FOUND(1100, "Không tìm thấy giá bán", HttpStatus.NOT_FOUND),
     INVALID_PRICE_PLAN_REQUIRED(1101, "Giá bán bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    PRODUCT_ALREADY_IN_CART(1102, "Sản phẩm đã tồn tại trong giỏ hàng", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;
