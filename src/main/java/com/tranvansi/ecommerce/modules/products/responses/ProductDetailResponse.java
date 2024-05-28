@@ -34,6 +34,9 @@ public class ProductDetailResponse {
         @JsonProperty("variant_name")
         private String variantName;
 
+        @JsonProperty("product_name")
+        private String productName;
+
         private String sku;
         private ColorResponse color;
         private SizeResponse size;

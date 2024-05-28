@@ -28,6 +28,7 @@ import com.tranvansi.ecommerce.modules.pricePlans.repositories.PricePlanReposito
 import com.tranvansi.ecommerce.modules.products.entities.Product;
 import com.tranvansi.ecommerce.modules.products.entities.Variant;
 import com.tranvansi.ecommerce.modules.products.mappers.ProductMapper;
+import com.tranvansi.ecommerce.modules.products.mappers.VariantMapper;
 import com.tranvansi.ecommerce.modules.products.repositories.ProductRepository;
 import com.tranvansi.ecommerce.modules.products.repositories.VariantRepository;
 import com.tranvansi.ecommerce.modules.products.requests.CreateProductRequest;
@@ -52,6 +53,7 @@ public class ProductService implements IProductService {
     private final ColorRepository colorRepository;
     private final SizeRepository sizeRepository;
     private final ProductMapper productMapper;
+    private final VariantMapper variantMapper;
     private final SizeMapper sizeMapper;
     private final CategoryMapper categoryMapper;
     private final BrandMapper brandMapper;
@@ -80,7 +82,7 @@ public class ProductService implements IProductService {
         product.setBrand(brand);
 
         Product savedProduct = productRepository.save(product);
-        List<Variant> variants = new ArrayList<>();
+
         List<ColorResponse> colors = new ArrayList<>();
         List<SizeResponse> sizes = new ArrayList<>();
         List<VariantResponse> variantResponses = new ArrayList<>();
@@ -120,22 +122,13 @@ public class ProductService implements IProductService {
                                                 "%s - %s - %s",
                                                 request.getName(), size.getName(), color.getName()))
                                 .color(color)
+                                .productName(request.getName())
                                 .size(size)
                                 .sku(sku)
                                 .build();
                 Variant savedVariant = variantRepository.save(variant);
 
-                VariantResponse variantResponse =
-                        VariantResponse.builder()
-                                .id(savedVariant.getId())
-                                .sku(sku)
-                                .color(colorResponse)
-                                .variantName(
-                                        String.format(
-                                                "%s - %s - %s",
-                                                request.getName(), size.getName(), color.getName()))
-                                .size(sizeResponse)
-                                .build();
+                VariantResponse variantResponse = variantMapper.toVariantResponse(savedVariant);
                 variantResponses.add(variantResponse);
             }
         }
