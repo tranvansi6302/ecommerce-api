@@ -15,11 +15,11 @@ import com.tranvansi.ecommerce.modules.carts.responses.CartResponse;
 public interface CartMapper {
     @Mapping(target = "variant", ignore = true)
     @Mapping(target = "cart", ignore = true)
-    CartDetail addToCart(AddToCartRequest request);
+    CartDetail addProductToCart(AddToCartRequest request);
 
     CartResponse addToCartResponse(Cart cart);
 
     CartDetailResponse toCartDetailResponse(CartDetail cartDetail);
 
-    void updateCart(@MappingTarget CartDetail cartDetail, UpdateCartRequest request);
+    void updateProductFromCart(@MappingTarget CartDetail cartDetail, UpdateCartRequest request);
 }

@@ -24,6 +24,7 @@ import com.tranvansi.ecommerce.modules.users.repositories.UserRepository;
 import com.tranvansi.ecommerce.modules.warehouses.repositories.WarehouseRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -40,7 +41,8 @@ public class CartService implements ICartService {
     private final VariantMapper variantMapper;
 
     @Override
-    public CartResponse addToCart(AddToCartRequest request) {
+    @Transactional
+    public CartResponse addProductToCart(AddToCartRequest request) {
         Variant variant =
                 variantRepository
                         .findById(request.getVariantId())
@@ -65,7 +67,7 @@ public class CartService implements ICartService {
             throw new AppException(ErrorCode.PRODUCT_ALREADY_IN_CART);
         }
 
-        CartDetail cartDetail = cartMapper.addToCart(request);
+        CartDetail cartDetail = cartMapper.addProductToCart(request);
         cartDetail.setVariant(variant);
         cartDetail.setCart(existingCart);
         cartDetailRepository.save(cartDetail);
@@ -79,12 +81,13 @@ public class CartService implements ICartService {
     }
 
     @Override
-    public CartResponse updateCart(Integer cartDetailId, UpdateCartRequest request) {
+    @Transactional
+    public CartResponse updateProductFromCart(Integer cartDetailId, UpdateCartRequest request) {
         CartDetail cartDetail =
                 cartDetailRepository
                         .findById(cartDetailId)
                         .orElseThrow(() -> new AppException(ErrorCode.CART_DETAIL_NOT_FOUND));
-        cartMapper.updateCart(cartDetail, request);
+        cartMapper.updateProductFromCart(cartDetail, request);
         cartDetailRepository.save(cartDetail);
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user =
@@ -94,7 +97,7 @@ public class CartService implements ICartService {
 
         Cart existingCart = cartRepository.findByUserId(user.getId()).orElseThrow(null);
 
-        cartMapper.updateCart(cartDetail, request);
+        cartMapper.updateProductFromCart(cartDetail, request);
 
         CartDetailResponse toCartDetailResponse = cartMapper.toCartDetailResponse(cartDetail);
 
@@ -112,7 +115,7 @@ public class CartService implements ICartService {
 
 
     @Override
-    public Page<CartDetailResponse> getCarts(PageRequest pageRequest) {
+    public Page<CartDetailResponse> getAllProductFromCarts(PageRequest pageRequest) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user =
                 userRepository
@@ -123,5 +126,13 @@ public class CartService implements ICartService {
                         .findByUserId(user.getId())
                         .orElseThrow(() -> new AppException(ErrorCode.CART_NOT_FOUND));
            return cartDetailRepository.findAllByCart(cart, pageRequest).map(cartMapper::toCartDetailResponse);
+    }
+
+    @Override
+    public void deleteProductFromCart(Integer cartDetailId) {
+        CartDetail cartDetail = cartDetailRepository.findById(cartDetailId).orElseThrow(
+                () -> new AppException(ErrorCode.CART_DETAIL_NOT_FOUND)
+        );
+        cartDetailRepository.delete(cartDetail);
     }
 }

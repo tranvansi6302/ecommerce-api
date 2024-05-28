@@ -39,16 +39,16 @@ public class CartController {
                         ? Sort.by("createdAt").ascending()
                         : Sort.by("createdAt").descending();
         PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
-        Page<CartDetailResponse> cartDetailResponses = cartService.getCarts(pageRequest);
+        Page<CartDetailResponse> cartDetailResponses = cartService.getAllProductFromCarts(pageRequest);
         PagedResponse<List<CartDetailResponse>> response =
                 BuildResponse.buildPagedResponse(cartDetailResponses, pageRequest);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("")
-    public ResponseEntity<ApiResponse<CartResponse>> addToCart(
+    public ResponseEntity<ApiResponse<CartResponse>> addProductToCart(
             @RequestBody @Valid AddToCartRequest request) {
-        CartResponse addToCartResponse = cartService.addToCart(request);
+        CartResponse addToCartResponse = cartService.addProductToCart(request);
         ApiResponse<CartResponse> response =
                 ApiResponse.<CartResponse>builder()
                         .result(addToCartResponse)
@@ -58,14 +58,21 @@ public class CartController {
     }
 
     @PatchMapping("/{cartDetailId}")
-    public ResponseEntity<ApiResponse<CartResponse>> updateCart(
+    public ResponseEntity<ApiResponse<CartResponse>> updateProductFromCart(
             @PathVariable Integer cartDetailId, @RequestBody @Valid UpdateCartRequest request) {
-        CartResponse updateCartResponse = cartService.updateCart(cartDetailId, request);
+        CartResponse updateCartResponse = cartService.updateProductFromCart(cartDetailId, request);
         ApiResponse<CartResponse> response =
                 ApiResponse.<CartResponse>builder()
                         .result(updateCartResponse)
                         .message(Message.UPDATE_CART_SUCCESS.getMessage())
                         .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{cartDetailId}")
+    public ResponseEntity<ApiResponse<Void>> deleteProductFromCart(@PathVariable Integer cartDetailId) {
+        cartService.deleteProductFromCart(cartDetailId);
+        ApiResponse<Void> response = ApiResponse.<Void>builder().message(Message.DELETE_PRODUCT_CART_DETAIL_SUCCESS.getMessage()).build();
         return ResponseEntity.ok(response);
     }
 }
