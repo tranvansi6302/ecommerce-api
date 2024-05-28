@@ -28,6 +28,8 @@ public class Variant extends BaseEntity {
 
     private String variantName;
 
+    private String productName;
+
     @ManyToOne
     @JoinColumn(name = "product_id")
     @JsonBackReference

@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tranvansi.ecommerce.common.enums.ErrorCode;
 import com.tranvansi.ecommerce.exceptions.AppException;
@@ -24,9 +25,6 @@ import com.tranvansi.ecommerce.modules.users.repositories.UserRepository;
 import com.tranvansi.ecommerce.modules.warehouses.repositories.WarehouseRepository;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -113,7 +111,6 @@ public class CartService implements ICartService {
         return response;
     }
 
-
     @Override
     public Page<CartDetailResponse> getAllProductFromCarts(PageRequest pageRequest) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -125,14 +122,17 @@ public class CartService implements ICartService {
                 cartRepository
                         .findByUserId(user.getId())
                         .orElseThrow(() -> new AppException(ErrorCode.CART_NOT_FOUND));
-           return cartDetailRepository.findAllByCart(cart, pageRequest).map(cartMapper::toCartDetailResponse);
+        return cartDetailRepository
+                .findAllByCart(cart, pageRequest)
+                .map(cartMapper::toCartDetailResponse);
     }
 
     @Override
     public void deleteProductFromCart(Integer cartDetailId) {
-        CartDetail cartDetail = cartDetailRepository.findById(cartDetailId).orElseThrow(
-                () -> new AppException(ErrorCode.CART_DETAIL_NOT_FOUND)
-        );
+        CartDetail cartDetail =
+                cartDetailRepository
+                        .findById(cartDetailId)
+                        .orElseThrow(() -> new AppException(ErrorCode.CART_DETAIL_NOT_FOUND));
         cartDetailRepository.delete(cartDetail);
     }
 }
