@@ -154,6 +154,7 @@ public enum ErrorCode {
     CART_DETAIL_NOT_FOUND(
             1104, "Không tìm thấy sản phẩm trong chi tiết giỏ hàng", HttpStatus.NOT_FOUND),
     CART_NOT_FOUND(1105, "Không tìm thấy giỏ hàng", HttpStatus.NOT_FOUND),
+    INVALID_ORDER_DETAILS(1106, "Danh sách sản phẩm đơn hàng bắt buộc nhập", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;
