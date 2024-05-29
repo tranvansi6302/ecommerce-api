@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.modules.orders.responses;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -20,6 +21,16 @@ public class OrderResponse {
     private Integer id;
     private String address;
     private String note;
+
+    @JsonProperty("phone_number")
+    private String phoneNumber;
+
+    @JsonProperty("order_code")
+    private String orderCode;
+
+    @JsonProperty("order_date")
+    private LocalDateTime orderDate;
+
     private OrderStatus status;
     private ProfileResponse user;
 

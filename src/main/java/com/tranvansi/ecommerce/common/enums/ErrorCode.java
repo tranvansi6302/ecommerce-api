@@ -160,6 +160,8 @@ public enum ErrorCode {
     ORDER_NOT_FOUND(1108, "Đơn hàng không tồn tại", HttpStatus.NOT_FOUND),
     ORDER_CANNOT_BE_CANCELLED(1109, "Đơn hàng không thể hủy", HttpStatus.BAD_REQUEST),
     ORDER_NOT_UPDATE(1110, "Đơn hàng không thể cập nhật", HttpStatus.BAD_REQUEST),
+    INVALID_ORDER_PHONE_NUMBER_FORMAT(
+            1111, "Số điện thoại đặt hàng không đúng định dạng", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;

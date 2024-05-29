@@ -1,16 +1,26 @@
 package com.tranvansi.ecommerce.modules.orders.controllers;
 
+import java.util.List;
+
 import jakarta.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.tranvansi.ecommerce.common.enums.Message;
+import com.tranvansi.ecommerce.common.enums.OrderStatus;
 import com.tranvansi.ecommerce.common.responses.ApiResponse;
+import com.tranvansi.ecommerce.common.responses.BuildResponse;
+import com.tranvansi.ecommerce.common.responses.PagedResponse;
+import com.tranvansi.ecommerce.modules.orders.filters.OrderFilter;
 import com.tranvansi.ecommerce.modules.orders.requests.CreateOrderRequest;
 import com.tranvansi.ecommerce.modules.orders.requests.UpdateOrderRequest;
 import com.tranvansi.ecommerce.modules.orders.responses.OrderResponse;
 import com.tranvansi.ecommerce.modules.orders.services.IOrderService;
+import com.tranvansi.ecommerce.modules.orders.specifications.OrderSpecification;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,6 +29,26 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OrderController {
     private final IOrderService orderService;
+
+    @GetMapping("")
+    public ResponseEntity<PagedResponse<List<OrderResponse>>> getAllOrders(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "15") int limit,
+            @RequestParam(name = "status", required = false) OrderStatus status,
+            @RequestParam(name = "search", required = false) String search,
+            @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder) {
+        OrderFilter filter = OrderFilter.builder().status(status).search(search).build();
+        Sort sort =
+                sortOrder.equalsIgnoreCase("asc")
+                        ? Sort.by("createdAt").ascending()
+                        : Sort.by("createdAt").descending();
+        PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
+        Page<OrderResponse> orderResponses =
+                orderService.getAllOrders(pageRequest, new OrderSpecification(filter));
+        PagedResponse<List<OrderResponse>> response =
+                BuildResponse.buildPagedResponse(orderResponses, pageRequest);
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping("")
     public ResponseEntity<ApiResponse<OrderResponse>> createOrder(

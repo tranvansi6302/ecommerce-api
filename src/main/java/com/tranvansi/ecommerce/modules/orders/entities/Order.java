@@ -24,8 +24,13 @@ public class Order extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(nullable = false, unique = true)
+    private String orderCode;
+
     @Column(columnDefinition = "TEXT")
     private String address;
+
+    private String phoneNumber;
 
     @Column(columnDefinition = "TEXT")
     private String note;

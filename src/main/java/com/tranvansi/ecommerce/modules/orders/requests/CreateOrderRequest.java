@@ -3,6 +3,7 @@ package com.tranvansi.ecommerce.modules.orders.requests;
 import java.util.List;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -18,6 +19,10 @@ import lombok.NoArgsConstructor;
 public class CreateOrderRequest {
     private String address;
     private String note;
+
+    @Pattern(regexp = "\\d{10}", message = "INVALID_ORDER_PHONE_NUMBER_FORMAT")
+    @JsonProperty("phone_number")
+    private String phoneNumber;
 
     @JsonProperty("order_details")
     @NotNull(message = "INVALID_ORDER_DETAILS")
