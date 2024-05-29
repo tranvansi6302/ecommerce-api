@@ -50,6 +50,16 @@ public class OrderController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{orderId}")
+    public ResponseEntity<ApiResponse<OrderResponse>> getOrderById(@PathVariable Integer orderId) {
+        OrderResponse orderResponse = orderService.getOrderById(orderId);
+        ApiResponse<OrderResponse> response =
+                ApiResponse.<OrderResponse>builder()
+                        .result(orderResponse)
+                        .build();
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("")
     public ResponseEntity<ApiResponse<OrderResponse>> createOrder(
             @RequestBody @Valid CreateOrderRequest request) {
