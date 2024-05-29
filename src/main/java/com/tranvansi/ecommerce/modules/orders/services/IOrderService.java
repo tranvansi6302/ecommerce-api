@@ -19,4 +19,7 @@ public interface IOrderService {
 
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     Page<OrderResponse> getAllOrders(PageRequest pageRequest, Specification<Order> specification);
+
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    OrderResponse getOrderById(Integer orderId);
 }

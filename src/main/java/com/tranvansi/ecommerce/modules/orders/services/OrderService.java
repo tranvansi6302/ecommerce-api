@@ -147,4 +147,25 @@ public class OrderService implements IOrderService {
 
         return orderRepository.findAll(combinedSpec, pageRequest).map(orderMapper::toOrderResponse);
     }
+
+    @Override
+    public OrderResponse getOrderById(Integer orderId) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user =
+                userRepository
+                        .findByEmail(email)
+                        .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        if(user.getRoles().getFirst().getName().equals(RoleName.ADMIN.name())) {
+            Order order =
+                    orderRepository
+                            .findById(orderId)
+                            .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
+            return orderMapper.toOrderResponse(order);
+        }
+        Order order =
+                orderRepository
+                        .findByIdAndUserId(orderId, user.getId())
+                        .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
+        return orderMapper.toOrderResponse(order);
+    }
 }
