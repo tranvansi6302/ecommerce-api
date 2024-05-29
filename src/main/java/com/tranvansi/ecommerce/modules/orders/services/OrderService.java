@@ -3,7 +3,11 @@ package com.tranvansi.ecommerce.modules.orders.services;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,12 +54,16 @@ public class OrderService implements IOrderService {
                 userRepository
                         .findByEmail(email)
                         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        UUID uuid = UUID.randomUUID();
+        String orderCode = uuid.toString().substring(0, 8);
         Order order =
                 Order.builder()
                         .address(request.getAddress())
                         .orderDate(LocalDateTime.now())
                         .note(request.getNote())
+                        .phoneNumber(request.getPhoneNumber())
                         .status(OrderStatus.PENDING)
+                        .orderCode(orderCode.toUpperCase())
                         .user(user)
                         .build();
 
@@ -118,5 +126,25 @@ public class OrderService implements IOrderService {
         orderRepository.save(order);
 
         return orderMapper.toOrderResponse(order);
+    }
+
+    @Override
+    public Page<OrderResponse> getAllOrders(
+            PageRequest pageRequest, Specification<Order> specification) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user =
+                userRepository
+                        .findByEmail(email)
+                        .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        if (user.getRoles().getFirst().getName().equals(RoleName.ADMIN.name())) {
+            return orderRepository
+                    .findAll(specification, pageRequest)
+                    .map(orderMapper::toOrderResponse);
+        }
+        Specification<Order> userSpec =
+                (root, query, cb) -> cb.equal(root.get("user").get("id"), user.getId());
+        Specification<Order> combinedSpec = userSpec.and(specification);
+
+        return orderRepository.findAll(combinedSpec, pageRequest).map(orderMapper::toOrderResponse);
     }
 }
