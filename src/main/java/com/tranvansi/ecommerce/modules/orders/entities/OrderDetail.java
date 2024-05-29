@@ -2,6 +2,7 @@ package com.tranvansi.ecommerce.modules.orders.entities;
 
 import jakarta.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.tranvansi.ecommerce.common.entities.BaseEntity;
 import com.tranvansi.ecommerce.modules.products.entities.Variant;
 
@@ -25,6 +26,7 @@ public class OrderDetail extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonBackReference
     private Order order;
 
     @ManyToOne

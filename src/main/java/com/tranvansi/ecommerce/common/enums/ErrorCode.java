@@ -154,7 +154,12 @@ public enum ErrorCode {
     CART_DETAIL_NOT_FOUND(
             1104, "Không tìm thấy sản phẩm trong chi tiết giỏ hàng", HttpStatus.NOT_FOUND),
     CART_NOT_FOUND(1105, "Không tìm thấy giỏ hàng", HttpStatus.NOT_FOUND),
-    INVALID_ORDER_DETAILS(1106, "Danh sách sản phẩm đơn hàng bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_ORDER_DETAILS(
+            1106, "Danh sách sản phẩm đơn hàng bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_ORDER_STATUS(1107, "Trạng thái đơn hàng bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    ORDER_NOT_FOUND(1108, "Đơn hàng không tồn tại", HttpStatus.NOT_FOUND),
+    ORDER_CANNOT_BE_CANCELLED(1109, "Đơn hàng không thể hủy", HttpStatus.BAD_REQUEST),
+    ORDER_NOT_UPDATE(1110, "Đơn hàng không thể cập nhật", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;

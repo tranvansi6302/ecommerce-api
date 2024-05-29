@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tranvansi.ecommerce.common.enums.ErrorCode;
 import com.tranvansi.ecommerce.common.enums.OrderStatus;
+import com.tranvansi.ecommerce.common.enums.RoleName;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.carts.entities.Cart;
 import com.tranvansi.ecommerce.modules.carts.entities.CartDetail;
@@ -21,6 +22,7 @@ import com.tranvansi.ecommerce.modules.orders.mappers.OrderMapper;
 import com.tranvansi.ecommerce.modules.orders.repositories.OrderDetailRepository;
 import com.tranvansi.ecommerce.modules.orders.repositories.OrderRepository;
 import com.tranvansi.ecommerce.modules.orders.requests.CreateOrderRequest;
+import com.tranvansi.ecommerce.modules.orders.requests.UpdateOrderRequest;
 import com.tranvansi.ecommerce.modules.orders.responses.OrderResponse;
 import com.tranvansi.ecommerce.modules.products.entities.Variant;
 import com.tranvansi.ecommerce.modules.products.repositories.VariantRepository;
@@ -94,5 +96,27 @@ public class OrderService implements IOrderService {
         }
         response.setOrderDetails(orderDetailResponses);
         return response;
+    }
+
+    @Override
+    public OrderResponse updateOrder(Integer orderId, UpdateOrderRequest request) {
+        Order order =
+                orderRepository
+                        .findById(orderId)
+                        .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
+
+        String roleName =
+                SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        if (String.format("[%s_%s]", "ROLE", RoleName.USER.name()).equals(roleName)) {
+            if (!order.getStatus().equals(OrderStatus.PENDING)) {
+                throw new AppException(ErrorCode.ORDER_NOT_UPDATE);
+            }
+        }
+
+        // Logistic staff can only update order status to CONFIRMED or DELIVERED or CANCELLED
+        orderMapper.updateOrder(order, request);
+        orderRepository.save(order);
+
+        return orderMapper.toOrderResponse(order);
     }
 }
