@@ -1,9 +1,11 @@
 package com.tranvansi.ecommerce.modules.orders.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tranvansi.ecommerce.common.entities.BaseEntity;
 import com.tranvansi.ecommerce.common.enums.OrderStatus;
 import com.tranvansi.ecommerce.modules.users.entities.User;
@@ -38,4 +40,8 @@ public class Order extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "order")
+    @JsonManagedReference
+    private List<OrderDetail> orderDetails;
 }
