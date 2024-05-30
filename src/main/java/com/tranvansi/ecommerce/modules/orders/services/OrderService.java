@@ -3,8 +3,11 @@ package com.tranvansi.ecommerce.modules.orders.services;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
+import com.tranvansi.ecommerce.modules.warehouses.entities.Warehouse;
+import com.tranvansi.ecommerce.modules.warehouses.repositories.WarehouseRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -44,6 +47,7 @@ public class OrderService implements IOrderService {
     private final UserRepository userRepository;
     private final CartRepository cartRepository;
     private final CartDetailRepository cartDetailRepository;
+    private final WarehouseRepository warehouseRepository;
     private final OrderMapper orderMapper;
 
     @Override
@@ -108,6 +112,11 @@ public class OrderService implements IOrderService {
 
     @Override
     public OrderResponse updateOrder(Integer orderId, UpdateOrderRequest request) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user =
+                userRepository
+                        .findByEmail(email)
+                        .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         Order order =
                 orderRepository
                         .findById(orderId)
@@ -118,6 +127,55 @@ public class OrderService implements IOrderService {
         if (String.format("[%s_%s]", "ROLE", RoleName.USER.name()).equals(roleName)) {
             if (!order.getStatus().equals(OrderStatus.PENDING)) {
                 throw new AppException(ErrorCode.ORDER_NOT_UPDATE);
+            }
+            if (!Objects.equals(order.getUser().getId(), user.getId())) {
+                throw new AppException(ErrorCode.ORDER_NOT_UPDATE);
+            }
+        }
+
+        switch (order.getStatus()) {
+            case PENDING:
+                if (request.getStatus().equals(OrderStatus.DELIVERING) || request.getStatus().equals(OrderStatus.DELIVERED)) {
+                    throw new AppException(ErrorCode.ORDER_NOT_UPDATE);
+                }
+                break;
+            case CONFIRMED:
+                if (request.getStatus().equals(OrderStatus.PENDING) || request.getStatus().equals(OrderStatus.DELIVERED)) {
+                    throw new AppException(ErrorCode.ORDER_NOT_UPDATE);
+                }
+                break;
+            case DELIVERING:
+                if (request.getStatus().equals(OrderStatus.PENDING) || request.getStatus().equals(OrderStatus.CONFIRMED)) {
+                    throw new AppException(ErrorCode.ORDER_NOT_UPDATE);
+                }
+                break;
+            case DELIVERED:
+                if (!request.getStatus().equals(OrderStatus.DELIVERED)) {
+                    throw new AppException(ErrorCode.ORDER_NOT_UPDATE);
+                }
+                break;
+            case CANCELLED:
+                if (!request.getStatus().equals(OrderStatus.CANCELLED)) {
+                    throw new AppException(ErrorCode.ORDER_NOT_UPDATE);
+                }
+                break;
+            default:
+                break;
+        }
+
+        // Update warehouse staff can only update order status to CONFIRMED or CANCELLED
+        for (OrderDetail orderDetail : order.getOrderDetails()) {
+            if (request.getStatus().equals(OrderStatus.CONFIRMED) && !order.getStatus().equals(OrderStatus.CONFIRMED)) {
+                if (orderDetail.getVariant().getWarehouse().getAvailableQuantity() < orderDetail.getQuantity()) {
+                    throw new AppException(ErrorCode.ORDER_NOT_UPDATE);
+                }
+                Warehouse warehouse = orderDetail.getVariant().getWarehouse();
+                warehouse.setAvailableQuantity(warehouse.getAvailableQuantity() - orderDetail.getQuantity());
+                warehouseRepository.save(warehouse);
+            } else if (request.getStatus().equals(OrderStatus.CANCELLED) && !order.getStatus().equals(OrderStatus.CANCELLED)) {
+                Warehouse warehouse = orderDetail.getVariant().getWarehouse();
+                warehouse.setAvailableQuantity(warehouse.getAvailableQuantity() + orderDetail.getQuantity());
+                warehouseRepository.save(warehouse);
             }
         }
 
@@ -155,7 +213,7 @@ public class OrderService implements IOrderService {
                 userRepository
                         .findByEmail(email)
                         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-        if(user.getRoles().getFirst().getName().equals(RoleName.ADMIN.name())) {
+        if (user.getRoles().getFirst().getName().equals(RoleName.ADMIN.name())) {
             Order order =
                     orderRepository
                             .findById(orderId)
