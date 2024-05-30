@@ -20,6 +20,9 @@ public class VariantResponse {
     @JsonProperty("variant_name")
     private String variantName;
 
+    @JsonProperty("product_id")
+    private Integer productId;
+
     @JsonProperty("product_name")
     private String productName;
 

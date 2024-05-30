@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.modules.products.mappers;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import com.tranvansi.ecommerce.modules.colors.mappers.ColorMapper;
 import com.tranvansi.ecommerce.modules.pricePlans.mappers.PricePlanMapper;
@@ -15,5 +16,6 @@ import com.tranvansi.ecommerce.modules.sizes.mappers.SizeMapper;
 public interface VariantMapper {
     VariantDetail toVariantDetail(Variant variant);
 
+    @Mapping(target = "productId", source = "product.id")
     VariantResponse toVariantResponse(Variant variant);
 }

@@ -54,9 +54,7 @@ public class OrderController {
     public ResponseEntity<ApiResponse<OrderResponse>> getOrderById(@PathVariable Integer orderId) {
         OrderResponse orderResponse = orderService.getOrderById(orderId);
         ApiResponse<OrderResponse> response =
-                ApiResponse.<OrderResponse>builder()
-                        .result(orderResponse)
-                        .build();
+                ApiResponse.<OrderResponse>builder().result(orderResponse).build();
         return ResponseEntity.ok(response);
     }
 
