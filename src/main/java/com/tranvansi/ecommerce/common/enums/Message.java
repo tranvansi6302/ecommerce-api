@@ -52,6 +52,7 @@ public enum Message {
     DELETE_PRODUCT_CART_DETAIL_SUCCESS("Xóa sản phẩm khỏi giỏ hàng thành công"),
     ORDER_CREATED_SUCCESS("Đặt hàng thành công"),
     ORDER_UPDATED_SUCCESS("Cập nhật đơn hàng thành công"),
+    CREATE_REVIEW_SUCCESS("Đánh giá sản phẩm thành công"),
     ;
     private String message;
 }

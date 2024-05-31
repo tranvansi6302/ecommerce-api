@@ -144,7 +144,7 @@ public enum ErrorCode {
             1095, "Trạng thái đơn hàng bắt buộc nhập", HttpStatus.BAD_REQUEST),
     WAREHOUSE_VARIANT_NOT_FOUND(1096, "Biến thể không tồn tại trong kho", HttpStatus.BAD_REQUEST),
     PRICE_PLAN_START_DATE_INVALID(1097, "Ngày bắt đầu không hợp lệ", HttpStatus.BAD_REQUEST),
-    INVALID_VARIANT_ID(1098, "ID biến thể bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_VARIANT_ID_REQUIRED(1098, "ID biến thể bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_PRICE_PLAN_START_DATE_REQUIRED(
             1099, "Ngày bắt đầu giá bán bắt buộc nhập", HttpStatus.BAD_REQUEST),
     PRICE_PLAN_NOT_FOUND(1100, "Không tìm thấy giá bán", HttpStatus.NOT_FOUND),
@@ -162,6 +162,11 @@ public enum ErrorCode {
     ORDER_NOT_UPDATE(1110, "Đơn hàng không thể cập nhật", HttpStatus.BAD_REQUEST),
     INVALID_ORDER_PHONE_NUMBER_FORMAT(
             1111, "Số điện thoại đặt hàng không đúng định dạng", HttpStatus.BAD_REQUEST),
+    INVALID_REVIEW_RATING_REQUIRED(1112, "Đánh giá bắt buộc chọn", HttpStatus.BAD_REQUEST),
+    INVALID_REVIEW_COMMENT_REQUIRED(1113, "Bình luận bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    REVIEW_ALREADY_EXISTS(1114, "Đã đánh giá sản phẩm này", HttpStatus.BAD_REQUEST),
+    INVALID_REVIEW_IMAGE_URL_REQUIRED(
+            1115, "URL ảnh đánh giá bắt buộc nhập", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;
