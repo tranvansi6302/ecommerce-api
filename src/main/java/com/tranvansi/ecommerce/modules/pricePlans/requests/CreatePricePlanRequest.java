@@ -23,7 +23,7 @@ public class CreatePricePlanRequest {
 
     @Data
     public static class PricePlanRequest {
-        @NotNull(message = "INVALID_VARIANT_ID")
+        @NotNull(message = "INVALID_VARIANT_ID_REQUIRED")
         @JsonProperty("variant_id")
         private Integer variantId;
 

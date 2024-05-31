@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AddToCartRequest {
     @JsonProperty("variant_id")
-    @NotNull(message = "INVALID_VARIANT_ID")
+    @NotNull(message = "INVALID_VARIANT_ID_REQUIRED")
     private Integer variantId;
 
     @NotNull(message = "INVALID_CART_QUANTITY")

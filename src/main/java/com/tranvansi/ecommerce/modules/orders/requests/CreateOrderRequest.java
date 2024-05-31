@@ -34,7 +34,7 @@ public class CreateOrderRequest {
     @Builder
     public static class OrderDetail {
         @JsonProperty("variant_id")
-        @NotNull(message = "INVALID_VARIANT_ID")
+        @NotNull(message = "INVALID_VARIANT_ID_REQUIRED")
         private Integer variantId;
     }
 }

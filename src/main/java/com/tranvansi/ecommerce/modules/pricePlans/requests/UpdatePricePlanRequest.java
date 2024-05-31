@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdatePricePlanRequest {
-    @NotNull(message = "INVALID_VARIANT_ID")
+    @NotNull(message = "INVALID_VARIANT_ID_REQUIRED")
     @JsonProperty("variant_id")
     private Integer variantId;
 
