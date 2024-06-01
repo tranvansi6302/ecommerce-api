@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.modules.reviews.services;
 
+import com.tranvansi.ecommerce.modules.reviews.requests.UpdateReviewRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.tranvansi.ecommerce.modules.reviews.requests.CreateReviewRequest;
@@ -9,4 +10,7 @@ public interface IReviewService {
 
     @PreAuthorize("hasRole('USER')")
     ReviewResponse createReview(CreateReviewRequest request);
+
+    @PreAuthorize("hasRole('USER')")
+    ReviewResponse updateReview(Integer reviewId, UpdateReviewRequest request);
 }

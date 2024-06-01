@@ -167,6 +167,7 @@ public enum ErrorCode {
     REVIEW_ALREADY_EXISTS(1114, "Đã đánh giá sản phẩm này", HttpStatus.BAD_REQUEST),
     INVALID_REVIEW_IMAGE_URL_REQUIRED(
             1115, "URL ảnh đánh giá bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    REVIEW_NOT_FOUND(1116, "Đánh giá không tồn tại", HttpStatus.NOT_FOUND),
     ;
 
     private int code;

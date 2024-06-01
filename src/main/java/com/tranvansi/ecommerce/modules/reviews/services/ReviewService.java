@@ -3,6 +3,7 @@ package com.tranvansi.ecommerce.modules.reviews.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.tranvansi.ecommerce.modules.reviews.requests.UpdateReviewRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ import com.tranvansi.ecommerce.modules.users.entities.User;
 import com.tranvansi.ecommerce.modules.users.repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +37,7 @@ public class ReviewService implements IReviewService {
     private final ReviewMapper reviewMapper;
 
     @Override
+    @Transactional
     public ReviewResponse createReview(CreateReviewRequest request) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user =
@@ -65,6 +68,41 @@ public class ReviewService implements IReviewService {
                     ReviewImage.builder().url(reviewImage.getUrl()).review(savedReview).build();
             ReviewImage savedImage = reviewImageRepository.save(image);
             imageResponses.add(reviewMapper.toReviewImageResponse(savedImage));
+        }
+        ReviewResponse reviewResponse = reviewMapper.toReviewResponse(savedReview);
+        reviewResponse.setReviewImages(imageResponses);
+        return reviewResponse;
+    }
+
+    @Override
+    @Transactional
+    public ReviewResponse updateReview(Integer reviewId, UpdateReviewRequest request) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user =
+                userRepository
+                        .findByEmail(email)
+                        .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        Review review =
+                reviewRepository
+                        .findById(reviewId)
+                        .orElseThrow(() -> new AppException(ErrorCode.REVIEW_NOT_FOUND));
+
+        if(!review.getUser().getId().equals(user.getId())) {
+            throw new AppException(ErrorCode.REVIEW_NOT_FOUND);
+        }
+
+        reviewMapper.updateReview(review, request);
+        Review savedReview = reviewRepository.save(review);
+
+        List<ReviewResponse.ReviewImageResponse> imageResponses = new ArrayList<>();
+        if(request.getReviewImages() != null) {
+            reviewImageRepository.deleteByReviewId(reviewId);
+            for (UpdateReviewRequest.ReviewImageRequest reviewImage : request.getReviewImages()) {
+                ReviewImage image =
+                        ReviewImage.builder().url(reviewImage.getUrl()).review(savedReview).build();
+                ReviewImage savedImage = reviewImageRepository.save(image);
+                imageResponses.add(reviewMapper.toReviewImageResponse(savedImage));
+            }
         }
         ReviewResponse reviewResponse = reviewMapper.toReviewResponse(savedReview);
         reviewResponse.setReviewImages(imageResponses);
