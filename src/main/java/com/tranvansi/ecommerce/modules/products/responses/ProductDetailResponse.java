@@ -20,6 +20,8 @@ public class ProductDetailResponse {
     private Integer id;
     private String name;
     private String description;
+    @JsonProperty("average_rating")
+    private Double averageRating;
     private BrandResponse brand;
     private CategoryResponse category;
     private List<VariantDetail> variants;
@@ -36,6 +38,8 @@ public class ProductDetailResponse {
 
         @JsonProperty("product_name")
         private String productName;
+
+
 
         private String sku;
         private ColorResponse color;

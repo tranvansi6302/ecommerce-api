@@ -1,21 +1,25 @@
 package com.tranvansi.ecommerce.modules.reviews.specifications;
 
-import com.tranvansi.ecommerce.modules.reviews.entities.Review;
-import com.tranvansi.ecommerce.modules.reviews.filters.ReviewFilter;
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.tranvansi.ecommerce.modules.reviews.entities.Review;
+import com.tranvansi.ecommerce.modules.reviews.filters.ReviewFilter;
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class ReviewSpecification implements Specification<Review> {
     private final ReviewFilter filter;
+
     @Override
     public Predicate toPredicate(
             @NonNull Root<Review> root,
@@ -23,11 +27,12 @@ public class ReviewSpecification implements Specification<Review> {
             @NonNull CriteriaBuilder cb) {
         List<Predicate> predicates = new ArrayList<>();
 
-        if(filter.getRating()!=null) {
+        if (filter.getRating() != null) {
             predicates.add(cb.equal(root.get("rating"), filter.getRating()));
         }
-        if(filter.getProductName()!=null) {
-            predicates.add(cb.like(root.join("product").get("name"), "%" + filter.getProductName() + "%"));
+        if (filter.getProductName() != null) {
+            predicates.add(
+                    cb.like(root.join("product").get("name"), "%" + filter.getProductName() + "%"));
         }
 
         query.distinct(true);

@@ -15,5 +15,5 @@ public class ProductFilter {
     private String brandSlug;
     private Double priceMin;
     private Double priceMax;
-    // Filter rating, sold ...
+    private Integer ratingMin;
 }
