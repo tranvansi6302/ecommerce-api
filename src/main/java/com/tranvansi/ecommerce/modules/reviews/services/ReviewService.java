@@ -3,12 +3,12 @@ package com.tranvansi.ecommerce.modules.reviews.services;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tranvansi.ecommerce.modules.reviews.requests.UpdateReviewRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tranvansi.ecommerce.common.enums.ErrorCode;
 import com.tranvansi.ecommerce.exceptions.AppException;
@@ -22,12 +22,12 @@ import com.tranvansi.ecommerce.modules.reviews.mappers.ReviewMapper;
 import com.tranvansi.ecommerce.modules.reviews.repositories.ReviewImageRepository;
 import com.tranvansi.ecommerce.modules.reviews.repositories.ReviewRepository;
 import com.tranvansi.ecommerce.modules.reviews.requests.CreateReviewRequest;
+import com.tranvansi.ecommerce.modules.reviews.requests.UpdateReviewRequest;
 import com.tranvansi.ecommerce.modules.reviews.responses.ReviewResponse;
 import com.tranvansi.ecommerce.modules.users.entities.User;
 import com.tranvansi.ecommerce.modules.users.repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -140,7 +140,10 @@ public class ReviewService implements IReviewService {
     }
 
     @Override
-    public Page<ReviewResponse> getAllReviews(PageRequest pageRequest, Specification<Review> specification) {
-        return reviewRepository.findAll(specification, pageRequest).map(reviewMapper::toReviewResponse);
+    public Page<ReviewResponse> getAllReviews(
+            PageRequest pageRequest, Specification<Review> specification) {
+        return reviewRepository
+                .findAll(specification, pageRequest)
+                .map(reviewMapper::toReviewResponse);
     }
 }

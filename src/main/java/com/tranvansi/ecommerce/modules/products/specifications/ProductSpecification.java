@@ -3,6 +3,7 @@ package com.tranvansi.ecommerce.modules.products.specifications;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.tranvansi.ecommerce.modules.reviews.entities.Review;
 import jakarta.persistence.criteria.*;
 
 import org.springframework.data.jpa.domain.Specification;
@@ -52,7 +53,7 @@ public class ProductSpecification implements Specification<Product> {
             }
         }
 
-        // Filter rating, sold ...
+
 
         query.distinct(true);
 

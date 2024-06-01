@@ -43,4 +43,5 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product")
     @JsonManagedReference
     private List<Variant> variants;
+
 }

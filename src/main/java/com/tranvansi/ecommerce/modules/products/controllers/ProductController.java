@@ -46,7 +46,9 @@ public class ProductController {
             @RequestParam(name = "sort_by", required = false) String sortBy,
             @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder,
             @RequestParam(name = "price_min", required = false) Double priceMin,
-            @RequestParam(name = "price_max", required = false) Double priceMax) {
+            @RequestParam(name = "price_max", required = false) Double priceMax,
+            @RequestParam(name = "rating", required = false) Integer ratingMin
+    ) {
 
         Sort sort;
         if (!"price".equalsIgnoreCase(sortBy)) {
@@ -83,7 +85,6 @@ public class ProductController {
                                             .map(PricePlanResponse::getSalePrice)
                                             .max(Double::compare)
                                             .orElse(0.0)); // Use 0.0 as default if no salePrice is
-            // found
 
             if ("desc".equalsIgnoreCase(sortOrder)) {
                 comparator = comparator.reversed();
@@ -98,6 +99,22 @@ public class ProductController {
                     new PageImpl<>(
                             sortedProducts, pageRequest, productDetailResponses.getTotalElements());
         }
+
+        // Filter rating to ProductDetailResponse
+        if (ratingMin != null) {
+            List<ProductDetailResponse> filteredProducts =
+                    productDetailResponses.getContent().stream()
+                            .filter(
+                                    product ->
+                                            product.getAverageRating() != null
+                                                    && product.getAverageRating() >= ratingMin)
+                            .collect(Collectors.toList());
+
+            productDetailResponses =
+                    new PageImpl<>(
+                            filteredProducts, pageRequest, filteredProducts.size());
+        }
+        
 
         PagedResponse<List<ProductDetailResponse>> response =
                 BuildResponse.buildPagedResponse(productDetailResponses, pageRequest);
