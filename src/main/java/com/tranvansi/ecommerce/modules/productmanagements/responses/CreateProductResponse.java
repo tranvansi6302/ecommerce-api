@@ -1,0 +1,24 @@
+package com.tranvansi.ecommerce.modules.productmanagements.responses;
+
+import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class CreateProductResponse {
+    private Integer id;
+    private String name;
+    private String description;
+
+    private CategoryResponse category;
+
+    private BrandResponse brand;
+
+    private List<VariantResponse> variants;
+}
