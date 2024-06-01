@@ -16,4 +16,6 @@ public interface IReviewService {
 
     @PreAuthorize("hasRole('USER')")
     void deleteReview(Integer reviewId);
+
+    ReviewResponse getReviewById(Integer reviewId);
 }
