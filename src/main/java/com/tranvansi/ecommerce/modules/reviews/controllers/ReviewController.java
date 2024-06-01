@@ -1,12 +1,10 @@
 package com.tranvansi.ecommerce.modules.reviews.controllers;
 
+import com.tranvansi.ecommerce.modules.reviews.requests.UpdateReviewRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.tranvansi.ecommerce.common.enums.Message;
 import com.tranvansi.ecommerce.common.responses.ApiResponse;
@@ -30,6 +28,19 @@ public class ReviewController {
                 ApiResponse.<ReviewResponse>builder()
                         .result(reviewResponse)
                         .message(Message.CREATE_REVIEW_SUCCESS.getMessage())
+                        .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PatchMapping("/{reviewId}")
+    public ResponseEntity<ApiResponse<ReviewResponse>> updateReview(
+            @PathVariable Integer reviewId,
+            @RequestBody @Valid UpdateReviewRequest request) {
+        ReviewResponse reviewResponse = reviewService.updateReview(reviewId, request);
+        ApiResponse<ReviewResponse> apiResponse =
+                ApiResponse.<ReviewResponse>builder()
+                        .result(reviewResponse)
+                        .message(Message.UPDATE_REVIEW_SUCCESS.getMessage())
                         .build();
         return ResponseEntity.ok(apiResponse);
     }
