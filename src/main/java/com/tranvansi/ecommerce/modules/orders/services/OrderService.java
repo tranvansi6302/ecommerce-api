@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import com.tranvansi.ecommerce.modules.sales.entities.Sale;
+import com.tranvansi.ecommerce.modules.sales.repositories.SaleRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -40,6 +43,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+
 public class OrderService implements IOrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
@@ -48,6 +52,7 @@ public class OrderService implements IOrderService {
     private final CartRepository cartRepository;
     private final CartDetailRepository cartDetailRepository;
     private final WarehouseRepository warehouseRepository;
+    private final SaleRepository repository;
     private final OrderMapper orderMapper;
 
     @Override
@@ -184,6 +189,17 @@ public class OrderService implements IOrderService {
                 warehouse.setAvailableQuantity(
                         warehouse.getAvailableQuantity() + orderDetail.getQuantity());
                 warehouseRepository.save(warehouse);
+            }else if(request.getStatus().equals(OrderStatus.DELIVERED)
+                   ){
+                Sale sale = Sale
+                        .builder()
+                        .price(orderDetail.getPrice())
+                        .quantity(orderDetail.getQuantity())
+                        .product(orderDetail.getVariant().getProduct())
+                        .total(orderDetail.getPrice()*orderDetail.getQuantity())
+                        .build();
+                repository.save(sale);
+
             }
         }
 

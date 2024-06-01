@@ -22,6 +22,9 @@ public class ProductDetailResponse {
     private String description;
     @JsonProperty("average_rating")
     private Double averageRating;
+
+    private Integer sold;
+
     private BrandResponse brand;
     private CategoryResponse category;
     private List<VariantDetail> variants;

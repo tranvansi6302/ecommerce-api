@@ -1,6 +1,6 @@
 package com.tranvansi.ecommerce.modules.products.mappers;
 
-import lombok.RequiredArgsConstructor;
+import com.tranvansi.ecommerce.modules.sales.repositories.SaleRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -23,7 +23,11 @@ public abstract class ProductMapper {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @Autowired
+    private SaleRepository saleRepository;
+
     @Mapping(target = "averageRating", expression = "java(getAverageRating(product))")
+    @Mapping(target = "sold", expression = "java(getTotalSoldProduct(product))")
     public abstract ProductDetailResponse toProductDetailResponse(Product product);
 
     public abstract CreateProductResponse toProductResponse(Product product);
@@ -41,5 +45,13 @@ public abstract class ProductMapper {
             return 0.0;
         }
         return totalStars.doubleValue() / reviewCount;
+    }
+
+    protected Integer getTotalSoldProduct(Product product) {
+        Integer totalSold = saleRepository.findTotalSoldByProductId(product.getId());
+        if (totalSold == null) {
+            return 0;
+        }
+        return totalSold;
     }
 }
