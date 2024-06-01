@@ -126,4 +126,13 @@ public class ReviewService implements IReviewService {
         }
         reviewRepository.delete(review);
     }
+
+    @Override
+    public ReviewResponse getReviewById(Integer reviewId) {
+        Review review =
+                reviewRepository
+                        .findById(reviewId)
+                        .orElseThrow(() -> new AppException(ErrorCode.REVIEW_NOT_FOUND));
+        return reviewMapper.toReviewResponse(review);
+    }
 }

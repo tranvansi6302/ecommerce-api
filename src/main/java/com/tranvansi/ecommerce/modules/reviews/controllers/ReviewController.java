@@ -32,6 +32,16 @@ public class ReviewController {
         return ResponseEntity.ok(apiResponse);
     }
 
+    @GetMapping("/{reviewId}")
+    public ResponseEntity<ApiResponse<ReviewResponse>> getReviewById(@PathVariable Integer reviewId) {
+        ReviewResponse reviewResponse = reviewService.getReviewById(reviewId);
+        ApiResponse<ReviewResponse> apiResponse =
+                ApiResponse.<ReviewResponse>builder()
+                        .result(reviewResponse)
+                        .build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
     @PatchMapping("/{reviewId}")
     public ResponseEntity<ApiResponse<ReviewResponse>> updateReview(
             @PathVariable Integer reviewId,
