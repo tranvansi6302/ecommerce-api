@@ -87,7 +87,7 @@ public class ReviewService implements IReviewService {
                         .findById(reviewId)
                         .orElseThrow(() -> new AppException(ErrorCode.REVIEW_NOT_FOUND));
 
-        if(!review.getUser().getId().equals(user.getId())) {
+        if (!review.getUser().getId().equals(user.getId())) {
             throw new AppException(ErrorCode.REVIEW_NOT_FOUND);
         }
 
@@ -95,7 +95,7 @@ public class ReviewService implements IReviewService {
         Review savedReview = reviewRepository.save(review);
 
         List<ReviewResponse.ReviewImageResponse> imageResponses = new ArrayList<>();
-        if(request.getReviewImages() != null) {
+        if (request.getReviewImages() != null) {
             reviewImageRepository.deleteByReviewId(reviewId);
             for (UpdateReviewRequest.ReviewImageRequest reviewImage : request.getReviewImages()) {
                 ReviewImage image =
@@ -107,5 +107,23 @@ public class ReviewService implements IReviewService {
         ReviewResponse reviewResponse = reviewMapper.toReviewResponse(savedReview);
         reviewResponse.setReviewImages(imageResponses);
         return reviewResponse;
+    }
+
+    @Override
+    public void deleteReview(Integer reviewId) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user =
+                userRepository
+                        .findByEmail(email)
+                        .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        Review review =
+                reviewRepository
+                        .findById(reviewId)
+                        .orElseThrow(() -> new AppException(ErrorCode.REVIEW_NOT_FOUND));
+
+        if (!review.getUser().getId().equals(user.getId())) {
+            throw new AppException(ErrorCode.REVIEW_NOT_FOUND);
+        }
+        reviewRepository.delete(review);
     }
 }

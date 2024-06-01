@@ -44,4 +44,14 @@ public class ReviewController {
                         .build();
         return ResponseEntity.ok(apiResponse);
     }
+
+    @DeleteMapping("/{reviewId}")
+    public ResponseEntity<ApiResponse<Void>> deleteReview(@PathVariable Integer reviewId) {
+        reviewService.deleteReview(reviewId);
+        ApiResponse<Void> apiResponse =
+                ApiResponse.<Void>builder()
+                        .message(Message.DELETE_REVIEW_SUCCESS.getMessage())
+                        .build();
+        return ResponseEntity.ok(apiResponse);
+    }
 }
