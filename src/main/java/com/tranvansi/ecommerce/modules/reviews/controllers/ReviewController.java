@@ -1,8 +1,16 @@
 package com.tranvansi.ecommerce.modules.reviews.controllers;
 
+import com.tranvansi.ecommerce.common.responses.BuildResponse;
+import com.tranvansi.ecommerce.common.responses.PagedResponse;
+import com.tranvansi.ecommerce.modules.colors.responses.ColorResponse;
+import com.tranvansi.ecommerce.modules.reviews.filters.ReviewFilter;
 import com.tranvansi.ecommerce.modules.reviews.requests.UpdateReviewRequest;
+import com.tranvansi.ecommerce.modules.reviews.specifications.ReviewSpecification;
 import jakarta.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,12 +22,38 @@ import com.tranvansi.ecommerce.modules.reviews.services.IReviewService;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("${api.prefix}/reviews")
 @RequiredArgsConstructor
 public class ReviewController {
     private final IReviewService reviewService;
 
+
+    @GetMapping("")
+    public ResponseEntity<PagedResponse<List<ReviewResponse>>> getAllReviews(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "15") int limit,
+            @RequestParam(name = "rating",required = false) Integer rating,
+            @RequestParam(name = "name",required = false) String productName,
+
+            @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder) {
+        ReviewFilter filter = ReviewFilter
+                .builder()
+                .rating(rating)
+                .productName(productName)
+                .build();
+        Sort sort =
+                sortOrder.equalsIgnoreCase("asc")
+                        ? Sort.by("createdAt").ascending()
+                        : Sort.by("createdAt").descending();
+        PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
+        Page<ReviewResponse> reviewResponses = reviewService.getAllReviews(pageRequest, new ReviewSpecification(filter));
+        PagedResponse<List<ReviewResponse>> response =
+                BuildResponse.buildPagedResponse(reviewResponses, pageRequest);
+        return ResponseEntity.ok(response);
+    }
     @PostMapping("")
     public ResponseEntity<ApiResponse<ReviewResponse>> createReview(
             @RequestBody @Valid CreateReviewRequest request) {

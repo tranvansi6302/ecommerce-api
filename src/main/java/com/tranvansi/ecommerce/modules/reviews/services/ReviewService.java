@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.tranvansi.ecommerce.modules.reviews.requests.UpdateReviewRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -134,5 +137,10 @@ public class ReviewService implements IReviewService {
                         .findById(reviewId)
                         .orElseThrow(() -> new AppException(ErrorCode.REVIEW_NOT_FOUND));
         return reviewMapper.toReviewResponse(review);
+    }
+
+    @Override
+    public Page<ReviewResponse> getAllReviews(PageRequest pageRequest, Specification<Review> specification) {
+        return reviewRepository.findAll(specification, pageRequest).map(reviewMapper::toReviewResponse);
     }
 }
