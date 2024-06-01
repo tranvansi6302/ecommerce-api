@@ -2,6 +2,7 @@ package com.tranvansi.ecommerce.modules.products.controllers;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import jakarta.validation.Valid;
@@ -51,7 +52,7 @@ public class ProductController {
     ) {
 
         Sort sort;
-        if (!"price".equalsIgnoreCase(sortBy)) {
+        if (!"price".equalsIgnoreCase(sortBy) && !"sold".equalsIgnoreCase(sortBy)) {
             sort =
                     "asc".equalsIgnoreCase(sortOrder)
                             ? Sort.by("createdAt").ascending()
@@ -73,26 +74,29 @@ public class ProductController {
         Page<ProductDetailResponse> productDetailResponses =
                 productService.getAllProducts(pageRequest, new ProductSpecification(filter));
 
-        // Sort by price in-memory if requested
-        if ("price".equalsIgnoreCase(sortBy)) {
-            Comparator<ProductDetailResponse> comparator =
-                    Comparator.comparing(
-                            product ->
-                                    product.getVariants().stream()
-                                            .map(
-                                                    ProductDetailResponse.VariantDetail
-                                                            ::getCurrentPricePlan)
-                                            .map(PricePlanResponse::getSalePrice)
-                                            .max(Double::compare)
-                                            .orElse(0.0)); // Use 0.0 as default if no salePrice is
+        // Sort by price or sold in-memory if requested
+        if ("price".equalsIgnoreCase(sortBy) || "sold".equalsIgnoreCase(sortBy)) {
+            Comparator<ProductDetailResponse> comparator = null;
+            if ("price".equalsIgnoreCase(sortBy)) {
+                comparator =
+                        Comparator.comparing(
+                                product ->
+                                        product.getVariants().stream()
+                                                .map(ProductDetailResponse.VariantDetail::getCurrentPricePlan)
+                                                .map(PricePlanResponse::getSalePrice)
+                                                .max(Double::compare)
+                                                .orElse(0.0)); // Use 0.0 as default if no salePrice is
+            } else if ("sold".equalsIgnoreCase(sortBy)) {
+                comparator = Comparator.comparing(ProductDetailResponse::getSold);
+            }
 
             if ("desc".equalsIgnoreCase(sortOrder)) {
-                comparator = comparator.reversed();
+                comparator = Objects.requireNonNull(comparator).reversed();
             }
 
             List<ProductDetailResponse> sortedProducts =
                     productDetailResponses.getContent().stream()
-                            .sorted(comparator)
+                            .sorted(Objects.requireNonNull(comparator))
                             .collect(Collectors.toList());
 
             productDetailResponses =
@@ -114,7 +118,6 @@ public class ProductController {
                     new PageImpl<>(
                             filteredProducts, pageRequest, filteredProducts.size());
         }
-        
 
         PagedResponse<List<ProductDetailResponse>> response =
                 BuildResponse.buildPagedResponse(productDetailResponses, pageRequest);
