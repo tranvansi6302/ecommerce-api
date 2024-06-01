@@ -54,6 +54,7 @@ public enum Message {
     ORDER_UPDATED_SUCCESS("Cập nhật đơn hàng thành công"),
     CREATE_REVIEW_SUCCESS("Đánh giá sản phẩm thành công"),
     UPDATE_REVIEW_SUCCESS("Cập nhật đánh giá sản phẩm thành công"),
+    DELETE_REVIEW_SUCCESS("Xóa đánh giá sản phẩm thành công"),
     ;
     private String message;
 }

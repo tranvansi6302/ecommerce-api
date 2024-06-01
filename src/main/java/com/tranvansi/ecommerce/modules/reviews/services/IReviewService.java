@@ -13,4 +13,7 @@ public interface IReviewService {
 
     @PreAuthorize("hasRole('USER')")
     ReviewResponse updateReview(Integer reviewId, UpdateReviewRequest request);
+
+    @PreAuthorize("hasRole('USER')")
+    void deleteReview(Integer reviewId);
 }
