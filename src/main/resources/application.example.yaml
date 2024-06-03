@@ -28,6 +28,9 @@ spring:
 api:
   prefix: /api/v1
 
+app:
+  name: ""
+
 jwt:
   signerKey: ""
 
@@ -36,3 +39,10 @@ aws:
   secret-key: "secret-key"
   bucket-name: "bucket-name"
   region: "region"
+
+springdoc:
+  api-docs:
+    path: /ecommerce-api/api-docs
+  swagger-ui:
+    path: /ecommerce-api/swagger-ui.html
+  show-actuator: true

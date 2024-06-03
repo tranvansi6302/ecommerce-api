@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.modules.productmanagements.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BrandService implements IBrandService {
     private final BrandRepository brandRepository;
     private final BrandMapper brandMapper;
@@ -35,6 +37,7 @@ public class BrandService implements IBrandService {
 
     @Override
     public Page<BrandResponse> getAllBrands(PageRequest pageRequest) {
+
         return brandRepository.findAll(pageRequest).map(brandMapper::toBrandResponse);
     }
 

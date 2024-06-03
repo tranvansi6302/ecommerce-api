@@ -29,27 +29,46 @@ public class SecurityConfig {
     @Value("${api.prefix}")
     private String apiPrefix;
 
+    @Value("${app.name}")
+    private String appName;
+
     @Value("${jwt.signerKey}")
     private String signerKey;
 
     private String[] getPublicPostEndpoints() {
-        return new String[] {
-            String.format("%s/auth/register", apiPrefix),
-            String.format("%s/auth/login", apiPrefix),
-            String.format("%s/auth/forgot-password", apiPrefix),
-            String.format("%s/auth/reset-password", apiPrefix),
+        return new String[]{
+                String.format("%s/auth/register", apiPrefix),
+                String.format("%s/auth/login", apiPrefix),
+                String.format("%s/auth/forgot-password", apiPrefix),
+                String.format("%s/auth/reset-password", apiPrefix),
+
         };
     }
 
     private String[] getPublicGetEndpoints() {
-        return new String[] {
-            String.format("%s/categories", apiPrefix),
-            String.format("%s/categories/{id}", apiPrefix),
-            String.format("%s/brands", apiPrefix),
-            String.format("%s/brands/{id}", apiPrefix),
-            String.format("%s/colors", apiPrefix),
-            String.format("%s/colors/{id}", apiPrefix),
-            String.format("%s/sizes", apiPrefix),
+        return new String[]{
+                String.format("%s/categories", apiPrefix),
+                String.format("%s/categories/{id}", apiPrefix),
+                String.format("%s/brands", apiPrefix),
+                String.format("%s/brands/{id}", apiPrefix),
+                String.format("%s/colors", apiPrefix),
+                String.format("%s/colors/{id}", apiPrefix),
+                String.format("%s/sizes", apiPrefix),
+                String.format("%s/sizes/{id}", apiPrefix),
+                String.format("%s/products", apiPrefix),
+                String.format("%s/products/{id}", apiPrefix),
+                String.format("%s/reviews", apiPrefix),
+
+                // swagger
+                String.format("%s/api-docs", appName),
+                String.format("%s/api-docs/**", appName),
+                String.format("%s/swagger-resources", appName),
+                String.format("%s/swagger-resources/**", appName),
+                String.format("%s/configuration/ui", appName),
+                String.format("%s/configuration/security", appName),
+                String.format("%s/swagger-ui/**", appName),
+                String.format("%s/swagger-ui.html", appName),
+               String.format("%s/swagger-ui/index.html", appName),
         };
     }
 
