@@ -5,8 +5,8 @@ import java.util.List;
 
 import jakarta.persistence.*;
 
-import com.tranvansi.ecommerce.common.entities.BaseEntity;
-import com.tranvansi.ecommerce.common.enums.PurchaseOrderStatus;
+import com.tranvansi.ecommerce.components.entities.BaseEntity;
+import com.tranvansi.ecommerce.components.enums.PurchaseOrderStatus;
 import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
 
 import lombok.*;

@@ -5,7 +5,7 @@ import java.util.List;
 import jakarta.validation.constraints.*;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tranvansi.ecommerce.common.enums.UserStatus;
+import com.tranvansi.ecommerce.components.enums.UserStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

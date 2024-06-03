@@ -22,4 +22,9 @@ public class ReviewImageService implements IReviewImageService {
     public void deleteByReviewId(Integer reviewId) {
         reviewImageRepository.deleteByReviewId(reviewId);
     }
+
+    @Override
+    public Integer countByReviewId(Integer reviewId) {
+        return reviewImageRepository.countByReviewId(reviewId);
+    }
 }

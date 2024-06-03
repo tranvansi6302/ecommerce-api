@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tranvansi.ecommerce.common.responses.BuildResponse;
-import com.tranvansi.ecommerce.common.responses.PagedResponse;
+import com.tranvansi.ecommerce.components.responses.BuildResponse;
+import com.tranvansi.ecommerce.components.responses.PagedResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.filters.WarehouseFilter;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.WarehouseResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.IWarehouseService;

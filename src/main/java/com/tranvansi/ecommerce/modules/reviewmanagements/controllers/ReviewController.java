@@ -9,14 +9,20 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.tranvansi.ecommerce.common.enums.Message;
-import com.tranvansi.ecommerce.common.responses.ApiResponse;
-import com.tranvansi.ecommerce.common.responses.BuildResponse;
-import com.tranvansi.ecommerce.common.responses.PagedResponse;
+import com.tranvansi.ecommerce.components.constants.FileConstant;
+import com.tranvansi.ecommerce.components.enums.ErrorCode;
+import com.tranvansi.ecommerce.components.enums.Message;
+import com.tranvansi.ecommerce.components.responses.ApiResponse;
+import com.tranvansi.ecommerce.components.responses.BuildResponse;
+import com.tranvansi.ecommerce.components.responses.PagedResponse;
+import com.tranvansi.ecommerce.components.utils.FileUtil;
+import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.reviewmanagements.filters.ReviewFilter;
 import com.tranvansi.ecommerce.modules.reviewmanagements.requests.CreateReviewRequest;
 import com.tranvansi.ecommerce.modules.reviewmanagements.requests.UpdateReviewRequest;
+import com.tranvansi.ecommerce.modules.reviewmanagements.requests.UploadReviewImagesRequest;
 import com.tranvansi.ecommerce.modules.reviewmanagements.responses.ReviewResponse;
 import com.tranvansi.ecommerce.modules.reviewmanagements.services.interfaces.IReviewService;
 import com.tranvansi.ecommerce.modules.reviewmanagements.specifications.ReviewSpecification;
@@ -91,5 +97,30 @@ public class ReviewController {
                         .message(Message.DELETE_REVIEW_SUCCESS.getMessage())
                         .build();
         return ResponseEntity.ok(apiResponse);
+    }
+
+    @PatchMapping("/{id}/upload-images")
+    public ResponseEntity<ApiResponse<ReviewResponse>> uploadReviewImages(
+            @PathVariable Integer id, @RequestPart("files") List<MultipartFile> files) {
+        UploadReviewImagesRequest request =
+                UploadReviewImagesRequest.builder().files(files).build();
+        for (MultipartFile file : files) {
+            if (file.isEmpty()) {
+                throw new AppException(ErrorCode.INVALID_REVIEW_IMAGE_REQUIRED);
+            }
+            if (!FileUtil.isImageFile(file)) {
+                throw new AppException(ErrorCode.INVALID_REVIEW_IMAGE_FORMAT);
+            }
+            if (file.getSize() > FileConstant.MAX_FILE_SIZE_MB) { // 5MB
+                throw new AppException(ErrorCode.FILE_SIZE_TOO_LARGE);
+            }
+        }
+        ReviewResponse reviewResponse = reviewService.uploadReviewImages(id, request);
+        ApiResponse<ReviewResponse> response =
+                ApiResponse.<ReviewResponse>builder()
+                        .result(reviewResponse)
+                        .message(Message.UPLOAD_REVIEW_IMAGE_SUCCESS.getMessage())
+                        .build();
+        return ResponseEntity.ok(response);
     }
 }

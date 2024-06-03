@@ -1,4 +1,4 @@
-package com.tranvansi.ecommerce.common.responses;
+package com.tranvansi.ecommerce.components.responses;
 
 import java.util.List;
 

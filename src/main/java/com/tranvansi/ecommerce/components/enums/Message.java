@@ -1,4 +1,4 @@
-package com.tranvansi.ecommerce.common.enums;
+package com.tranvansi.ecommerce.components.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -55,6 +55,8 @@ public enum Message {
     CREATE_REVIEW_SUCCESS("Đánh giá sản phẩm thành công"),
     UPDATE_REVIEW_SUCCESS("Cập nhật đánh giá sản phẩm thành công"),
     DELETE_REVIEW_SUCCESS("Xóa đánh giá sản phẩm thành công"),
+    UPLOAD_IMAGE_PRODUCT_SUCCESS("Upload ảnh sản phẩm thành công"),
+    UPLOAD_REVIEW_IMAGE_SUCCESS("Upload ảnh đánh giá thành công"),
     ;
     private String message;
 }

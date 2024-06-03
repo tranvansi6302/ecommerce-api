@@ -18,9 +18,6 @@ public interface IUserService {
     @PreAuthorize("hasRole('USER')")
     UserResponse updateProfile(UpdateProfileRequest request);
 
-    @PreAuthorize("hasRole('USER')")
-    void uploadProfileAvatar(UploadAvatarRequest request) throws IOException;
-
     @PreAuthorize("hasRole('ADMIN')")
     Page<UserResponse> getAllUsers(PageRequest pageRequest, Specification<User> specification);
 
@@ -34,10 +31,13 @@ public interface IUserService {
     UserResponse updateUser(Integer id, UpdateUserRequest request);
 
     @PreAuthorize("hasRole('ADMIN')")
-    void uploadUserAvatar(Integer id, UploadAvatarRequest request) throws IOException;
+    UserResponse uploadUserAvatar(Integer id, UploadAvatarRequest request) throws IOException;
 
     @PreAuthorize("hasRole('ADMIN')")
     void deleteUser(Integer id);
+
+    @PreAuthorize("hasRole('USER')")
+    ProfileResponse uploadAvatar(UploadAvatarRequest request);
 
     boolean existsByEmail(String email);
 

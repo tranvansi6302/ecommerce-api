@@ -1,5 +1,7 @@
 package com.tranvansi.ecommerce.modules.productmanagements.responses;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -22,4 +24,7 @@ public class ProductResponse {
     private CategoryResponse category;
 
     private BrandResponse brand;
+
+    @JsonProperty("product_images")
+    private List<ProductImageResponse> productImages;
 }

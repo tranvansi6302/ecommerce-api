@@ -10,11 +10,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.tranvansi.ecommerce.common.enums.Message;
-import com.tranvansi.ecommerce.common.enums.OrderStatus;
-import com.tranvansi.ecommerce.common.responses.ApiResponse;
-import com.tranvansi.ecommerce.common.responses.BuildResponse;
-import com.tranvansi.ecommerce.common.responses.PagedResponse;
+import com.tranvansi.ecommerce.components.enums.Message;
+import com.tranvansi.ecommerce.components.enums.OrderStatus;
+import com.tranvansi.ecommerce.components.responses.ApiResponse;
+import com.tranvansi.ecommerce.components.responses.BuildResponse;
+import com.tranvansi.ecommerce.components.responses.PagedResponse;
 import com.tranvansi.ecommerce.modules.ordermanagements.filters.OrderFilter;
 import com.tranvansi.ecommerce.modules.ordermanagements.requests.CreateOrderRequest;
 import com.tranvansi.ecommerce.modules.ordermanagements.requests.UpdateOrderRequest;

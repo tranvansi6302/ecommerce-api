@@ -3,7 +3,7 @@ package com.tranvansi.ecommerce.modules.ordermanagements.entities;
 import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.tranvansi.ecommerce.common.entities.BaseEntity;
+import com.tranvansi.ecommerce.components.entities.BaseEntity;
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
 
 import lombok.*;

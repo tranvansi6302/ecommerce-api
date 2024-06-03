@@ -6,4 +6,6 @@ public interface IReviewImageService {
     ReviewImage saveReviewImage(ReviewImage reviewImage);
 
     void deleteByReviewId(Integer reviewId);
+
+    Integer countByReviewId(Integer reviewId);
 }

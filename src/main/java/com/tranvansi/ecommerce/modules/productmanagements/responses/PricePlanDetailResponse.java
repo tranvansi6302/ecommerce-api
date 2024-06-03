@@ -3,7 +3,7 @@ package com.tranvansi.ecommerce.modules.productmanagements.responses;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tranvansi.ecommerce.common.enums.PricePlanStatus;
+import com.tranvansi.ecommerce.components.enums.PricePlanStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

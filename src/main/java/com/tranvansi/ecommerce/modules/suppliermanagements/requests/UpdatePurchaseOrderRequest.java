@@ -5,7 +5,7 @@ import java.util.List;
 import jakarta.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tranvansi.ecommerce.common.enums.PurchaseOrderStatus;
+import com.tranvansi.ecommerce.components.enums.PurchaseOrderStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

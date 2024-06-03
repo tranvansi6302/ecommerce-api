@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.tranvansi.ecommerce.common.entities.BaseEntity;
-import com.tranvansi.ecommerce.common.enums.PricePlanStatus;
+import com.tranvansi.ecommerce.components.entities.BaseEntity;
+import com.tranvansi.ecommerce.components.enums.PricePlanStatus;
 
 import lombok.*;
 

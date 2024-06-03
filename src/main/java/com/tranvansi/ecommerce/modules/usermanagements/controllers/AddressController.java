@@ -5,8 +5,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.tranvansi.ecommerce.common.enums.Message;
-import com.tranvansi.ecommerce.common.responses.ApiResponse;
+import com.tranvansi.ecommerce.components.enums.Message;
+import com.tranvansi.ecommerce.components.responses.ApiResponse;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.CreateAddressRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateAddressDefaultRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.AddressResponse;

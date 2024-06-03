@@ -4,8 +4,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.tranvansi.ecommerce.common.enums.ErrorCode;
-import com.tranvansi.ecommerce.common.enums.SupplierStatus;
+import com.tranvansi.ecommerce.components.enums.ErrorCode;
+import com.tranvansi.ecommerce.components.enums.SupplierStatus;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.suppliermanagements.entities.Supplier;
 import com.tranvansi.ecommerce.modules.suppliermanagements.mappers.SupplierMapper;

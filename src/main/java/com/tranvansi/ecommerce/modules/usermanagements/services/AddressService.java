@@ -2,8 +2,8 @@ package com.tranvansi.ecommerce.modules.usermanagements.services;
 
 import org.springframework.stereotype.Service;
 
-import com.tranvansi.ecommerce.common.enums.ErrorCode;
-import com.tranvansi.ecommerce.common.utils.AuthUtil;
+import com.tranvansi.ecommerce.components.enums.ErrorCode;
+import com.tranvansi.ecommerce.components.utils.AuthUtil;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.usermanagements.entities.Address;
 import com.tranvansi.ecommerce.modules.usermanagements.mappers.AddressMapper;

@@ -1,9 +1,9 @@
-package com.tranvansi.ecommerce.common.utils;
+package com.tranvansi.ecommerce.components.utils;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import com.tranvansi.ecommerce.common.enums.ErrorCode;
+import com.tranvansi.ecommerce.components.enums.ErrorCode;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
 import com.tranvansi.ecommerce.modules.usermanagements.repositories.UserRepository;

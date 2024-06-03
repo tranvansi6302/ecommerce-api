@@ -30,3 +30,9 @@ api:
 
 jwt:
   signerKey: ""
+
+aws:
+  access-key: "access-key"
+  secret-key: "secret-key"
+  bucket-name: "bucket-name"
+  region: "region"

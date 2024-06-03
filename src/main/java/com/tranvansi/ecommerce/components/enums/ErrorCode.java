@@ -1,4 +1,4 @@
-package com.tranvansi.ecommerce.common.enums;
+package com.tranvansi.ecommerce.components.enums;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -168,6 +168,13 @@ public enum ErrorCode {
     INVALID_REVIEW_IMAGE_URL_REQUIRED(
             1115, "URL ảnh đánh giá bắt buộc nhập", HttpStatus.BAD_REQUEST),
     REVIEW_NOT_FOUND(1116, "Đánh giá không tồn tại", HttpStatus.NOT_FOUND),
+    PRODUCT_IMAGE_LIMIT_EXCEEDED(
+            1117, "Một sản phẩm chỉ có thể tối đa 5 ảnh", HttpStatus.BAD_REQUEST),
+    INVALID_IMAGE_URLS_REQUIRED(1118, "Danh sách ảnh bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    REVIEW_IMAGE_LIMIT_EXCEEDED(
+            1119, "Một đánh giá chỉ có thể tối đa 5 ảnh", HttpStatus.BAD_REQUEST),
+    INVALID_REVIEW_IMAGE_REQUIRED(1120, "Ảnh đánh giá bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_REVIEW_IMAGE_FORMAT(1121, "Ảnh đánh giá không đúng định dạng", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;
