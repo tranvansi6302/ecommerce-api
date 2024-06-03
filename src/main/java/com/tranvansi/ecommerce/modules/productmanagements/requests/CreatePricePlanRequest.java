@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tranvansi.ecommerce.common.enums.PricePlanStatus;
+import com.tranvansi.ecommerce.components.enums.PricePlanStatus;
 
 import lombok.*;
 

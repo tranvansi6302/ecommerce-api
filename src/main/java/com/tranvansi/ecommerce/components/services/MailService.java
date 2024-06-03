@@ -1,11 +1,11 @@
-package com.tranvansi.ecommerce.common.services;
+package com.tranvansi.ecommerce.components.services;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import com.tranvansi.ecommerce.common.structures.MailStructure;
+import com.tranvansi.ecommerce.components.structures.MailStructure;
 
 import lombok.RequiredArgsConstructor;
 

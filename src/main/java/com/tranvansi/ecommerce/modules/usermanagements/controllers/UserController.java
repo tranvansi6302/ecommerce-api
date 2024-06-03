@@ -12,12 +12,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.tranvansi.ecommerce.common.enums.ErrorCode;
-import com.tranvansi.ecommerce.common.enums.Message;
-import com.tranvansi.ecommerce.common.responses.ApiResponse;
-import com.tranvansi.ecommerce.common.responses.BuildResponse;
-import com.tranvansi.ecommerce.common.responses.PagedResponse;
-import com.tranvansi.ecommerce.common.utils.FileUtil;
+import com.tranvansi.ecommerce.components.constants.FileConstant;
+import com.tranvansi.ecommerce.components.enums.ErrorCode;
+import com.tranvansi.ecommerce.components.enums.Message;
+import com.tranvansi.ecommerce.components.responses.ApiResponse;
+import com.tranvansi.ecommerce.components.responses.BuildResponse;
+import com.tranvansi.ecommerce.components.responses.PagedResponse;
+import com.tranvansi.ecommerce.components.utils.FileUtil;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.usermanagements.filters.UserFilter;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateProfileRequest;
@@ -86,49 +87,48 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/profile/upload")
-    public ResponseEntity<ApiResponse<String>> uploadProfileAvatar(
-            @ModelAttribute("avatar") MultipartFile avatar) throws IOException {
-        if (avatar.isEmpty()) {
+    @PatchMapping(value = "/profile/upload")
+    public ResponseEntity<ApiResponse<ProfileResponse>> uploadProfileAvatar(
+            @RequestPart("file") MultipartFile file) throws IOException {
+        if (file.isEmpty()) {
             throw new AppException(ErrorCode.INVALID_USER_AVATAR_REQUIRED);
         }
 
-        if (FileUtil.isImageFile(avatar)) {
+        if (!FileUtil.isImageFile(file)) {
             throw new AppException(ErrorCode.INVALID_USER_AVATAR_FORMAT);
         }
-        if (avatar.getSize() > 5 * 1024 * 1024) { // 5MB
+        if (file.getSize() > FileConstant.MAX_FILE_SIZE_MB) { // 5MB
             throw new AppException(ErrorCode.FILE_SIZE_TOO_LARGE);
         }
-        String avatarImg = FileUtil.storeImage(avatar);
-        UploadAvatarRequest request = UploadAvatarRequest.builder().avatar(avatarImg).build();
-        userService.uploadProfileAvatar(request);
-        ApiResponse<String> response =
-                ApiResponse.<String>builder()
+        UploadAvatarRequest request = UploadAvatarRequest.builder().file(file).build();
+        ProfileResponse profileResponse = userService.uploadAvatar(request);
+        ApiResponse<ProfileResponse> response =
+                ApiResponse.<ProfileResponse>builder()
                         .message(Message.UPLOAD_AVATAR_SUCCESS.getMessage())
+                        .result(profileResponse)
                         .build();
         return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{id}/upload")
-    public ResponseEntity<ApiResponse<String>> uploadUserAvatar(
-            @PathVariable Integer id, @ModelAttribute("avatar") MultipartFile avatar)
-            throws IOException {
-        if (avatar.isEmpty()) {
+    public ResponseEntity<ApiResponse<UserResponse>> uploadUserAvatar(
+            @PathVariable Integer id, @RequestPart("file") MultipartFile file) throws IOException {
+        if (file.isEmpty()) {
             throw new AppException(ErrorCode.INVALID_USER_AVATAR_REQUIRED);
         }
 
-        if (FileUtil.isImageFile(avatar)) {
+        if (FileUtil.isImageFile(file)) {
             throw new AppException(ErrorCode.INVALID_USER_AVATAR_FORMAT);
         }
-        if (avatar.getSize() > 5 * 1024 * 1024) { // 5MB
+        if (file.getSize() > FileConstant.MAX_FILE_SIZE_MB) { // 5MB
             throw new AppException(ErrorCode.FILE_SIZE_TOO_LARGE);
         }
-        String avatarImg = FileUtil.storeImage(avatar);
-        UploadAvatarRequest request = UploadAvatarRequest.builder().avatar(avatarImg).build();
-        userService.uploadUserAvatar(id, request);
-        ApiResponse<String> response =
-                ApiResponse.<String>builder()
+        UploadAvatarRequest request = UploadAvatarRequest.builder().file(file).build();
+        UserResponse userResponse = userService.uploadUserAvatar(id, request);
+        ApiResponse<UserResponse> response =
+                ApiResponse.<UserResponse>builder()
                         .message(Message.UPLOAD_AVATAR_SUCCESS.getMessage())
+                        .result(userResponse)
                         .build();
         return ResponseEntity.ok(response);
     }

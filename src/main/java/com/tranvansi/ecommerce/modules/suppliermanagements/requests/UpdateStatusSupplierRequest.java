@@ -2,7 +2,7 @@ package com.tranvansi.ecommerce.modules.suppliermanagements.requests;
 
 import jakarta.validation.constraints.NotNull;
 
-import com.tranvansi.ecommerce.common.enums.SupplierStatus;
+import com.tranvansi.ecommerce.components.enums.SupplierStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

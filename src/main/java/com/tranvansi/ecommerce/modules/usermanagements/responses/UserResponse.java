@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.tranvansi.ecommerce.common.enums.UserStatus;
+import com.tranvansi.ecommerce.components.enums.UserStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

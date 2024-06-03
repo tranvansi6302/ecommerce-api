@@ -1,4 +1,4 @@
-package com.tranvansi.ecommerce.common.entities;
+package com.tranvansi.ecommerce.components.entities;
 
 import java.time.LocalDateTime;
 

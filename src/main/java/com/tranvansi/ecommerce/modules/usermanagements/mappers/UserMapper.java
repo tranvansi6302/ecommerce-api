@@ -8,7 +8,6 @@ import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.RegisterRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateProfileRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateUserRequest;
-import com.tranvansi.ecommerce.modules.usermanagements.requests.UploadAvatarRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.ProfileResponse;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.RegisterResponse;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.UserResponse;
@@ -27,8 +26,6 @@ public interface UserMapper {
 
     @Mapping(target = "password", ignore = true)
     void updateProfile(@MappingTarget User user, UpdateProfileRequest request);
-
-    void uploadAvatar(@MappingTarget User user, UploadAvatarRequest request);
 
     @Mapping(target = "roles", ignore = true)
     void updateUser(@MappingTarget User user, UpdateUserRequest request);

@@ -13,17 +13,24 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.tranvansi.ecommerce.common.enums.Message;
-import com.tranvansi.ecommerce.common.responses.ApiResponse;
-import com.tranvansi.ecommerce.common.responses.BuildResponse;
-import com.tranvansi.ecommerce.common.responses.PagedResponse;
+import com.tranvansi.ecommerce.components.constants.FileConstant;
+import com.tranvansi.ecommerce.components.enums.ErrorCode;
+import com.tranvansi.ecommerce.components.enums.Message;
+import com.tranvansi.ecommerce.components.responses.ApiResponse;
+import com.tranvansi.ecommerce.components.responses.BuildResponse;
+import com.tranvansi.ecommerce.components.responses.PagedResponse;
+import com.tranvansi.ecommerce.components.utils.FileUtil;
+import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.productmanagements.filters.ProductFilter;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.CreateProductRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateProductRequest;
+import com.tranvansi.ecommerce.modules.productmanagements.requests.UploadProductImagesRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.CreateProductResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.PricePlanResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.ProductDetailResponse;
+import com.tranvansi.ecommerce.modules.productmanagements.responses.ProductResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.IProductService;
 import com.tranvansi.ecommerce.modules.productmanagements.specifications.ProductSpecification;
 
@@ -155,6 +162,34 @@ public class ProductController {
                 ApiResponse.<CreateProductResponse>builder()
                         .result(productResponse)
                         .message(Message.UPDATE_PRODUCT_SUCCESS.getMessage())
+                        .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{id}/upload-images")
+    public ResponseEntity<ApiResponse<ProductResponse>> uploadImageProducts(
+            @PathVariable Integer id, @RequestPart("files") List<MultipartFile> files) {
+        UploadProductImagesRequest request =
+                UploadProductImagesRequest.builder().files(files).build();
+
+        for (MultipartFile file : files) {
+            if (file.isEmpty()) {
+                throw new AppException(ErrorCode.INVALID_USER_AVATAR_REQUIRED);
+            }
+
+            if (!FileUtil.isImageFile(file)) {
+                throw new AppException(ErrorCode.INVALID_USER_AVATAR_FORMAT);
+            }
+            if (file.getSize() > FileConstant.MAX_FILE_SIZE_MB) { // 5MB
+                throw new AppException(ErrorCode.FILE_SIZE_TOO_LARGE);
+            }
+        }
+
+        ProductResponse productResponse = productService.uploadImageProducts(id, request);
+        ApiResponse<ProductResponse> response =
+                ApiResponse.<ProductResponse>builder()
+                        .result(productResponse)
+                        .message(Message.UPLOAD_IMAGE_PRODUCT_SUCCESS.getMessage())
                         .build();
         return ResponseEntity.ok(response);
     }

@@ -6,7 +6,7 @@ import java.util.List;
 import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.tranvansi.ecommerce.common.entities.BaseEntity;
+import com.tranvansi.ecommerce.components.entities.BaseEntity;
 
 import lombok.*;
 
@@ -41,4 +41,8 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product")
     @JsonManagedReference
     private List<Variant> variants;
+
+    @OneToMany(mappedBy = "product")
+    @JsonManagedReference
+    private List<ProductImage> productImages;
 }

@@ -1,4 +1,4 @@
-package com.tranvansi.ecommerce.common.enums;
+package com.tranvansi.ecommerce.components.enums;
 
 public enum UserStatus {
     BLOCKED,

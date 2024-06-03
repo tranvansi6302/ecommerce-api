@@ -1,9 +1,6 @@
 package com.tranvansi.ecommerce.modules.usermanagements.services;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -14,13 +11,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.tranvansi.ecommerce.common.enums.ErrorCode;
+import com.tranvansi.ecommerce.components.enums.ErrorCode;
+import com.tranvansi.ecommerce.components.services.AmazonClientService;
+import com.tranvansi.ecommerce.components.utils.AuthUtil;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.usermanagements.entities.Role;
 import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
-import com.tranvansi.ecommerce.modules.usermanagements.mappers.AddressMapper;
 import com.tranvansi.ecommerce.modules.usermanagements.mappers.UserMapper;
-import com.tranvansi.ecommerce.modules.usermanagements.repositories.AddressRepository;
 import com.tranvansi.ecommerce.modules.usermanagements.repositories.RoleRepository;
 import com.tranvansi.ecommerce.modules.usermanagements.repositories.UserRepository;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateProfileRequest;
@@ -37,9 +34,9 @@ import lombok.RequiredArgsConstructor;
 public class UserService implements IUserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final AddressRepository addressRepository;
     private final UserMapper userMapper;
-    private final AddressMapper addressMapper;
+    private final AuthUtil authUtil;
+    private final AmazonClientService amazonClientService;
 
     @Override
     public UserResponse updateProfile(UpdateProfileRequest request) {
@@ -62,45 +59,20 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void uploadProfileAvatar(UploadAvatarRequest request) throws IOException {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user =
-                userRepository
-                        .findByEmail(email)
-                        .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-        if (user.getAvatar() == null) {
-            userMapper.uploadAvatar(user, request);
-        } else {
-            Path oldAvatarPath = Paths.get("uploads", user.getAvatar());
-            Files.deleteIfExists(oldAvatarPath);
-            userMapper.uploadAvatar(user, request);
-        }
-        userRepository.save(user);
-    }
-
-    @Override
-    public void uploadUserAvatar(Integer id, UploadAvatarRequest request) throws IOException {
-        User user =
-                userRepository
-                        .findById(id)
-                        .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-        if (user.getAvatar() == null) {
-            userMapper.uploadAvatar(user, request);
-        } else {
-            Path oldAvatarPath = Paths.get("uploads", user.getAvatar());
-            Files.deleteIfExists(oldAvatarPath);
-            userMapper.uploadAvatar(user, request);
-        }
-        userRepository.save(user);
-    }
-
-    @Override
     public void deleteUser(Integer id) {
         User user =
                 userRepository
                         .findById(id)
                         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         userRepository.delete(user);
+    }
+
+    @Override
+    public ProfileResponse uploadAvatar(UploadAvatarRequest request) {
+        User user = authUtil.getUser();
+        String url = amazonClientService.uploadFile(request.getFile());
+        user.setAvatar(url);
+        return userMapper.toProfileResponse(userRepository.save(user));
     }
 
     @Override
@@ -164,6 +136,18 @@ public class UserService implements IUserService {
         List<Role> roles = roleRepository.findAllById(request.getRoles());
 
         user.setRoles(roles);
+        return userMapper.toUserResponse(userRepository.save(user));
+    }
+
+    @Override
+    public UserResponse uploadUserAvatar(Integer id, UploadAvatarRequest request)
+            throws IOException {
+        User user =
+                userRepository
+                        .findById(id)
+                        .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        String url = amazonClientService.uploadFile(request.getFile());
+        user.setAvatar(url);
         return userMapper.toUserResponse(userRepository.save(user));
     }
 }

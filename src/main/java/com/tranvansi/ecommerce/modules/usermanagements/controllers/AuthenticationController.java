@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tranvansi.ecommerce.common.enums.Message;
-import com.tranvansi.ecommerce.common.responses.ApiResponse;
+import com.tranvansi.ecommerce.components.enums.Message;
+import com.tranvansi.ecommerce.components.responses.ApiResponse;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.ForgotPasswordRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.LoginRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.RegisterRequest;

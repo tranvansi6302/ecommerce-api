@@ -6,7 +6,7 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
-import com.tranvansi.ecommerce.common.enums.RoleName;
+import com.tranvansi.ecommerce.components.enums.RoleName;
 import com.tranvansi.ecommerce.modules.usermanagements.entities.Role;
 import com.tranvansi.ecommerce.modules.usermanagements.repositories.RoleRepository;
 import com.tranvansi.ecommerce.modules.usermanagements.services.interfaces.IRoleService;

@@ -2,7 +2,7 @@ package com.tranvansi.ecommerce.modules.productmanagements.services;
 
 import org.springframework.stereotype.Service;
 
-import com.tranvansi.ecommerce.common.enums.ErrorCode;
+import com.tranvansi.ecommerce.components.enums.ErrorCode;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
 import com.tranvansi.ecommerce.modules.productmanagements.repositories.VariantRepository;

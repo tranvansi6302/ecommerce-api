@@ -10,6 +10,7 @@ import com.tranvansi.ecommerce.modules.productmanagements.requests.CreateProduct
 import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateProductRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.CreateProductResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.ProductDetailResponse;
+import com.tranvansi.ecommerce.modules.productmanagements.responses.ProductResponse;
 import com.tranvansi.ecommerce.modules.reviewmanagements.repositories.ReviewRepository;
 import com.tranvansi.ecommerce.modules.salesmanagement.repositories.SaleRepository;
 
@@ -26,7 +27,9 @@ public abstract class ProductMapper {
     @Mapping(target = "sold", expression = "java(getTotalSoldProduct(product))")
     public abstract ProductDetailResponse toProductDetailResponse(Product product);
 
-    public abstract CreateProductResponse toProductResponse(Product product);
+    public abstract CreateProductResponse toCreateProductResponse(Product product);
+
+    public abstract ProductResponse toProductResponse(Product product);
 
     @Mapping(target = "brand", ignore = true)
     @Mapping(target = "category", ignore = true)

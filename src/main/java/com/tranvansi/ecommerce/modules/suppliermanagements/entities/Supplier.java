@@ -2,8 +2,8 @@ package com.tranvansi.ecommerce.modules.suppliermanagements.entities;
 
 import jakarta.persistence.*;
 
-import com.tranvansi.ecommerce.common.entities.BaseEntity;
-import com.tranvansi.ecommerce.common.enums.SupplierStatus;
+import com.tranvansi.ecommerce.components.entities.BaseEntity;
+import com.tranvansi.ecommerce.components.enums.SupplierStatus;
 
 import lombok.*;
 

@@ -1,4 +1,4 @@
-package com.tranvansi.ecommerce.common.utils;
+package com.tranvansi.ecommerce.components.utils;
 
 import java.util.Random;
 

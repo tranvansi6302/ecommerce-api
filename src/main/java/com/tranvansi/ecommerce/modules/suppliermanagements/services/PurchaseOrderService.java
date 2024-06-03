@@ -8,8 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tranvansi.ecommerce.common.enums.ErrorCode;
-import com.tranvansi.ecommerce.common.enums.PurchaseOrderStatus;
+import com.tranvansi.ecommerce.components.enums.ErrorCode;
+import com.tranvansi.ecommerce.components.enums.PurchaseOrderStatus;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Warehouse;

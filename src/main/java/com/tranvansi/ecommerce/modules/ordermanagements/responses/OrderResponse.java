@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tranvansi.ecommerce.common.enums.OrderStatus;
+import com.tranvansi.ecommerce.components.enums.OrderStatus;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.VariantResponse;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.ProfileResponse;
 

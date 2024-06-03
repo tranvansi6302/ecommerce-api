@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import com.tranvansi.ecommerce.modules.reviewmanagements.entities.Review;
 import com.tranvansi.ecommerce.modules.reviewmanagements.requests.CreateReviewRequest;
 import com.tranvansi.ecommerce.modules.reviewmanagements.requests.UpdateReviewRequest;
+import com.tranvansi.ecommerce.modules.reviewmanagements.requests.UploadReviewImagesRequest;
 import com.tranvansi.ecommerce.modules.reviewmanagements.responses.ReviewResponse;
 
 public interface IReviewService {
@@ -20,6 +21,9 @@ public interface IReviewService {
 
     @PreAuthorize("hasRole('USER')")
     void deleteReview(Integer reviewId);
+
+    @PreAuthorize("hasRole('USER')")
+    ReviewResponse uploadReviewImages(Integer reviewId, UploadReviewImagesRequest request);
 
     ReviewResponse getReviewById(Integer reviewId);
 

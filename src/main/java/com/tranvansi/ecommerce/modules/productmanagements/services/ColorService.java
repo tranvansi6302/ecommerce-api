@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.tranvansi.ecommerce.common.enums.ErrorCode;
+import com.tranvansi.ecommerce.components.enums.ErrorCode;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Color;
 import com.tranvansi.ecommerce.modules.productmanagements.mappers.ColorMapper;

@@ -8,4 +8,6 @@ import com.tranvansi.ecommerce.modules.reviewmanagements.entities.ReviewImage;
 @Repository
 public interface ReviewImageRepository extends JpaRepository<ReviewImage, Integer> {
     void deleteByReviewId(Integer reviewId);
+
+    Integer countByReviewId(Integer reviewId);
 }

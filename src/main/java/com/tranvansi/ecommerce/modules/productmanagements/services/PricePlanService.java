@@ -13,7 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tranvansi.ecommerce.common.enums.ErrorCode;
+import com.tranvansi.ecommerce.components.enums.ErrorCode;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.productmanagements.entities.PricePlan;
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;

@@ -10,15 +10,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tranvansi.ecommerce.common.enums.ErrorCode;
+import com.tranvansi.ecommerce.components.constants.FileConstant;
+import com.tranvansi.ecommerce.components.enums.ErrorCode;
+import com.tranvansi.ecommerce.components.services.AmazonClientService;
 import com.tranvansi.ecommerce.exceptions.AppException;
-import com.tranvansi.ecommerce.modules.productmanagements.entities.Brand;
-import com.tranvansi.ecommerce.modules.productmanagements.entities.Category;
-import com.tranvansi.ecommerce.modules.productmanagements.entities.Color;
-import com.tranvansi.ecommerce.modules.productmanagements.entities.PricePlan;
-import com.tranvansi.ecommerce.modules.productmanagements.entities.Product;
-import com.tranvansi.ecommerce.modules.productmanagements.entities.Size;
-import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
+import com.tranvansi.ecommerce.modules.productmanagements.entities.*;
 import com.tranvansi.ecommerce.modules.productmanagements.mappers.BrandMapper;
 import com.tranvansi.ecommerce.modules.productmanagements.mappers.CategoryMapper;
 import com.tranvansi.ecommerce.modules.productmanagements.mappers.ColorMapper;
@@ -30,11 +26,8 @@ import com.tranvansi.ecommerce.modules.productmanagements.repositories.PricePlan
 import com.tranvansi.ecommerce.modules.productmanagements.repositories.ProductRepository;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.CreateProductRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateProductRequest;
-import com.tranvansi.ecommerce.modules.productmanagements.responses.ColorResponse;
-import com.tranvansi.ecommerce.modules.productmanagements.responses.CreateProductResponse;
-import com.tranvansi.ecommerce.modules.productmanagements.responses.ProductDetailResponse;
-import com.tranvansi.ecommerce.modules.productmanagements.responses.SizeResponse;
-import com.tranvansi.ecommerce.modules.productmanagements.responses.VariantResponse;
+import com.tranvansi.ecommerce.modules.productmanagements.requests.UploadProductImagesRequest;
+import com.tranvansi.ecommerce.modules.productmanagements.responses.*;
 import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.*;
 
 import lombok.RequiredArgsConstructor;
@@ -43,6 +36,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductService implements IProductService {
     private final ProductRepository productRepository;
+    private final IProductImageService productImageService;
     private final IVariantService variantService;
     private final ICategoryService categoryService;
     private final IBrandService brandService;
@@ -56,6 +50,7 @@ public class ProductService implements IProductService {
     private final ColorMapper colorMapper;
     private final PricePlanRepository pricePlanRepository;
     private final PricePlanMapper pricePlanMapper;
+    private final AmazonClientService amazonClientService;
 
     @Override
     @Transactional
@@ -146,7 +141,28 @@ public class ProductService implements IProductService {
         productMapper.updateProduct(product, request);
         product.setCategory(category);
         product.setBrand(brand);
-        return productMapper.toProductResponse(productRepository.save(product));
+        return productMapper.toCreateProductResponse(productRepository.save(product));
+    }
+
+    @Override
+    @Transactional
+    public ProductResponse uploadImageProducts(Integer id, UploadProductImagesRequest request) {
+        List<ProductImageResponse> imageResponses = new ArrayList<>();
+        Product product = findProductById(id);
+        for (int i = 0; i < request.getFiles().size(); i++) {
+            if (productImageService.countProductImageByProductId(id) >= FileConstant.FILE_LIMIT) {
+                throw new AppException(ErrorCode.PRODUCT_IMAGE_LIMIT_EXCEEDED);
+            }
+            String imageUrl = "";
+            imageUrl = amazonClientService.uploadFile(request.getFiles().get(i));
+            ProductImage productImage =
+                    ProductImage.builder().product(product).url(imageUrl).build();
+            productImageService.saveProductImage(productImage);
+            imageResponses.add(ProductImageResponse.builder().url(imageUrl).build());
+        }
+        ProductResponse response = productMapper.toProductResponse(product);
+        response.setProductImages(imageResponses);
+        return response;
     }
 
     @Override

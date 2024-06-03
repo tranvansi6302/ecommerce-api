@@ -6,8 +6,8 @@ import java.util.List;
 import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.tranvansi.ecommerce.common.entities.BaseEntity;
-import com.tranvansi.ecommerce.common.enums.OrderStatus;
+import com.tranvansi.ecommerce.components.entities.BaseEntity;
+import com.tranvansi.ecommerce.components.enums.OrderStatus;
 import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
 
 import lombok.*;

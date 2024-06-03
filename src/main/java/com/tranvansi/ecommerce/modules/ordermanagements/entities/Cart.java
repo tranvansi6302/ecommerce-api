@@ -2,7 +2,7 @@ package com.tranvansi.ecommerce.modules.ordermanagements.entities;
 
 import jakarta.persistence.*;
 
-import com.tranvansi.ecommerce.common.entities.BaseEntity;
+import com.tranvansi.ecommerce.components.entities.BaseEntity;
 import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
 
 import lombok.*;
