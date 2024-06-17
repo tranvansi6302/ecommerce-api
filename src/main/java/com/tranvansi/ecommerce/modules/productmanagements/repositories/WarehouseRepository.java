@@ -15,4 +15,6 @@ public interface WarehouseRepository
     Optional<Warehouse> findByVariantAndSku(Variant variant, String sku);
 
     boolean existsByVariant(Variant variant);
+
+
 }

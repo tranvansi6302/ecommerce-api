@@ -26,6 +26,9 @@ public class PurchaseDetail {
 
     private Integer quantityReceived;
 
+    @Column(columnDefinition = "TEXT")
+    private String note;
+
     @ManyToOne
     @JoinColumn(name = "purchase_order_id")
     private PurchaseOrder purchaseOrder;

@@ -24,6 +24,10 @@ public class PurchaseOrderResponse {
 
     private String note;
 
+    @JsonProperty("cancel_reason")
+    private String cancelReason;
+
+    @JsonProperty("purchase_order_date")
     private String purchaseOrderDate;
 
     private PurchaseOrderStatus status;
@@ -42,6 +46,8 @@ public class PurchaseOrderResponse {
 
         @JsonProperty("purchase_price")
         private Double purchasePrice;
+
+        private String note;
 
         @JsonProperty("quantity_received")
         private Integer quantityReceived;

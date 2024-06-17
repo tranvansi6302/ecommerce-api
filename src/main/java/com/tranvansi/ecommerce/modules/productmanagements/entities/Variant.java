@@ -34,13 +34,9 @@ public class Variant extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String sku;
 
-    @ManyToOne
-    @JoinColumn(name = "color_id")
-    private Color color;
+    private String color;
 
-    @ManyToOne
-    @JoinColumn(name = "size_id")
-    private Size size;
+    private String size;
 
     @OneToMany(mappedBy = "variant")
     @JsonManagedReference

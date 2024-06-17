@@ -41,8 +41,13 @@ public class UserController {
     public ResponseEntity<PagedResponse<List<UserResponse>>> getAllUsers(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int limit,
-            @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder,
-            UserFilter filter) {
+            @RequestParam(name="status", required = false) Integer status,
+            @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder
+           ) {
+        UserFilter filter = UserFilter
+                .builder()
+                .status(status)
+                .build();
         Sort sort =
                 sortOrder.equalsIgnoreCase("asc")
                         ? Sort.by("createdAt").ascending()
@@ -117,7 +122,7 @@ public class UserController {
             throw new AppException(ErrorCode.INVALID_USER_AVATAR_REQUIRED);
         }
 
-        if (FileUtil.isImageFile(file)) {
+        if (!FileUtil.isImageFile(file)) {
             throw new AppException(ErrorCode.INVALID_USER_AVATAR_FORMAT);
         }
         if (file.getSize() > FileConstant.MAX_FILE_SIZE_MB) { // 5MB

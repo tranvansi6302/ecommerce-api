@@ -1,6 +1,5 @@
 package com.tranvansi.ecommerce.modules.productmanagements.services;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -17,6 +16,7 @@ import com.tranvansi.ecommerce.modules.productmanagements.responses.BrandRespons
 import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.IBrandService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor

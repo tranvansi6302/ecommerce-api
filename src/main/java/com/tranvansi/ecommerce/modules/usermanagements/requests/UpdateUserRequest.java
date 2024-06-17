@@ -1,7 +1,9 @@
 package com.tranvansi.ecommerce.modules.usermanagements.requests;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -27,9 +29,9 @@ public class UpdateUserRequest {
     private String email;
 
     @JsonProperty("date_of_birth")
-    @NotBlank(message = "INVALID_USER_DATE_OF_BIRTH_REQUIRED")
-    @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}", message = "INVALID_USER_DATE_OF_BIRTH_FORMAT")
-    private String dateOfBirth;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @NotNull(message = "INVALID_USER_DATE_OF_BIRTH_REQUIRED")
+    private LocalDateTime dateOfBirth;
 
     @JsonProperty("phone_number")
     @NotBlank(message = "INVALID_USER_PHONE_NUMBER_REQUIRED")

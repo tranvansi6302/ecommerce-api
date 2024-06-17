@@ -10,4 +10,6 @@ import com.tranvansi.ecommerce.modules.productmanagements.entities.Product;
 public interface ProductRepository
         extends JpaRepository<Product, Integer>, JpaSpecificationExecutor<Product> {
     boolean existsByName(String name);
+
+    boolean existsBySku(String sku);
 }

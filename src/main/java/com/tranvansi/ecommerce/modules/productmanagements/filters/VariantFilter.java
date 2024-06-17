@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PricePlanFilter {
+public class VariantFilter {
     private String search;
-    private String categorySlug;
     private String brandSlug;
+    private String categorySlug;
+
 }

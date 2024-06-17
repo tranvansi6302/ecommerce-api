@@ -19,9 +19,14 @@ public class UpdatePurchaseOrderRequest {
     @NotNull(message = "INVALID_PURCHASE_ORDER_STATUS_REQUIRED")
     private PurchaseOrderStatus status;
 
+    @JsonProperty("cancel_reason")
+    private String cancelReason;
+
     @JsonProperty("purchase_details")
     @NotNull(message = "INVALID_PURCHASE_DETAILS_REQUIRED")
     private List<PurchaseDetailUpdateRequest> purchaseDetails;
+
+
 
     @Data
     @NoArgsConstructor
@@ -30,6 +35,8 @@ public class UpdatePurchaseOrderRequest {
         @JsonProperty("variant_id")
         @NotNull(message = "INVALID_VARIANT_ID_REQUIRED")
         private Integer variantId;
+
+        private String note;
 
         @JsonProperty("quantity_received")
         @NotNull(message = "INVALID_QUANTITY_RECEIVED_REQUIRED")

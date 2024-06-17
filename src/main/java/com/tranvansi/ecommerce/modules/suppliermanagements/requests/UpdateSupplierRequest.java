@@ -2,9 +2,11 @@ package com.tranvansi.ecommerce.modules.suppliermanagements.requests;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tranvansi.ecommerce.components.enums.SupplierStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +33,9 @@ public class UpdateSupplierRequest {
     @NotBlank(message = "INVALID_SUPPLIER_PHONE_NUMBER_REQUIRED")
     @Pattern(regexp = "\\d{10}", message = "INVALID_SUPPLIER_PHONE_NUMBER_FORMAT")
     private String phoneNumber;
+
+    @NotNull(message = "INVALID_SUPPLIER_STATUS_REQUIRED")
+    private SupplierStatus status;
 
     @NotBlank(message = "INVALID_SUPPLIER_ADDRESS_REQUIRED")
     private String address;

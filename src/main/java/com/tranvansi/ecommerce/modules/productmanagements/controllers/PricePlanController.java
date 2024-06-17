@@ -36,8 +36,7 @@ public class PricePlanController {
     public ResponseEntity<PagedResponse<List<PricePlanDetailResponse>>> getAllCurrentPricePlans(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int limit,
-            @RequestParam(name = "name", required = false) String variantName,
-            @RequestParam(name = "sku", required = false) String sku,
+            @RequestParam(name = "search", required = false) String search,
             @RequestParam(name = "category", required = false) String categorySlug,
             @RequestParam(name = "brand", required = false) String brandSlug,
             @RequestParam(name = "sort_by", required = false) String sortBy,
@@ -55,8 +54,7 @@ public class PricePlanController {
 
         PricePlanFilter filter =
                 PricePlanFilter.builder()
-                        .variantName(variantName)
-                        .sku(sku)
+                        .search(search)
                         .categorySlug(categorySlug)
                         .brandSlug(brandSlug)
                         .build();
@@ -91,15 +89,21 @@ public class PricePlanController {
     public ResponseEntity<PagedResponse<List<PricePlanDetailResponse>>> getHistoryPricePlans(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int limit,
-            @RequestParam(name = "name", required = false) String variantName,
-            @RequestParam(name = "sku", required = false) String sku,
+            @RequestParam(name = "search", required = false) String search,
+            @RequestParam(name = "category", required = false) String categorySlug,
+            @RequestParam(name = "brand", required = false) String brandSlug,
+            @RequestParam(name = "sort_by", required = false) String sortBy,
             @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder) {
         Sort sort =
                 sortOrder.equalsIgnoreCase("asc")
                         ? Sort.by("createdAt").ascending()
                         : Sort.by("createdAt").descending();
         PricePlanFilter filter =
-                PricePlanFilter.builder().variantName(variantName).sku(sku).build();
+                PricePlanFilter.builder()
+                        .search(search)
+                        .categorySlug(categorySlug)
+                        .brandSlug(brandSlug)
+                        .build();
 
         PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
         Page<PricePlanDetailResponse> colorResponses =

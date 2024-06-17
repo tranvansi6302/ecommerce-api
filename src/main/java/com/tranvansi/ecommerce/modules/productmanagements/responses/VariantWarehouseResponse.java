@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class VariantResponse {
+public class VariantWarehouseResponse {
     private Integer id;
 
     @JsonProperty("variant_name")
@@ -36,4 +36,6 @@ public class VariantResponse {
 
     private WarehousePurchasePriceAndAvailableQuantity warehouse;
 
+    @JsonProperty("price_plans")
+    private List<PricePlanResponse> pricePlans;
 }

@@ -34,9 +34,9 @@ public class CreateProductRequest {
 
     private String sku;
 
-    @NotNull(message = "INVALID_COLOR_IDS_REQUIRED")
-    private List<Integer> colors;
+    //    @NotNull(message = "INVALID_COLOR_STRING_REQUIRED")
+    private List<String> colors;
 
-    @NotNull(message = "INVALID_SIZE_IDS_REQUIRED")
-    private List<Integer> sizes;
+    //    @NotNull(message = "INVALID_SIZE_STRING_REQUIRED")
+    private List<String> sizes;
 }

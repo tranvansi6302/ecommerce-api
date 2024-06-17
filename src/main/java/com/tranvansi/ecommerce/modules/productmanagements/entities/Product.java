@@ -28,6 +28,9 @@ public class Product extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(nullable = false, unique = true)
+    private String sku;
+
     private LocalDateTime deletedAt;
 
     @ManyToOne

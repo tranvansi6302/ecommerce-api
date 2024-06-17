@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserFilter {
     private String email;
-    private Integer blocked;
+    private Integer status;
 }

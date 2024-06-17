@@ -30,6 +30,9 @@ public class PurchaseOrder extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String note;
 
+    @Column(columnDefinition = "TEXT")
+    private String cancelReason;
+
     @Enumerated(EnumType.STRING)
     private PurchaseOrderStatus status;
 

@@ -97,8 +97,9 @@ public enum ErrorCode {
     INVALID_PRODUCT_ID_REQUIRED(1065, "ID sản phẩm bắt buộc nhập", HttpStatus.BAD_REQUEST),
 
     SIZE_OR_COLOR_EXISTS(1066, "Size hoặc màu đã tồn tại", HttpStatus.BAD_REQUEST),
-    INVALID_COLOR_IDS_REQUIRED(1067, "Danh sách id màu bắt buộc nhập", HttpStatus.BAD_REQUEST),
-    INVALID_SIZE_IDS_REQUIRED(1068, "Danh sách id size bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_COLOR_STRING_REQUIRED(1067, "Danh sách màu bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_SIZE_STRING_REQUIRED(
+            1068, "Danh sách kích thước bắt buộc nhập", HttpStatus.BAD_REQUEST),
     SKU_ALREADY_EXISTS(1069, "SKU đã tồn tại", HttpStatus.BAD_REQUEST),
 
     INVALID_SUPPLIER_NAME_REQUIRED(1070, "Tên nhà cung cấp bắt buộc nhập", HttpStatus.BAD_REQUEST),
@@ -175,9 +176,14 @@ public enum ErrorCode {
             1119, "Một đánh giá chỉ có thể tối đa 5 ảnh", HttpStatus.BAD_REQUEST),
     INVALID_REVIEW_IMAGE_REQUIRED(1120, "Ảnh đánh giá bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_REVIEW_IMAGE_FORMAT(1121, "Ảnh đánh giá không đúng định dạng", HttpStatus.BAD_REQUEST),
+    INVALID_PURCHASE_DETAIL_QUANTITY(1122, "Số lượng sản phẩm đơn hàng không hợp lệ", HttpStatus.BAD_REQUEST),
+    INVALID_PURCHASE_DETAIL_PURCHASE_PRICE(1123, "Giá mua sản phẩm đơn hàng không hợp lệ", HttpStatus.BAD_REQUEST),
+    PURCHASE_ORDER_NOT_UPDATE(1124, "Đơn hàng không thể cập nhật", HttpStatus.BAD_REQUEST),
+    WAREHOUSE_NOT_FOUND(1125, "Kho không tồn tại", HttpStatus.NOT_FOUND),
     ;
 
     private int code;
     private String message;
     private HttpStatusCode statusCode;
 }
+

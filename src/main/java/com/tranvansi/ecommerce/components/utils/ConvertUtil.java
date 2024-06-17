@@ -19,4 +19,23 @@ public class ConvertUtil {
 
         return slug;
     }
+
+    public static String toRemoveAccent(String input) {
+        // Normalize and remove diacritical marks
+        String normalized =
+                Normalizer.normalize(input, Normalizer.Form.NFD)
+                        .replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
+
+        // Replace specific Vietnamese characters
+        normalized = normalized.replace('đ', 'd').replace('Đ', 'D');
+
+        // Convert to lower case
+        normalized = normalized.toLowerCase(Locale.ENGLISH);
+
+        // Replace all non-alphanumeric characters with hyphens
+        String result = normalized.replaceAll("[^\\p{Alnum}]+", "-");
+
+        // Convert to upper case
+        return result.toUpperCase();
+    }
 }
