@@ -51,6 +51,11 @@ public class PricePlanService implements IPricePlanService {
             if (warehouseService.existsByVariant(variant)) {
                 throw new AppException(ErrorCode.WAREHOUSE_VARIANT_NOT_FOUND);
             }
+
+            if(pricePlanRequest.getStartDate()==null) {
+                String errorRow = "Ngày bắt đầu không hợp lệ ở dòng : "+ variant.getVariantName();
+                throw new RuntimeException(errorRow);
+            }
             PricePlan latestPlan = null;
             List<PricePlan> existingPlans =
                     pricePlanRepository.findByVariantIdAndEndDateIsNullOrderByStartDateDesc(
@@ -59,7 +64,8 @@ public class PricePlanService implements IPricePlanService {
                 latestPlan = existingPlans.getFirst(); // Use get(0) for the first element
                 if (pricePlanRequest.getStartDate().isEqual(latestPlan.getStartDate())
                         || pricePlanRequest.getStartDate().isBefore(latestPlan.getStartDate())) {
-                    throw new AppException(ErrorCode.PRICE_PLAN_START_DATE_INVALID);
+                    String errorRow = "Ngày bắt đầu không hợp lệ ở dòng : "+ variant.getVariantName();
+                    throw new RuntimeException(errorRow);
                 }
 
                 if (pricePlanRequest.getEndDate() == null) {

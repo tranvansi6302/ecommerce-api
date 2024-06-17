@@ -1,15 +1,18 @@
 package com.tranvansi.ecommerce.components.responses;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
@@ -29,7 +32,8 @@ public class PageWrapper<T> {
     private long totalElements;
 
     public static <T> PageWrapper<T> of(Page<T> page) {
-        return new PageWrapper<>(page.getContent(), page.getNumber(), page.getSize(), page.getTotalElements());
+        return new PageWrapper<>(
+                page.getContent(), page.getNumber(), page.getSize(), page.getTotalElements());
     }
 
     public Page<T> toPage() {

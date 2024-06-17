@@ -3,10 +3,9 @@ package com.tranvansi.ecommerce.modules.productmanagements.specifications;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import com.tranvansi.ecommerce.modules.productmanagements.entities.Product;
+import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
+import jakarta.persistence.criteria.*;
 
 import org.springframework.data.jpa.domain.Specification;
 
@@ -27,15 +26,17 @@ public class PricePlanSpecification implements Specification<PricePlan> {
             @NonNull CriteriaBuilder cb) {
         List<Predicate> predicates = new ArrayList<>();
 
-        if (filter.getVariantName() != null) {
-            predicates.add(
-                    cb.like(
-                            root.join("variant").get("variantName"),
-                            "%" + filter.getVariantName() + "%"));
-        }
+        if (filter.getSearch() != null && !filter.getSearch().isEmpty()) {
 
-        if (filter.getSku() != null) {
-            predicates.add(cb.like(root.join("variant").get("sku"), "%" + filter.getSku() + "%"));
+            Join<Product, Variant> variantJoin = root.join("variant", JoinType.INNER);
+
+
+            Predicate variantNamePredicate = cb.like(variantJoin.get("variantName"), "%" + filter.getSearch() + "%");
+            Predicate skuPredicate = cb.like(variantJoin.get("sku"), "%" + filter.getSearch() + "%");
+            Predicate productNamePredicate = cb.like(variantJoin.get("productName"), "%" + filter.getSearch() + "%");
+
+
+            predicates.add(cb.or(variantNamePredicate,skuPredicate, productNamePredicate));
         }
 
         if (filter.getCategorySlug() != null) {

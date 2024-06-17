@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.modules.usermanagements.responses;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -35,11 +36,17 @@ public class UserResponse {
     private String email;
 
     @JsonProperty("date_of_birth")
-    private String dateOfBirth;
+    private LocalDateTime dateOfBirth;
 
     @JsonProperty("phone_number")
     private String phoneNumber;
 
     private UserStatus status;
     private List<RoleResponse> roles;
+
+    @JsonProperty("created_at")
+    private LocalDateTime createdAt;
+
+    @JsonProperty("updated_at")
+    private LocalDateTime updatedAt;
 }

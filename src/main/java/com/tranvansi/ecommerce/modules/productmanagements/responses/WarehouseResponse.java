@@ -28,5 +28,5 @@ public class WarehouseResponse {
     @JsonProperty("last_updated")
     private LocalDateTime lastUpdated;
 
-    private VariantResponse variant;
+    private VariantWarehouseResponse variant;
 }

@@ -11,6 +11,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,7 +31,7 @@ public class UpdateProfileRequest {
     @JsonProperty("date_of_birth")
     @NotBlank(message = "INVALID_USER_DATE_OF_BIRTH_REQUIRED")
     @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}", message = "INVALID_USER_DATE_OF_BIRTH_FORMAT")
-    private String dateOfBirth;
+    private LocalDateTime dateOfBirth;
 
     @JsonProperty("phone_number")
     @NotBlank(message = "INVALID_USER_PHONE_NUMBER_REQUIRED")

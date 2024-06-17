@@ -15,7 +15,7 @@ public class CreateProductResponse {
     private Integer id;
     private String name;
     private String description;
-
+    private String sku;
     private CategoryResponse category;
 
     private BrandResponse brand;

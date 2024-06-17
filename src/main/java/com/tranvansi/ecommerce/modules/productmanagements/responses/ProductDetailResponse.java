@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.modules.productmanagements.responses;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,6 +16,14 @@ public class ProductDetailResponse {
     private String name;
     private String description;
 
+    private String sku;
+
+    @JsonProperty("created_at")
+    private LocalDateTime createdAt;
+
+    @JsonProperty("updated_at")
+    private LocalDateTime updatedAt;
+
     @JsonProperty("average_rating")
     private Double averageRating;
 
@@ -22,6 +31,8 @@ public class ProductDetailResponse {
 
     private BrandResponse brand;
     private CategoryResponse category;
+    @JsonProperty("product_images")
+    private List<ProductImageResponse> productImages;
     private List<VariantDetail> variants;
 
     @Data
@@ -37,9 +48,14 @@ public class ProductDetailResponse {
         @JsonProperty("product_name")
         private String productName;
 
+        @JsonProperty("product_id")
+        private Integer productId;
+
         private String sku;
-        private ColorResponse color;
-        private SizeResponse size;
+
+        private String color;
+        private String size;
+
         private WarehousePurchasePriceAndAvailableQuantity warehouse;
 
         @JsonProperty("current_price_plan")

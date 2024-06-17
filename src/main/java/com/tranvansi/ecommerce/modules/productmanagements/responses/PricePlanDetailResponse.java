@@ -34,4 +34,10 @@ public class PricePlanDetailResponse {
     private PricePlanStatus status;
 
     private VariantResponse variant;
+
+    @JsonProperty("created_at")
+    private LocalDateTime createdAt;
+
+    @JsonProperty("updated_at")
+    private LocalDateTime updatedAt;
 }

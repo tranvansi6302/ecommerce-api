@@ -2,6 +2,7 @@ package com.tranvansi.ecommerce.exceptions;
 
 import java.util.Objects;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -22,10 +23,11 @@ public class GlobalExceptionHandler {
         ApiResponse<?> response =
                 ApiResponse.builder()
                         .code(ErrorCode.UNCAUGHT_EXCEPTION.getCode())
-                        .message(ErrorCode.UNCAUGHT_EXCEPTION.getMessage())
+                        .message(e.getMessage())
                         .build();
         return ResponseEntity.status(ErrorCode.UNCAUGHT_EXCEPTION.getStatusCode()).body(response);
     }
+
 
     @ExceptionHandler(AppException.class)
     ResponseEntity<ApiResponse<?>> handleAppException(AppException e) {

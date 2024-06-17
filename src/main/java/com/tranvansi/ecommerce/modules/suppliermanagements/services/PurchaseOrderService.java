@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,6 +62,7 @@ public class PurchaseOrderService implements IPurchaseOrderService {
                 userRepository
                         .findByEmail(email)
                         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+
         PurchaseOrder purchaseOrder = purchaseOrderMapper.createPurchaseOrder(request);
         purchaseOrder.setPurchaseOrderDate(LocalDateTime.now());
         purchaseOrder.setSupplier(supplier);
@@ -75,6 +79,12 @@ public class PurchaseOrderService implements IPurchaseOrderService {
                     variantRepository
                             .findById(purchaseDetailRequest.getVariantId())
                             .orElseThrow(() -> new AppException(ErrorCode.VARIANT_NOT_FOUND));
+            if(purchaseDetailRequest.getQuantity() <= 0) {
+                throw new AppException(ErrorCode.INVALID_PURCHASE_DETAIL_QUANTITY);
+            }
+            if(purchaseDetailRequest.getPurchasePrice() <= 0) {
+                throw new AppException(ErrorCode.INVALID_PURCHASE_DETAIL_PURCHASE_PRICE);
+            }
             PurchaseDetail purchaseDetail =
                     PurchaseDetail.builder()
                             .purchaseOrder(savedPurchaseOrder)
@@ -83,6 +93,7 @@ public class PurchaseOrderService implements IPurchaseOrderService {
                             .purchasePrice(purchaseDetailRequest.getPurchasePrice())
                             .quantityReceived(0)
                             .sku(variant.getSku())
+                            .note(purchaseDetailRequest.getNote())
                             .build();
             purchaseDetails.add(purchaseDetail);
         }
@@ -101,7 +112,16 @@ public class PurchaseOrderService implements IPurchaseOrderService {
                         .findById(purchaseOrderId)
                         .orElseThrow(() -> new AppException(ErrorCode.PURCHASE_ORDER_NOT_FOUND));
 
+        if(purchaseOrder.getStatus().equals(PurchaseOrderStatus.COMPLETED)) {
+            throw new AppException(ErrorCode.PURCHASE_ORDER_NOT_UPDATE);
+
+        }
+        if(purchaseOrder.getStatus().equals(PurchaseOrderStatus.CANCELLED)) {
+            throw new AppException(ErrorCode.PURCHASE_ORDER_NOT_UPDATE);
+        }
+
         purchaseOrder.setStatus(request.getStatus());
+        purchaseOrder.setCancelReason(request.getCancelReason());
         if (request.getStatus().equals(PurchaseOrderStatus.COMPLETED)) {
             for (UpdatePurchaseOrderRequest.PurchaseDetailUpdateRequest detailRequest :
                     request.getPurchaseDetails()) {
@@ -117,7 +137,7 @@ public class PurchaseOrderService implements IPurchaseOrderService {
                     throw new AppException(ErrorCode.QUANTITY_RECEIVED_GREATER_THAN_PURCHASED);
                 }
                 purchaseDetail.setQuantityReceived(detailRequest.getQuantityReceived());
-
+                purchaseDetail.setNote(detailRequest.getNote());
                 purchaseDetailRepository.save(purchaseDetail);
             }
 
@@ -153,5 +173,17 @@ public class PurchaseOrderService implements IPurchaseOrderService {
         purchaseOrderRepository.save(purchaseOrder);
 
         return purchaseOrderMapper.toPurchaseOrderResponse(purchaseOrder);
+    }
+
+    @Override
+    public Page<PurchaseOrderResponse> getAllPurchaseOrders(PageRequest pageRequest, Specification<PurchaseOrder> specification) {
+        return purchaseOrderRepository.findAll(specification, pageRequest).map(purchaseOrderMapper::toPurchaseOrderResponse);
+    }
+
+    @Override
+    public PurchaseOrderResponse getPurchaseOrderById(Integer purchaseOrderId) {
+        return purchaseOrderRepository.findById(purchaseOrderId)
+                .map(purchaseOrderMapper::toPurchaseOrderResponse)
+                .orElseThrow(() -> new AppException(ErrorCode.PURCHASE_ORDER_NOT_FOUND));
     }
 }

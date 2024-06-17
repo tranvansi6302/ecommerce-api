@@ -13,14 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tranvansi.ecommerce.components.constants.FileConstant;
 import com.tranvansi.ecommerce.components.enums.ErrorCode;
 import com.tranvansi.ecommerce.components.services.AmazonClientService;
+import com.tranvansi.ecommerce.components.utils.ConvertUtil;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.productmanagements.entities.*;
 import com.tranvansi.ecommerce.modules.productmanagements.mappers.BrandMapper;
 import com.tranvansi.ecommerce.modules.productmanagements.mappers.CategoryMapper;
-import com.tranvansi.ecommerce.modules.productmanagements.mappers.ColorMapper;
 import com.tranvansi.ecommerce.modules.productmanagements.mappers.PricePlanMapper;
 import com.tranvansi.ecommerce.modules.productmanagements.mappers.ProductMapper;
-import com.tranvansi.ecommerce.modules.productmanagements.mappers.SizeMapper;
 import com.tranvansi.ecommerce.modules.productmanagements.mappers.VariantMapper;
 import com.tranvansi.ecommerce.modules.productmanagements.repositories.PricePlanRepository;
 import com.tranvansi.ecommerce.modules.productmanagements.repositories.ProductRepository;
@@ -40,14 +39,12 @@ public class ProductService implements IProductService {
     private final IVariantService variantService;
     private final ICategoryService categoryService;
     private final IBrandService brandService;
-    private final IColorService colorService;
-    private final ISizeService sizeService;
     private final ProductMapper productMapper;
     private final VariantMapper variantMapper;
-    private final SizeMapper sizeMapper;
+
     private final CategoryMapper categoryMapper;
     private final BrandMapper brandMapper;
-    private final ColorMapper colorMapper;
+
     private final PricePlanRepository pricePlanRepository;
     private final PricePlanMapper pricePlanMapper;
     private final AmazonClientService amazonClientService;
@@ -59,6 +56,10 @@ public class ProductService implements IProductService {
             throw new AppException(ErrorCode.PRODUCT_ALREADY_EXISTS);
         }
 
+        if (productRepository.existsBySku(request.getSku())) {
+            throw new AppException(ErrorCode.SKU_ALREADY_EXISTS);
+        }
+
         Category category = categoryService.findCategoryById(request.getCategoryId());
         Brand brand = brandService.findBrandById(request.getBrandId());
 
@@ -68,38 +69,19 @@ public class ProductService implements IProductService {
 
         Product savedProduct = productRepository.save(product);
 
-        List<ColorResponse> colors = new ArrayList<>();
-        List<SizeResponse> sizes = new ArrayList<>();
         List<VariantResponse> variantResponses = new ArrayList<>();
 
-        for (Integer colorId : request.getColors()) {
-            Color color = colorService.findColorById(colorId);
+        for (String color : request.getColors())
+            for (String size : request.getSizes()) {
 
-            ColorResponse colorResponse = colorMapper.toColorResponse(color);
-            if (!colors.contains(colorResponse)) {
-                colors.add(colorResponse);
-            }
-
-            for (Integer sizeId : request.getSizes()) {
-                Size size = sizeService.findSizeById(sizeId);
-                SizeResponse sizeResponse = sizeMapper.toSizeResponse(size);
-                if (!sizes.contains(sizeResponse)) {
-                    sizes.add(sizeResponse);
-                }
-
-                String sku = generateSKU(request.getSku(), size.getName(), color.getName());
-
-                if (variantService.existsBySku(sku)) {
-                    throw new AppException(ErrorCode.SKU_ALREADY_EXISTS);
-                }
+                String sku = generateSKU(request.getSku(), size, color);
 
                 Variant variant =
                         Variant.builder()
                                 .product(savedProduct)
                                 .variantName(
                                         String.format(
-                                                "%s - %s - %s",
-                                                request.getName(), size.getName(), color.getName()))
+                                                "%s - %s - %s", request.getName(), size, color))
                                 .color(color)
                                 .productName(request.getName())
                                 .size(size)
@@ -110,7 +92,6 @@ public class ProductService implements IProductService {
                 VariantResponse variantResponse = variantMapper.toVariantResponse(savedVariant);
                 variantResponses.add(variantResponse);
             }
-        }
 
         return CreateProductResponse.builder()
                 .id(savedProduct.getId())
@@ -123,8 +104,7 @@ public class ProductService implements IProductService {
     }
 
     private String generateSKU(String sku, String sizeName, String colorName) {
-        String colorInitial = colorName.substring(0, 1).toUpperCase();
-        return String.format("%s-%s-%s", sku, sizeName, colorInitial);
+        return String.format("%s-%s-%s", sku, sizeName, ConvertUtil.toRemoveAccent(colorName));
     }
 
     @Override

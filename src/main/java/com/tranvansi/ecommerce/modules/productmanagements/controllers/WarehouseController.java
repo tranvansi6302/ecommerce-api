@@ -2,14 +2,13 @@ package com.tranvansi.ecommerce.modules.productmanagements.controllers;
 
 import java.util.List;
 
+import com.tranvansi.ecommerce.components.responses.ApiResponse;
+import com.tranvansi.ecommerce.modules.productmanagements.responses.ProductSalesResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.tranvansi.ecommerce.components.responses.BuildResponse;
 import com.tranvansi.ecommerce.components.responses.PagedResponse;
@@ -30,7 +29,7 @@ public class WarehouseController {
     public ResponseEntity<PagedResponse<List<WarehouseResponse>>> getAllWarehouses(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int limit,
-            @RequestParam(name = "sort_order", required = false) String sortOrder,
+            @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder,
             @RequestParam(name = "last-updated", required = false) String lastUpdatedSort,
             @RequestParam(name = "name", required = false) String variantName,
             @RequestParam(name = "category", required = false) String categorySlug,
@@ -64,6 +63,26 @@ public class WarehouseController {
                 warehouseService.getAllWarehouses(pageRequest, new WarehouseSpecification(filter));
         PagedResponse<List<WarehouseResponse>> response =
                 BuildResponse.buildPagedResponse(warehouseResponses, pageRequest);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/sales")
+    public ResponseEntity<PagedResponse<List<ProductSalesResponse>>> getAllProductSales(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "15") int limit) {
+        PageRequest pageRequest = PageRequest.of(page - 1, limit);
+        Page<ProductSalesResponse> productSalesResponses = warehouseService.getAllProductSales(pageRequest);
+        PagedResponse<List<ProductSalesResponse>> response =
+                BuildResponse.buildPagedResponse(productSalesResponses, pageRequest);
+        return ResponseEntity.ok(response);
+    }
+
+    // Get by id
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<WarehouseResponse>> getWarehouseById(@PathVariable Integer id) {
+        WarehouseResponse warehouseResponse = warehouseService.getWarehouseById(id);
+        ApiResponse<WarehouseResponse> response =
+                ApiResponse.<WarehouseResponse>builder().result(warehouseResponse).build();
         return ResponseEntity.ok(response);
     }
 }

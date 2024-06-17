@@ -40,6 +40,8 @@ public class CreatePurchaseOrderRequest {
         @NotNull(message = "INVALID_PURCHASE_DETAIL_VARIANT_ID_REQUIRED")
         private Integer variantId;
 
+        private String note;
+
         @JsonProperty("purchase_price")
         @NotNull(message = "INVALID_PURCHASE_DETAIL_PURCHASE_PRICE_REQUIRED")
         private Double purchasePrice;

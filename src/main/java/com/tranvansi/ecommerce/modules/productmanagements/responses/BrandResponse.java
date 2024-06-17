@@ -1,5 +1,9 @@
 package com.tranvansi.ecommerce.modules.productmanagements.responses;
 
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,4 +18,10 @@ public class BrandResponse {
     private String name;
     private String slug;
     private String summary;
+
+    @JsonProperty("created_at")
+    private LocalDateTime createdAt;
+
+    @JsonProperty("updated_at")
+    private LocalDateTime updatedAt;
 }

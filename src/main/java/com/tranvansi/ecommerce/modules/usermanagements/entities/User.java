@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.modules.usermanagements.entities;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -32,7 +33,7 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
-    private String dateOfBirth;
+    private LocalDateTime dateOfBirth;
 
     private String phoneNumber;
 

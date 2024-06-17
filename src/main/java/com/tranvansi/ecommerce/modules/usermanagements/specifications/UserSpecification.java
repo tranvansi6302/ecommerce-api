@@ -29,8 +29,8 @@ public class UserSpecification implements Specification<User> {
         if (filter.getEmail() != null) {
             predicates.add(cb.like(root.get("email"), "%" + filter.getEmail() + "%"));
         }
-        if (filter.getBlocked() != null) {
-            predicates.add(cb.equal(root.get("blocked"), filter.getBlocked()));
+        if (filter.getStatus() != null) {
+            predicates.add(cb.equal(root.get("status"), filter.getStatus()));
         }
         return cb.and(predicates.toArray(new Predicate[0]));
     }
