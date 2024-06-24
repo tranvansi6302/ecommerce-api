@@ -1,13 +1,14 @@
 package com.tranvansi.ecommerce.modules.productmanagements.responses;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tranvansi.ecommerce.modules.suppliermanagements.responses.WarehousePurchasePriceAndAvailableQuantity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -35,5 +36,4 @@ public class VariantResponse {
     private String size;
 
     private WarehousePurchasePriceAndAvailableQuantity warehouse;
-
 }

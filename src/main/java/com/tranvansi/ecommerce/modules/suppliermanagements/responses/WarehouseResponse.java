@@ -1,8 +1,9 @@
-package com.tranvansi.ecommerce.modules.productmanagements.responses;
+package com.tranvansi.ecommerce.modules.suppliermanagements.responses;
 
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tranvansi.ecommerce.modules.productmanagements.responses.VariantWarehouseResponse;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

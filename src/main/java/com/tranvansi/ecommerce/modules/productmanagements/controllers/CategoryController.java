@@ -31,9 +31,9 @@ public class CategoryController {
     public ResponseEntity<PagedResponse<List<CategoryResponse>>> getAllCategories(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int limit,
-            @RequestParam(name = "sort_order", defaultValue = "desc") String sortOder) {
+            @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder) {
         Sort sort =
-                sortOder.equalsIgnoreCase("asc")
+                sortOrder.equalsIgnoreCase("asc")
                         ? Sort.by("createdAt").ascending()
                         : Sort.by("createdAt").descending();
         PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);

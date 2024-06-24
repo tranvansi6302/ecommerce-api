@@ -176,8 +176,10 @@ public enum ErrorCode {
             1119, "Một đánh giá chỉ có thể tối đa 5 ảnh", HttpStatus.BAD_REQUEST),
     INVALID_REVIEW_IMAGE_REQUIRED(1120, "Ảnh đánh giá bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_REVIEW_IMAGE_FORMAT(1121, "Ảnh đánh giá không đúng định dạng", HttpStatus.BAD_REQUEST),
-    INVALID_PURCHASE_DETAIL_QUANTITY(1122, "Số lượng sản phẩm đơn hàng không hợp lệ", HttpStatus.BAD_REQUEST),
-    INVALID_PURCHASE_DETAIL_PURCHASE_PRICE(1123, "Giá mua sản phẩm đơn hàng không hợp lệ", HttpStatus.BAD_REQUEST),
+    INVALID_PURCHASE_DETAIL_QUANTITY(
+            1122, "Số lượng sản phẩm đơn hàng không hợp lệ", HttpStatus.BAD_REQUEST),
+    INVALID_PURCHASE_DETAIL_PURCHASE_PRICE(
+            1123, "Giá mua sản phẩm đơn hàng không hợp lệ", HttpStatus.BAD_REQUEST),
     PURCHASE_ORDER_NOT_UPDATE(1124, "Đơn hàng không thể cập nhật", HttpStatus.BAD_REQUEST),
     WAREHOUSE_NOT_FOUND(1125, "Kho không tồn tại", HttpStatus.NOT_FOUND),
     ;
@@ -186,4 +188,3 @@ public enum ErrorCode {
     private String message;
     private HttpStatusCode statusCode;
 }
-

@@ -1,4 +1,4 @@
-package com.tranvansi.ecommerce.modules.productmanagements.responses;
+package com.tranvansi.ecommerce.modules.suppliermanagements.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

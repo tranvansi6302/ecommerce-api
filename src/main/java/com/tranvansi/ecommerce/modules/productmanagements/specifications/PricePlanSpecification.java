@@ -3,13 +3,13 @@ package com.tranvansi.ecommerce.modules.productmanagements.specifications;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tranvansi.ecommerce.modules.productmanagements.entities.Product;
-import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
 import jakarta.persistence.criteria.*;
 
 import org.springframework.data.jpa.domain.Specification;
 
 import com.tranvansi.ecommerce.modules.productmanagements.entities.PricePlan;
+import com.tranvansi.ecommerce.modules.productmanagements.entities.Product;
+import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
 import com.tranvansi.ecommerce.modules.productmanagements.filters.PricePlanFilter;
 
 import lombok.NonNull;
@@ -30,13 +30,14 @@ public class PricePlanSpecification implements Specification<PricePlan> {
 
             Join<Product, Variant> variantJoin = root.join("variant", JoinType.INNER);
 
+            Predicate variantNamePredicate =
+                    cb.like(variantJoin.get("variantName"), "%" + filter.getSearch() + "%");
+            Predicate skuPredicate =
+                    cb.like(variantJoin.get("sku"), "%" + filter.getSearch() + "%");
+            Predicate productNamePredicate =
+                    cb.like(variantJoin.get("productName"), "%" + filter.getSearch() + "%");
 
-            Predicate variantNamePredicate = cb.like(variantJoin.get("variantName"), "%" + filter.getSearch() + "%");
-            Predicate skuPredicate = cb.like(variantJoin.get("sku"), "%" + filter.getSearch() + "%");
-            Predicate productNamePredicate = cb.like(variantJoin.get("productName"), "%" + filter.getSearch() + "%");
-
-
-            predicates.add(cb.or(variantNamePredicate,skuPredicate, productNamePredicate));
+            predicates.add(cb.or(variantNamePredicate, skuPredicate, productNamePredicate));
         }
 
         if (filter.getCategorySlug() != null) {

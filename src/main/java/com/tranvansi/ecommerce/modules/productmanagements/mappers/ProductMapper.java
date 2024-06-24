@@ -6,10 +6,12 @@ import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Product;
+import com.tranvansi.ecommerce.modules.productmanagements.entities.ProductImage;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.CreateProductRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateProductRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.CreateProductResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.ProductDetailResponse;
+import com.tranvansi.ecommerce.modules.productmanagements.responses.ProductImageResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.ProductResponse;
 import com.tranvansi.ecommerce.modules.reviewmanagements.repositories.ReviewRepository;
 import com.tranvansi.ecommerce.modules.salesmanagement.repositories.SaleRepository;
@@ -38,7 +40,9 @@ public abstract class ProductMapper {
 
     public abstract Product createProduct(CreateProductRequest request);
 
-    protected Double getAverageRating(Product product) {
+    public abstract ProductImageResponse toProductImageResponses(ProductImage productImage);
+
+    public Double getAverageRating(Product product) {
         Integer totalStars = reviewRepository.findTotalStarsByProductId(product.getId());
         Integer reviewCount = reviewRepository.findReviewCountByProductId(product.getId());
         if (totalStars == null || reviewCount == null || reviewCount == 0) {
@@ -47,7 +51,7 @@ public abstract class ProductMapper {
         return totalStars.doubleValue() / reviewCount;
     }
 
-    protected Integer getTotalSoldProduct(Product product) {
+    public Integer getTotalSoldProduct(Product product) {
         Integer totalSold = saleRepository.findTotalSoldByProductId(product.getId());
         if (totalSold == null) {
             return 0;

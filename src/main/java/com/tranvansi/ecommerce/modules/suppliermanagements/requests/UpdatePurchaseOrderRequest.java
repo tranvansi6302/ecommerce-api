@@ -26,8 +26,6 @@ public class UpdatePurchaseOrderRequest {
     @NotNull(message = "INVALID_PURCHASE_DETAILS_REQUIRED")
     private List<PurchaseDetailUpdateRequest> purchaseDetails;
 
-
-
     @Data
     @NoArgsConstructor
     @AllArgsConstructor

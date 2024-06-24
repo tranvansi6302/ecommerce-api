@@ -28,6 +28,9 @@ import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
 import com.tranvansi.ecommerce.modules.usermanagements.mappers.ForgotTokenMapper;
 import com.tranvansi.ecommerce.modules.usermanagements.mappers.UserMapper;
 import com.tranvansi.ecommerce.modules.usermanagements.repositories.ForgotTokenRepository;
+import com.tranvansi.ecommerce.modules.usermanagements.repositories.UserRepository;
+import com.tranvansi.ecommerce.modules.usermanagements.repositories.httpclients.OAuthFeignClient;
+import com.tranvansi.ecommerce.modules.usermanagements.repositories.httpclients.OAuthUserClient;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.*;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.IntrospectResponse;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.LoginResponse;
@@ -43,15 +46,27 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class AuthenticationService implements IAuthenticationService {
+    private final UserRepository userRepository;
     private final IUserService userService;
     private final IRoleService roleService;
     private final ForgotTokenRepository forgotTokenRepository;
     private final MailService mailService;
     private final UserMapper userMapper;
     private final ForgotTokenMapper forgotTokenMapper;
+    private final OAuthFeignClient oAuthFeignClient;
+    private final OAuthUserClient oAuthUserClient;
 
     @Value("${jwt.signerKey}")
     private String signerKey;
+
+    @Value("${oauth2.google.client-id}")
+    private String googleClientId;
+
+    @Value("${oauth2.google.client-secret}")
+    private String googleClientSecret;
+
+    @Value("${oauth2.google.redirect-uri}")
+    private String googleRedirectUri;
 
     @Override
     public RegisterResponse register(RegisterRequest request) {
@@ -182,6 +197,47 @@ public class AuthenticationService implements IAuthenticationService {
         userService.saveUser(user);
 
         forgotTokenRepository.delete(forgotToken);
+    }
+
+    @Override
+    public LoginResponse googleLogin(String code) {
+        var response =
+                oAuthFeignClient.exchangeToken(
+                        ExchangeTokenRequest.builder()
+                                .code(code)
+                                .clientId(googleClientId)
+                                .clientSecret(googleClientSecret)
+                                .redirectUri(googleRedirectUri)
+                                .grantType("authorization_code")
+                                .build());
+        // Onboarding user
+        var userInfo = oAuthUserClient.getOAuthUser("json", response.getAccessToken());
+        log.info("User info: {}", userInfo);
+
+        var user =
+                userRepository
+                        .findByEmail(userInfo.getEmail())
+                        .orElseGet(
+                                () -> {
+                                    var newUser =
+                                            User.builder()
+                                                    .email(userInfo.getEmail())
+                                                    .fullName(userInfo.getName())
+                                                    .status(UserStatus.ACTIVE)
+                                                    .avatar(userInfo.getPicture())
+                                                    .password("")
+                                                    .roles(
+                                                            roleService.findAllRoleById(
+                                                                    Collections.singleton(
+                                                                            RoleName.USER.name())))
+                                                    .build();
+                                    return userRepository.save(newUser);
+                                });
+
+        // Convert google token to JWT token
+        var token = generateToken(user);
+
+        return LoginResponse.builder().token(token).user(userMapper.toUserResponse(user)).build();
     }
 
     private String generatePasswordResetToken(User user) {

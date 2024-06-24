@@ -1,4 +1,4 @@
-package com.tranvansi.ecommerce.modules.productmanagements.filters;
+package com.tranvansi.ecommerce.modules.suppliermanagements.filters;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class WarehouseFilter {
-    private String variantName;
+    private String search;
     private String categorySlug;
     private String brandSlug;
-    private String sku;
 }

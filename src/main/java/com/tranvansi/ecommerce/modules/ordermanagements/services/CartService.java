@@ -21,7 +21,7 @@ import com.tranvansi.ecommerce.modules.ordermanagements.services.interfaces.ICar
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
 import com.tranvansi.ecommerce.modules.productmanagements.mappers.VariantMapper;
 import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.IVariantService;
-import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.IWarehouseService;
+import com.tranvansi.ecommerce.modules.suppliermanagements.services.interfaces.IWarehouseService;
 import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
 
 import lombok.RequiredArgsConstructor;

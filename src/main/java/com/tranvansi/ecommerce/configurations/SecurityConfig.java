@@ -41,6 +41,7 @@ public class SecurityConfig {
             String.format("%s/auth/login", apiPrefix),
             String.format("%s/auth/forgot-password", apiPrefix),
             String.format("%s/auth/reset-password", apiPrefix),
+            String.format("%s/auth/oauth2/google", apiPrefix),
         };
     }
 
@@ -57,6 +58,7 @@ public class SecurityConfig {
             String.format("%s/products", apiPrefix),
             String.format("%s/products/{id}", apiPrefix),
             String.format("%s/reviews", apiPrefix),
+            String.format("%s/warehouses/sales", apiPrefix),
 
             // swagger
             String.format("%s/api-docs", appName),
@@ -122,7 +124,4 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
-
 }

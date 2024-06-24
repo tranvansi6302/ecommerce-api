@@ -42,15 +42,10 @@ public class PricePlanController {
             @RequestParam(name = "sort_by", required = false) String sortBy,
             @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder) {
 
-        Sort sort;
-        if ("price".equalsIgnoreCase(sortBy)) {
-            sort =
-                    "asc".equalsIgnoreCase(sortOrder)
-                            ? Sort.by("salePrice").ascending()
-                            : Sort.by("salePrice").descending();
-        } else {
-            sort = Sort.by("createdAt").descending();
-        }
+        Sort sort =
+                sortOrder.equalsIgnoreCase("asc")
+                        ? Sort.by("createdAt").ascending()
+                        : Sort.by("createdAt").descending();
 
         PricePlanFilter filter =
                 PricePlanFilter.builder()

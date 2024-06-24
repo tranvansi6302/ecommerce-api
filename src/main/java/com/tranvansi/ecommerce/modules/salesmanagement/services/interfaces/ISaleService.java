@@ -4,4 +4,6 @@ import com.tranvansi.ecommerce.modules.salesmanagement.entities.Sale;
 
 public interface ISaleService {
     void saveSale(Sale sale);
+
+    Integer findTotalSoldByProductId(Integer productId);
 }

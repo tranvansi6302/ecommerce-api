@@ -1,4 +1,4 @@
-package com.tranvansi.ecommerce.modules.productmanagements.entities;
+package com.tranvansi.ecommerce.modules.suppliermanagements.entities;
 
 import java.time.LocalDateTime;
 
@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tranvansi.ecommerce.components.entities.BaseEntity;
+import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
 
 import lombok.*;
 

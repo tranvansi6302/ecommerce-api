@@ -15,16 +15,16 @@ import com.tranvansi.ecommerce.components.enums.ErrorCode;
 import com.tranvansi.ecommerce.components.enums.PurchaseOrderStatus;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
-import com.tranvansi.ecommerce.modules.productmanagements.entities.Warehouse;
 import com.tranvansi.ecommerce.modules.productmanagements.repositories.VariantRepository;
-import com.tranvansi.ecommerce.modules.productmanagements.repositories.WarehouseRepository;
 import com.tranvansi.ecommerce.modules.suppliermanagements.entities.PurchaseDetail;
 import com.tranvansi.ecommerce.modules.suppliermanagements.entities.PurchaseOrder;
 import com.tranvansi.ecommerce.modules.suppliermanagements.entities.Supplier;
+import com.tranvansi.ecommerce.modules.suppliermanagements.entities.Warehouse;
 import com.tranvansi.ecommerce.modules.suppliermanagements.mappers.PurchaseOrderMapper;
 import com.tranvansi.ecommerce.modules.suppliermanagements.repositories.PurchaseDetailRepository;
 import com.tranvansi.ecommerce.modules.suppliermanagements.repositories.PurchaseOrderRepository;
 import com.tranvansi.ecommerce.modules.suppliermanagements.repositories.SupplierRepository;
+import com.tranvansi.ecommerce.modules.suppliermanagements.repositories.WarehouseRepository;
 import com.tranvansi.ecommerce.modules.suppliermanagements.requests.CreatePurchaseOrderRequest;
 import com.tranvansi.ecommerce.modules.suppliermanagements.requests.UpdatePurchaseOrderRequest;
 import com.tranvansi.ecommerce.modules.suppliermanagements.responses.PurchaseOrderResponse;
@@ -79,10 +79,10 @@ public class PurchaseOrderService implements IPurchaseOrderService {
                     variantRepository
                             .findById(purchaseDetailRequest.getVariantId())
                             .orElseThrow(() -> new AppException(ErrorCode.VARIANT_NOT_FOUND));
-            if(purchaseDetailRequest.getQuantity() <= 0) {
+            if (purchaseDetailRequest.getQuantity() <= 0) {
                 throw new AppException(ErrorCode.INVALID_PURCHASE_DETAIL_QUANTITY);
             }
-            if(purchaseDetailRequest.getPurchasePrice() <= 0) {
+            if (purchaseDetailRequest.getPurchasePrice() <= 0) {
                 throw new AppException(ErrorCode.INVALID_PURCHASE_DETAIL_PURCHASE_PRICE);
             }
             PurchaseDetail purchaseDetail =
@@ -112,11 +112,10 @@ public class PurchaseOrderService implements IPurchaseOrderService {
                         .findById(purchaseOrderId)
                         .orElseThrow(() -> new AppException(ErrorCode.PURCHASE_ORDER_NOT_FOUND));
 
-        if(purchaseOrder.getStatus().equals(PurchaseOrderStatus.COMPLETED)) {
+        if (purchaseOrder.getStatus().equals(PurchaseOrderStatus.COMPLETED)) {
             throw new AppException(ErrorCode.PURCHASE_ORDER_NOT_UPDATE);
-
         }
-        if(purchaseOrder.getStatus().equals(PurchaseOrderStatus.CANCELLED)) {
+        if (purchaseOrder.getStatus().equals(PurchaseOrderStatus.CANCELLED)) {
             throw new AppException(ErrorCode.PURCHASE_ORDER_NOT_UPDATE);
         }
 
@@ -176,13 +175,17 @@ public class PurchaseOrderService implements IPurchaseOrderService {
     }
 
     @Override
-    public Page<PurchaseOrderResponse> getAllPurchaseOrders(PageRequest pageRequest, Specification<PurchaseOrder> specification) {
-        return purchaseOrderRepository.findAll(specification, pageRequest).map(purchaseOrderMapper::toPurchaseOrderResponse);
+    public Page<PurchaseOrderResponse> getAllPurchaseOrders(
+            PageRequest pageRequest, Specification<PurchaseOrder> specification) {
+        return purchaseOrderRepository
+                .findAll(specification, pageRequest)
+                .map(purchaseOrderMapper::toPurchaseOrderResponse);
     }
 
     @Override
     public PurchaseOrderResponse getPurchaseOrderById(Integer purchaseOrderId) {
-        return purchaseOrderRepository.findById(purchaseOrderId)
+        return purchaseOrderRepository
+                .findById(purchaseOrderId)
                 .map(purchaseOrderMapper::toPurchaseOrderResponse)
                 .orElseThrow(() -> new AppException(ErrorCode.PURCHASE_ORDER_NOT_FOUND));
     }

@@ -1,13 +1,7 @@
 package com.tranvansi.ecommerce.modules.suppliermanagements.controllers;
 
-import com.tranvansi.ecommerce.components.enums.PurchaseOrderStatus;
-import com.tranvansi.ecommerce.components.responses.BuildResponse;
-import com.tranvansi.ecommerce.components.responses.PagedResponse;
-import com.tranvansi.ecommerce.modules.productmanagements.filters.VariantFilter;
-import com.tranvansi.ecommerce.modules.productmanagements.responses.VariantResponse;
-import com.tranvansi.ecommerce.modules.productmanagements.specifications.VariantSpecification;
-import com.tranvansi.ecommerce.modules.suppliermanagements.filters.PurchaseOrdersFilter;
-import com.tranvansi.ecommerce.modules.suppliermanagements.specifications.PurchaseOrdersSpecification;
+import java.util.List;
+
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -17,15 +11,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.tranvansi.ecommerce.components.enums.Message;
+import com.tranvansi.ecommerce.components.enums.PurchaseOrderStatus;
 import com.tranvansi.ecommerce.components.responses.ApiResponse;
+import com.tranvansi.ecommerce.components.responses.BuildResponse;
+import com.tranvansi.ecommerce.components.responses.PagedResponse;
+import com.tranvansi.ecommerce.modules.suppliermanagements.filters.PurchaseOrdersFilter;
 import com.tranvansi.ecommerce.modules.suppliermanagements.requests.CreatePurchaseOrderRequest;
 import com.tranvansi.ecommerce.modules.suppliermanagements.requests.UpdatePurchaseOrderRequest;
 import com.tranvansi.ecommerce.modules.suppliermanagements.responses.PurchaseOrderResponse;
 import com.tranvansi.ecommerce.modules.suppliermanagements.services.interfaces.IPurchaseOrderService;
+import com.tranvansi.ecommerce.modules.suppliermanagements.specifications.PurchaseOrdersSpecification;
 
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("${api.prefix}/purchase-orders")
@@ -40,11 +37,9 @@ public class PurchaseOrderController {
             @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder,
             @RequestParam(name = "status", required = false) PurchaseOrderStatus status,
             @RequestParam(name = "search", required = false) String search,
-            @RequestParam(name = "supplier", required = false) Integer supplierId
-          ) {
+            @RequestParam(name = "supplier", required = false) Integer supplierId) {
         PurchaseOrdersFilter filter =
-                PurchaseOrdersFilter
-                        .builder()
+                PurchaseOrdersFilter.builder()
                         .status(status)
                         .search(search)
                         .supplierId(supplierId)
@@ -55,8 +50,8 @@ public class PurchaseOrderController {
                         : Sort.by("createdAt").descending();
         PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
         Page<PurchaseOrderResponse> purchaseOrderResponses =
-                purchaseOrderService.getAllPurchaseOrders(pageRequest,
-                        new PurchaseOrdersSpecification(filter));
+                purchaseOrderService.getAllPurchaseOrders(
+                        pageRequest, new PurchaseOrdersSpecification(filter));
         PagedResponse<List<PurchaseOrderResponse>> response =
                 BuildResponse.buildPagedResponse(purchaseOrderResponses, pageRequest);
         return ResponseEntity.ok(response);
@@ -67,9 +62,7 @@ public class PurchaseOrderController {
             @PathVariable Integer id) {
         PurchaseOrderResponse purchaseOrderResponse = purchaseOrderService.getPurchaseOrderById(id);
         ApiResponse<PurchaseOrderResponse> response =
-                ApiResponse.<PurchaseOrderResponse>builder()
-                        .result(purchaseOrderResponse)
-                        .build();
+                ApiResponse.<PurchaseOrderResponse>builder().result(purchaseOrderResponse).build();
         return ResponseEntity.ok(response);
     }
 

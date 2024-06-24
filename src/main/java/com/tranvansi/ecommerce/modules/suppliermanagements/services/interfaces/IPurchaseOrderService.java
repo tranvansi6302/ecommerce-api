@@ -1,12 +1,11 @@
 package com.tranvansi.ecommerce.modules.suppliermanagements.services.interfaces;
 
-import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
-import com.tranvansi.ecommerce.modules.suppliermanagements.entities.PurchaseOrder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 
+import com.tranvansi.ecommerce.modules.suppliermanagements.entities.PurchaseOrder;
 import com.tranvansi.ecommerce.modules.suppliermanagements.requests.CreatePurchaseOrderRequest;
 import com.tranvansi.ecommerce.modules.suppliermanagements.requests.UpdatePurchaseOrderRequest;
 import com.tranvansi.ecommerce.modules.suppliermanagements.responses.PurchaseOrderResponse;

@@ -14,9 +14,6 @@ public interface PurchaseOrderMapper {
     @Mapping(target = "purchaseDetails", ignore = true)
     PurchaseOrder createPurchaseOrder(CreatePurchaseOrderRequest request);
 
-    @Mapping(
-            target = "purchaseOrderDate",
-            source = "purchaseOrderDate",
-            dateFormat = "dd-MM-yyyy HH:mm:ss")
+    @Mapping(target = "purchaseOrderDate", source = "purchaseOrderDate")
     PurchaseOrderResponse toPurchaseOrderResponse(PurchaseOrder purchaseOrder);
 }

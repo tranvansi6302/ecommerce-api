@@ -137,4 +137,14 @@ public class ReviewService implements IReviewService {
                 .findAll(specification, pageRequest)
                 .map(reviewMapper::toReviewResponse);
     }
+
+    @Override
+    public Integer findTotalStarsByProductId(Integer productId) {
+        return reviewRepository.findTotalStarsByProductId(productId);
+    }
+
+    @Override
+    public Integer findReviewCountByProductId(Integer productId) {
+        return reviewRepository.findReviewCountByProductId(productId);
+    }
 }

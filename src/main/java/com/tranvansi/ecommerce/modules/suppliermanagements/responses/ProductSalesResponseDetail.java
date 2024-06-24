@@ -1,18 +1,17 @@
-package com.tranvansi.ecommerce.modules.productmanagements.responses;
+package com.tranvansi.ecommerce.modules.suppliermanagements.responses;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tranvansi.ecommerce.modules.productmanagements.responses.ProductDetailResponse;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductSalesResponse {
+public class ProductSalesResponseDetail {
     private Integer id;
     private ProductDetailResponse product;
 }

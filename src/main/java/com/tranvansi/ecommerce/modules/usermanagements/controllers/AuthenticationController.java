@@ -3,10 +3,7 @@ package com.tranvansi.ecommerce.modules.usermanagements.controllers;
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.tranvansi.ecommerce.components.enums.Message;
 import com.tranvansi.ecommerce.components.responses.ApiResponse;
@@ -25,6 +22,18 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final IAuthenticationService authenticationService;
+
+    @PostMapping("/oauth2/google")
+    public ResponseEntity<ApiResponse<LoginResponse>> googleLogin(
+            @RequestParam("code") String code) {
+        LoginResponse loginResponse = authenticationService.googleLogin(code);
+        ApiResponse<LoginResponse> response =
+                ApiResponse.<LoginResponse>builder()
+                        .message(Message.LOGIN_SUCCESS.getMessage())
+                        .result(loginResponse)
+                        .build();
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<RegisterResponse>> register(

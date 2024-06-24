@@ -29,7 +29,7 @@ public class VariantController {
     @GetMapping("")
     public ResponseEntity<PagedResponse<List<VariantResponse>>> getAllVariants(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "15") int limit,
+            @RequestParam(defaultValue = "20") int limit,
             @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder,
             @RequestParam(name = "search", required = false) String search,
             @RequestParam(name = "category", required = false) String categorySlug,

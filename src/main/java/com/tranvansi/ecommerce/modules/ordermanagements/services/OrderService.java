@@ -32,11 +32,11 @@ import com.tranvansi.ecommerce.modules.ordermanagements.services.interfaces.ICar
 import com.tranvansi.ecommerce.modules.ordermanagements.services.interfaces.IOrderDetailService;
 import com.tranvansi.ecommerce.modules.ordermanagements.services.interfaces.IOrderService;
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
-import com.tranvansi.ecommerce.modules.productmanagements.entities.Warehouse;
 import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.IVariantService;
-import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.IWarehouseService;
 import com.tranvansi.ecommerce.modules.salesmanagement.entities.Sale;
 import com.tranvansi.ecommerce.modules.salesmanagement.services.interfaces.ISaleService;
+import com.tranvansi.ecommerce.modules.suppliermanagements.entities.Warehouse;
+import com.tranvansi.ecommerce.modules.suppliermanagements.services.interfaces.IWarehouseService;
 import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
 
 import lombok.RequiredArgsConstructor;

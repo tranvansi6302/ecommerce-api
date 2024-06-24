@@ -29,11 +29,6 @@ public class VariantService implements IVariantService {
     }
 
     @Override
-    public boolean existsBySku(String sku) {
-        return variantRepository.existsBySku(sku);
-    }
-
-    @Override
     public Variant saveVariant(Variant variant) {
         return variantRepository.save(variant);
     }

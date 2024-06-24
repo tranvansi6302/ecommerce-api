@@ -20,13 +20,17 @@ import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
 import com.tranvansi.ecommerce.modules.productmanagements.mappers.PricePlanMapper;
 import com.tranvansi.ecommerce.modules.productmanagements.mappers.VariantMapper;
 import com.tranvansi.ecommerce.modules.productmanagements.repositories.PricePlanRepository;
+import com.tranvansi.ecommerce.modules.productmanagements.repositories.ProductRepository;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.CreatePricePlanRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdatePricePlanRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.PricePlanDetailResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.VariantResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.IPricePlanService;
 import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.IVariantService;
-import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.IWarehouseService;
+import com.tranvansi.ecommerce.modules.salesmanagement.entities.ProductSale;
+import com.tranvansi.ecommerce.modules.salesmanagement.repositories.ProductSaleRepository;
+import com.tranvansi.ecommerce.modules.suppliermanagements.repositories.WarehouseRepository;
+import com.tranvansi.ecommerce.modules.suppliermanagements.services.interfaces.IWarehouseService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +44,9 @@ public class PricePlanService implements IPricePlanService {
     private final IVariantService variantService;
     private final VariantMapper variantMapper;
     private final PricePlanMapper pricePlanMapper;
+    private final ProductSaleRepository productSaleRepository;
+    private final ProductRepository productRepository;
+    private final WarehouseRepository warehouseRepository;
 
     @Override
     @Transactional
@@ -52,51 +59,74 @@ public class PricePlanService implements IPricePlanService {
                 throw new AppException(ErrorCode.WAREHOUSE_VARIANT_NOT_FOUND);
             }
 
-            if(pricePlanRequest.getStartDate()==null) {
-                String errorRow = "Ngày bắt đầu không hợp lệ ở dòng : "+ variant.getVariantName();
+            if (pricePlanRequest.getStartDate() == null) {
+                String errorRow = "Ngày bắt đầu không hợp lệ ở dòng : " + variant.getVariantName();
                 throw new RuntimeException(errorRow);
             }
-            PricePlan latestPlan = null;
-            List<PricePlan> existingPlans =
-                    pricePlanRepository.findByVariantIdAndEndDateIsNullOrderByStartDateDesc(
-                            pricePlanRequest.getVariantId());
-            if (!existingPlans.isEmpty()) {
-                latestPlan = existingPlans.getFirst(); // Use get(0) for the first element
-                if (pricePlanRequest.getStartDate().isEqual(latestPlan.getStartDate())
-                        || pricePlanRequest.getStartDate().isBefore(latestPlan.getStartDate())) {
-                    String errorRow = "Ngày bắt đầu không hợp lệ ở dòng : "+ variant.getVariantName();
-                    throw new RuntimeException(errorRow);
-                }
 
-                if (pricePlanRequest.getEndDate() == null) {
-                    latestPlan.setEndDate(pricePlanRequest.getStartDate());
-                    pricePlanRepository.save(latestPlan);
-                }
+            if (pricePlanRequest.getPromotionPrice() != null) {
+                PricePlan promotionPricePlan =
+                        PricePlan.builder()
+                                .variant(variant)
+                                .salePrice(pricePlanRequest.getPromotionPrice())
+                                .promotionPrice(pricePlanRequest.getPromotionPrice())
+                                .discount(pricePlanRequest.getDiscount())
+                                .status(pricePlanRequest.getStatus())
+                                .startDate(pricePlanRequest.getStartDate())
+                                .endDate(pricePlanRequest.getEndDate())
+                                .build();
+
+                PricePlan savedPromotionPricePlan = pricePlanRepository.save(promotionPricePlan);
+
+                VariantResponse variantResponse = variantMapper.toVariantResponse(variant);
+                savedPromotionPricePlan.setId(savedPromotionPricePlan.getId());
+                PricePlanDetailResponse pricePlanResponse =
+                        pricePlanMapper.toPricePlanDetailResponse(savedPromotionPricePlan);
+                pricePlanResponse.setVariant(variantResponse);
+                createdPricePlans.add(pricePlanResponse);
             }
 
-            PricePlan newPricePlan =
-                    PricePlan.builder()
-                            .variant(variant)
-                            .salePrice(pricePlanRequest.getSalePrice())
-                            .promotionPrice(pricePlanRequest.getPromotionPrice())
-                            .discount(pricePlanRequest.getDiscount())
-                            .status(pricePlanRequest.getStatus())
-                            .startDate(pricePlanRequest.getStartDate())
-                            .endDate(pricePlanRequest.getEndDate())
-                            .build();
-            if (pricePlanRequest.getEndDate() != null && latestPlan != null) {
-                newPricePlan.setSalePrice(latestPlan.getSalePrice());
+            if (pricePlanRequest.getSalePrice() != null) {
+                PricePlan salePricePlan =
+                        PricePlan.builder()
+                                .variant(variant)
+                                .salePrice(pricePlanRequest.getSalePrice())
+                                .promotionPrice(pricePlanRequest.getPromotionPrice())
+                                .discount(pricePlanRequest.getDiscount())
+                                .status(pricePlanRequest.getStatus())
+                                .startDate(pricePlanRequest.getStartDate())
+                                .endDate(null)
+                                .build();
+
+                PricePlan savedSalePricePlan = pricePlanRepository.save(salePricePlan);
+
+                VariantResponse variantResponse = variantMapper.toVariantResponse(variant);
+                savedSalePricePlan.setId(savedSalePricePlan.getId());
+                PricePlanDetailResponse pricePlanResponse =
+                        pricePlanMapper.toPricePlanDetailResponse(savedSalePricePlan);
+                pricePlanResponse.setVariant(variantResponse);
+                createdPricePlans.add(pricePlanResponse);
             }
-
-            PricePlan savedPricePlan = pricePlanRepository.save(newPricePlan);
-
-            VariantResponse variantResponse = variantMapper.toVariantResponse(variant);
-            savedPricePlan.setId(savedPricePlan.getId());
-            PricePlanDetailResponse pricePlanResponse =
-                    pricePlanMapper.toPricePlanDetailResponse(savedPricePlan);
-            pricePlanResponse.setVariant(variantResponse);
-            createdPricePlans.add(pricePlanResponse);
+            var product =
+                    productRepository
+                            .findById(variant.getProduct().getId())
+                            .orElseThrow(() -> new AppException(ErrorCode.PRODUCT_NOT_FOUND));
+            var warehouse =
+                    warehouseRepository
+                            .findByVariant(variant)
+                            .orElseThrow(() -> new AppException(ErrorCode.WAREHOUSE_NOT_FOUND));
+            if (!productSaleRepository.existsByProductIdAndVariantId(
+                    product.getId(), variant.getId())) {
+                ProductSale productSale =
+                        ProductSale.builder()
+                                .product(product)
+                                .variant(variant)
+                                .warehouse(warehouse)
+                                .build();
+                productSaleRepository.save(productSale);
+            }
         }
+
         return createdPricePlans;
     }
 
@@ -120,7 +150,7 @@ public class PricePlanService implements IPricePlanService {
     public Page<PricePlanDetailResponse> getAllCurrentPricePlans(
             PageRequest pageRequest, Specification<PricePlan> specification) {
 
-        List<PricePlan> pricePlans = pricePlanRepository.findAll(specification);
+        Page<PricePlan> pricePlans = pricePlanRepository.findAll(specification, pageRequest);
         List<PricePlanDetailResponse> pricePlanResponses = new ArrayList<>();
         Set<Integer> processedVariants = new HashSet<>();
 
@@ -194,6 +224,11 @@ public class PricePlanService implements IPricePlanService {
                 pricePlanMapper.toPricePlanDetailResponse(updatedPricePlan);
         pricePlanResponse.setVariant(variantResponse);
         return pricePlanResponse;
+    }
+
+    @Override
+    public List<PricePlan> findByVariantIdOrderByStartDateDesc(Integer variantId) {
+        return pricePlanRepository.findByVariantIdOrderByStartDateDesc(variantId);
     }
 
     private PricePlan getCurrentPricePlan(Integer variantId) {
