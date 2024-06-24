@@ -26,4 +26,6 @@ public interface IPricePlanService {
 
     @PreAuthorize("hasRole('ADMIN')")
     PricePlanDetailResponse updatePricePlan(Integer pricePlanId, UpdatePricePlanRequest request);
+
+    List<PricePlan> findByVariantIdOrderByStartDateDesc(Integer variantId);
 }

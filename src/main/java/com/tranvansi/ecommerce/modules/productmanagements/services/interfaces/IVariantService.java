@@ -10,8 +10,6 @@ import com.tranvansi.ecommerce.modules.productmanagements.responses.VariantRespo
 public interface IVariantService {
     Variant findVariantById(Integer id);
 
-    boolean existsBySku(String sku);
-
     Variant saveVariant(Variant variant);
 
     Page<VariantResponse> getAllVariants(

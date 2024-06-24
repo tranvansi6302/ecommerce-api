@@ -13,5 +13,4 @@ public class VariantFilter {
     private String search;
     private String brandSlug;
     private String categorySlug;
-
 }

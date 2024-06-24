@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tranvansi.ecommerce.modules.suppliermanagements.responses.WarehousePurchasePriceAndAvailableQuantity;
 
 import lombok.*;
 
@@ -31,8 +32,10 @@ public class ProductDetailResponse {
 
     private BrandResponse brand;
     private CategoryResponse category;
+
     @JsonProperty("product_images")
     private List<ProductImageResponse> productImages;
+
     private List<VariantDetail> variants;
 
     @Data

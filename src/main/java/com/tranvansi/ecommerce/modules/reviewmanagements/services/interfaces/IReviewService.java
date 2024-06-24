@@ -29,4 +29,8 @@ public interface IReviewService {
 
     Page<ReviewResponse> getAllReviews(
             PageRequest pageRequest, Specification<Review> specification);
+
+    Integer findTotalStarsByProductId(Integer productId);
+
+    Integer findReviewCountByProductId(Integer productId);
 }

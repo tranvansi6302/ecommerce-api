@@ -20,4 +20,6 @@ public interface IAuthenticationService {
     void forgotPassword(ForgotPasswordRequest request);
 
     void resetPassword(ResetPasswordRequest request);
+
+    LoginResponse googleLogin(String code);
 }

@@ -47,7 +47,6 @@ public class VariantSpecification implements Specification<Variant> {
                             root.join("product").join("brand").get("slug"), filter.getBrandSlug()));
         }
 
-
         return cb.and(predicates.toArray(new Predicate[0]));
     }
 }

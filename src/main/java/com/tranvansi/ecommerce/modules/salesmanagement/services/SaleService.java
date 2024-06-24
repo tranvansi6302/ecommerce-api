@@ -17,4 +17,9 @@ public class SaleService implements ISaleService {
     public void saveSale(Sale sale) {
         saleRepository.save(sale);
     }
+
+    @Override
+    public Integer findTotalSoldByProductId(Integer productId) {
+        return saleRepository.findTotalSoldByProductId(productId);
+    }
 }

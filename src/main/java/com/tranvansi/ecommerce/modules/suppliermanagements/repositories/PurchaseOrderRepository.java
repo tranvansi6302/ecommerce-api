@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import com.tranvansi.ecommerce.modules.suppliermanagements.entities.PurchaseOrder;
 
 @Repository
-public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, Integer>,
-        JpaSpecificationExecutor<PurchaseOrder> {
+public interface PurchaseOrderRepository
+        extends JpaRepository<PurchaseOrder, Integer>, JpaSpecificationExecutor<PurchaseOrder> {
     boolean existsByPurchaseOrderCode(String purchaseOrderCode);
 }

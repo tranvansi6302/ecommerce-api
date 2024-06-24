@@ -3,9 +3,9 @@ package com.tranvansi.ecommerce.modules.usermanagements.requests;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tranvansi.ecommerce.components.enums.UserStatus;
 
