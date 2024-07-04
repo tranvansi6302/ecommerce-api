@@ -36,4 +36,7 @@ public class VariantResponse {
     private String size;
 
     private WarehousePurchasePriceAndAvailableQuantity warehouse;
+
+    @JsonProperty("current_price_plan")
+    private PricePlanResponse currentPricePlan;
 }

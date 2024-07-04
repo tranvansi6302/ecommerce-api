@@ -41,6 +41,12 @@ public class ProfileResponse {
     @JsonProperty("phone_number")
     private String phoneNumber;
 
+    @JsonProperty("created_at")
+    private LocalDateTime createdAt;
+
+    @JsonProperty("updated_at")
+    private LocalDateTime updatedAt;
+
     private UserStatus status;
     private List<AddressResponse> addresses;
 }

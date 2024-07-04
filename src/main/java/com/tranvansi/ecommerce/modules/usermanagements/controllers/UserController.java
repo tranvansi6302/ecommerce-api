@@ -3,6 +3,7 @@ package com.tranvansi.ecommerce.modules.usermanagements.controllers;
 import java.io.IOException;
 import java.util.List;
 
+import com.tranvansi.ecommerce.modules.usermanagements.requests.ChangePasswordRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -148,6 +149,18 @@ public class UserController {
         ApiResponse<String> response =
                 ApiResponse.<String>builder()
                         .message(Message.DELETE_USER_SUCCESS.getMessage())
+                        .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/change-password")
+    public ResponseEntity<ApiResponse<ProfileResponse>> changePassword(
+            @RequestBody @Valid ChangePasswordRequest request) {
+        ProfileResponse profileResponse = userService.changePassword(request);
+        ApiResponse<ProfileResponse> response =
+                ApiResponse.<ProfileResponse>builder()
+                        .message(Message.CHANGE_PASSWORD_SUCCESS.getMessage())
+                        .result(profileResponse)
                         .build();
         return ResponseEntity.ok(response);
     }

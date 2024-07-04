@@ -18,10 +18,8 @@ import lombok.RequiredArgsConstructor;
 public class CartDetailService implements ICartDetailService {
     private final CartDetailRepository cartDetailRepository;
 
-    @Override
-    public boolean existsByVariantIdAndCart(Integer variantId, Cart cart) {
-        return cartDetailRepository.existsByVariantIdAndCart(variantId, cart);
-    }
+
+
 
     @Override
     public void saveCartDetail(CartDetail cartDetail) {
@@ -49,6 +47,11 @@ public class CartDetailService implements ICartDetailService {
     public CartDetail findCartDetailByVariantIdAndCart(Integer variantId, Cart cart) {
         return cartDetailRepository
                 .findByVariantIdAndCart(variantId, cart)
-                .orElseThrow(() -> new AppException(ErrorCode.CART_DETAIL_NOT_FOUND));
+                .orElse(null);
+    }
+
+    @Override
+    public boolean existsById(Integer id) {
+        return cartDetailRepository.existsById(id);
     }
 }

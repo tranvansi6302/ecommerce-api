@@ -58,7 +58,8 @@ public class SecurityConfig {
             String.format("%s/products", apiPrefix),
             String.format("%s/products/{id}", apiPrefix),
             String.format("%s/reviews", apiPrefix),
-            String.format("%s/warehouses/sales", apiPrefix),
+            String.format("%s/products/sales", apiPrefix),
+            String.format("%s/products/sales/{id}", apiPrefix),
 
             // swagger
             String.format("%s/api-docs", appName),

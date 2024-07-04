@@ -63,12 +63,22 @@ public class PricePlanService implements IPricePlanService {
                 String errorRow = "Ngày bắt đầu không hợp lệ ở dòng : " + variant.getVariantName();
                 throw new RuntimeException(errorRow);
             }
-
+            Double originalPrice = null;
             if (pricePlanRequest.getPromotionPrice() != null) {
+                var existingSalePricePlan =
+                        pricePlanRepository.findByVariantIdAndEndDateIsNullOrderByStartDateDesc(
+                                pricePlanRequest.getVariantId());
+                if (!existingSalePricePlan.isEmpty()) {
+                    originalPrice = existingSalePricePlan.getFirst().getSalePrice();
+                }else {
+                    originalPrice = pricePlanRequest.getSalePrice();
+                }
+                log.info("originalPrice: {}", originalPrice);
+
                 PricePlan promotionPricePlan =
                         PricePlan.builder()
                                 .variant(variant)
-                                .salePrice(pricePlanRequest.getPromotionPrice())
+                                .salePrice(originalPrice)
                                 .promotionPrice(pricePlanRequest.getPromotionPrice())
                                 .discount(pricePlanRequest.getDiscount())
                                 .status(pricePlanRequest.getStatus())
@@ -91,7 +101,7 @@ public class PricePlanService implements IPricePlanService {
                         PricePlan.builder()
                                 .variant(variant)
                                 .salePrice(pricePlanRequest.getSalePrice())
-                                .promotionPrice(pricePlanRequest.getPromotionPrice())
+                                .promotionPrice(null)
                                 .discount(pricePlanRequest.getDiscount())
                                 .status(pricePlanRequest.getStatus())
                                 .startDate(pricePlanRequest.getStartDate())
@@ -150,28 +160,33 @@ public class PricePlanService implements IPricePlanService {
     public Page<PricePlanDetailResponse> getAllCurrentPricePlans(
             PageRequest pageRequest, Specification<PricePlan> specification) {
 
-        Page<PricePlan> pricePlans = pricePlanRepository.findAll(specification, pageRequest);
+
+        List<PricePlan> allPricePlans = pricePlanRepository.findAll(specification);
         List<PricePlanDetailResponse> pricePlanResponses = new ArrayList<>();
         Set<Integer> processedVariants = new HashSet<>();
 
-        for (PricePlan pricePlan : pricePlans) {
-            VariantResponse variantResponse =
-                    variantMapper.toVariantResponse(pricePlan.getVariant());
+
+        for (PricePlan pricePlan : allPricePlans) {
+            VariantResponse variantResponse = variantMapper.toVariantResponse(pricePlan.getVariant());
             Integer variantId = variantResponse.getId();
             if (!processedVariants.contains(variantId)) {
                 PricePlan checkPricePlan = getCurrentPricePlan(variantId);
                 if (checkPricePlan != null) {
-                    PricePlanDetailResponse pricePlanResponse =
-                            pricePlanMapper.toPricePlanDetailResponse(checkPricePlan);
+                    PricePlanDetailResponse pricePlanResponse = pricePlanMapper.toPricePlanDetailResponse(checkPricePlan);
                     pricePlanResponse.setVariant(variantResponse);
                     pricePlanResponses.add(pricePlanResponse);
                     processedVariants.add(variantId);
                 }
             }
         }
+        // Pagination
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), pricePlanResponses.size());
+        List<PricePlanDetailResponse> pagedResponses = pricePlanResponses.subList(start, end);
 
-        return new PageImpl<>(pricePlanResponses, pageRequest, pricePlanResponses.size());
+        return new PageImpl<>(pagedResponses, pageRequest, pricePlanResponses.size());
     }
+
 
     @Override
     public PricePlanDetailResponse updatePricePlan(

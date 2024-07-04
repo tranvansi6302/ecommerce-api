@@ -1,5 +1,10 @@
 package com.tranvansi.ecommerce.modules.ordermanagements.services;
 
+import com.tranvansi.ecommerce.modules.ordermanagements.requests.DeleteManyProductCart;
+import com.tranvansi.ecommerce.modules.productmanagements.entities.PricePlan;
+import com.tranvansi.ecommerce.modules.productmanagements.mappers.PricePlanMapper;
+import com.tranvansi.ecommerce.modules.productmanagements.responses.VariantResponse;
+import com.tranvansi.ecommerce.modules.productmanagements.services.PricePlanService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -26,6 +31,9 @@ import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
 
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CartService implements ICartService {
@@ -33,9 +41,10 @@ public class CartService implements ICartService {
     private final IVariantService variantService;
     private final ICartDetailService cartDetailService;
     private final IWarehouseService warehouseService;
-
+    private final PricePlanService pricePlanService;
     private final AuthUtil authUtil;
     private final CartMapper cartMapper;
+    private final PricePlanMapper pricePlanMapper;
     private final VariantMapper variantMapper;
 
     @Override
@@ -50,20 +59,27 @@ public class CartService implements ICartService {
 
         if (!cartRepository.existsByUserId(user.getId())) {
             Cart cart = Cart.builder().user(user).build();
-            cartRepository.save(cart);
+            this.saveCart(cart);
         }
         Cart existingCart = cartRepository.findByUserId(user.getId()).orElseThrow(null);
+        CartDetail existingCartDetail = cartDetailService.findCartDetailByVariantIdAndCart(variant.getId(), existingCart);
+        CartDetail cartDetail = new CartDetail();
 
-        if (cartDetailService.existsByVariantIdAndCart(request.getVariantId(), existingCart)) {
-            throw new AppException(ErrorCode.PRODUCT_ALREADY_IN_CART);
+        CartDetailResponse toCartDetailResponse = null;
+
+        if (existingCartDetail != null) {
+            existingCartDetail.setQuantity(existingCartDetail.getQuantity() + request.getQuantity());
+            cartDetailService.saveCartDetail(existingCartDetail);
+            toCartDetailResponse = cartMapper.toCartDetailResponse(existingCartDetail);
+        }else {
+            cartDetail.setQuantity(request.getQuantity());
+            cartDetail.setVariant(variant);
+            cartDetail.setCart(existingCart);
+            cartDetail.setId(existingCart.getId());
+            cartDetailService.saveCartDetail(cartDetail);
+            toCartDetailResponse = cartMapper.toCartDetailResponse(cartDetail);
         }
 
-        CartDetail cartDetail = cartMapper.addProductToCart(request);
-        cartDetail.setVariant(variant);
-        cartDetail.setCart(existingCart);
-        cartDetailService.saveCartDetail(cartDetail);
-
-        CartDetailResponse toCartDetailResponse = cartMapper.toCartDetailResponse(cartDetail);
 
         CartResponse response = cartMapper.addToCartResponse(existingCart);
         response.setCartDetail(toCartDetailResponse);
@@ -86,13 +102,29 @@ public class CartService implements ICartService {
 
         CartDetailResponse toCartDetailResponse = cartMapper.toCartDetailResponse(cartDetail);
 
+
         Variant variant = variantService.findVariantById(cartDetail.getVariant().getId());
 
         toCartDetailResponse.setVariant(variantMapper.toVariantResponse(variant));
+
         CartResponse response = cartMapper.addToCartResponse(existingCart);
         response.setCartDetail(toCartDetailResponse);
 
         return response;
+    }
+
+    private PricePlan getCurrentPricePlan(Integer variantId) {
+        List<PricePlan> pricePlans =
+                pricePlanService.findByVariantIdOrderByStartDateDesc(variantId);
+        LocalDateTime now = LocalDateTime.now();
+
+        for (PricePlan pricePlan : pricePlans) {
+            if (pricePlan.getStartDate().isBefore(now)
+                    && (pricePlan.getEndDate() == null || pricePlan.getEndDate().isAfter(now))) {
+                return pricePlan;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -102,15 +134,27 @@ public class CartService implements ICartService {
                 cartRepository
                         .findByUserId(user.getId())
                         .orElseThrow(() -> new AppException(ErrorCode.CART_NOT_FOUND));
-        return cartDetailService
+        var cartDetails = cartDetailService
                 .findAllByCart(cart, pageRequest)
                 .map(cartMapper::toCartDetailResponse);
+        cartDetails.forEach(cartDetailResponse -> {
+            Variant variant = variantService.findVariantById(cartDetailResponse.getVariant().getId());
+            PricePlan pricePlan = getCurrentPricePlan(variant.getId());
+            cartDetailResponse.getVariant().setCurrentPricePlan(pricePlanMapper.toPricePlanResponse(pricePlan));
+        });
+        return cartDetails;
     }
 
+    @Transactional
     @Override
-    public void deleteProductFromCart(Integer cartDetailId) {
-        CartDetail cartDetail = cartDetailService.findCartDetailById(cartDetailId);
-        cartDetailService.deleteCartDetail(cartDetail);
+    public void deleteProductFromCart(DeleteManyProductCart cartDetailId) {
+        for (Integer id : cartDetailId.getCartDetailIds()) {
+            if (!cartDetailService.existsById(id)) {
+                throw new AppException(ErrorCode.CART_DETAIL_NOT_FOUND);
+            }
+            CartDetail cartDetail = cartDetailService.findCartDetailById(id);
+            cartDetailService.deleteCartDetail(cartDetail);
+        }
     }
 
     @Override
@@ -118,5 +162,10 @@ public class CartService implements ICartService {
         return cartRepository
                 .findByUserId(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.CART_NOT_FOUND));
+    }
+
+    @Override
+    public void saveCart(Cart cart) {
+        cartRepository.save(cart);
     }
 }

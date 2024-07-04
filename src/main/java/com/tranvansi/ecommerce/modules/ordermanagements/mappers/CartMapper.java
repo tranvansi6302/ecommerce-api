@@ -19,6 +19,10 @@ public interface CartMapper {
 
     CartResponse addToCartResponse(Cart cart);
 
+    @Mapping(target = "variant.productImages", source = "variant.product.productImages")
+    @Mapping(target = "variant.productId", source = "variant.product.id")
+
+
     CartDetailResponse toCartDetailResponse(CartDetail cartDetail);
 
     void updateProductFromCart(@MappingTarget CartDetail cartDetail, UpdateCartRequest request);

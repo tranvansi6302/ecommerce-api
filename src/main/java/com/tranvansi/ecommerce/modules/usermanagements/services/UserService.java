@@ -3,6 +3,7 @@ package com.tranvansi.ecommerce.modules.usermanagements.services;
 import java.io.IOException;
 import java.util.List;
 
+import com.tranvansi.ecommerce.modules.usermanagements.requests.ChangePasswordRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -48,12 +49,12 @@ public class UserService implements IUserService {
 
         if (userRepository.existsByPhoneNumber(request.getPhoneNumber())
                 && (user.getPhoneNumber() == null
-                        || !user.getPhoneNumber().equals(request.getPhoneNumber()))) {
+                || !user.getPhoneNumber().equals(request.getPhoneNumber()))) {
             throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS);
         }
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
         userMapper.updateProfile(user, request);
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
@@ -72,6 +73,17 @@ public class UserService implements IUserService {
         User user = authUtil.getUser();
         String url = amazonClientService.uploadFile(request.getFile());
         user.setAvatar(url);
+        return userMapper.toProfileResponse(userRepository.save(user));
+    }
+
+    @Override
+    public ProfileResponse changePassword(ChangePasswordRequest request) {
+        User user = authUtil.getUser();
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            throw new AppException(ErrorCode.PASSWORD_CURRENT_INCORRECT);
+        }
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         return userMapper.toProfileResponse(userRepository.save(user));
     }
 
@@ -125,7 +137,7 @@ public class UserService implements IUserService {
                         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         if (userRepository.existsByPhoneNumber(request.getPhoneNumber())
                 && (user.getPhoneNumber() == null
-                        || !user.getPhoneNumber().equals(request.getPhoneNumber()))) {
+                || !user.getPhoneNumber().equals(request.getPhoneNumber()))) {
             throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS);
         }
         if (userRepository.existsByEmail(request.getEmail())
