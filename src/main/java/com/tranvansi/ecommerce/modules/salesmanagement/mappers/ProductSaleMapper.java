@@ -14,5 +14,6 @@ public interface ProductSaleMapper {
     @Mapping(target = "sku", source = "variant.sku")
     @Mapping(target = "color", source = "variant.color")
     @Mapping(target = "size", source = "variant.size")
+    @Mapping(target = "warehouse", source = "variant.warehouse")
     ProductSalesResponse.VariantDetail toVariantDetail(ProductSale productSale);
 }

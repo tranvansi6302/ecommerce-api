@@ -46,7 +46,6 @@ public class PricePlanController {
                 sortOrder.equalsIgnoreCase("asc")
                         ? Sort.by("createdAt").ascending()
                         : Sort.by("createdAt").descending();
-
         PricePlanFilter filter =
                 PricePlanFilter.builder()
                         .search(search)
@@ -55,28 +54,12 @@ public class PricePlanController {
                         .build();
 
         PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
-        Page<PricePlanDetailResponse> pricePlanResponses =
+        Page<PricePlanDetailResponse> allCurrentPricePlans =
                 pricePlanService.getAllCurrentPricePlans(
                         pageRequest, new PricePlanSpecification(filter));
 
-        // Sort by price within the page results
-        if ("price".equalsIgnoreCase(sortBy)) {
-            Comparator<PricePlanDetailResponse> comparator =
-                    Comparator.comparing(PricePlanDetailResponse::getSalePrice);
-            if ("desc".equalsIgnoreCase(sortOrder)) {
-                comparator = comparator.reversed();
-            }
-            List<PricePlanDetailResponse> sortedResponses =
-                    pricePlanResponses.getContent().stream()
-                            .sorted(comparator)
-                            .collect(Collectors.toList());
-            pricePlanResponses =
-                    new PageImpl<>(
-                            sortedResponses, pageRequest, pricePlanResponses.getTotalElements());
-        }
-
         PagedResponse<List<PricePlanDetailResponse>> response =
-                BuildResponse.buildPagedResponse(pricePlanResponses, pageRequest);
+                BuildResponse.buildPagedResponse(allCurrentPricePlans, pageRequest);
         return ResponseEntity.ok(response);
     }
 
@@ -101,12 +84,12 @@ public class PricePlanController {
                         .build();
 
         PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
-        Page<PricePlanDetailResponse> colorResponses =
+        Page<PricePlanDetailResponse> historyPricePlans =
                 pricePlanService.getHistoryPricePlans(
                         pageRequest, new PricePlanSpecification(filter));
 
         PagedResponse<List<PricePlanDetailResponse>> response =
-                BuildResponse.buildPagedResponse(colorResponses, pageRequest);
+                BuildResponse.buildPagedResponse(historyPricePlans, pageRequest);
         return ResponseEntity.ok(response);
     }
 

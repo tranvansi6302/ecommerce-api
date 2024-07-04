@@ -182,6 +182,10 @@ public enum ErrorCode {
             1123, "Giá mua sản phẩm đơn hàng không hợp lệ", HttpStatus.BAD_REQUEST),
     PURCHASE_ORDER_NOT_UPDATE(1124, "Đơn hàng không thể cập nhật", HttpStatus.BAD_REQUEST),
     WAREHOUSE_NOT_FOUND(1125, "Kho không tồn tại", HttpStatus.NOT_FOUND),
+    PASSWORD_CURRENT_INCORRECT(1126, "Mật khẩu hiện tại không chính xác", HttpStatus.BAD_REQUEST),
+    INVALID_USER_CURRENT_PASSWORD_REQUIRED(
+            1127, "Mật khẩu hiện tại bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_USER_NEW_PASSWORD_REQUIRED(1128, "Mật khẩu mới bắt buộc nhập", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;

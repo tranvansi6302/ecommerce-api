@@ -5,6 +5,8 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+import com.tranvansi.ecommerce.modules.ordermanagements.entities.Cart;
+import com.tranvansi.ecommerce.modules.ordermanagements.services.interfaces.ICartService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,6 +51,7 @@ public class AuthenticationService implements IAuthenticationService {
     private final UserRepository userRepository;
     private final IUserService userService;
     private final IRoleService roleService;
+    private final ICartService cartService;
     private final ForgotTokenRepository forgotTokenRepository;
     private final MailService mailService;
     private final UserMapper userMapper;
@@ -79,7 +82,13 @@ public class AuthenticationService implements IAuthenticationService {
         user.setRoles(roles);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setStatus(UserStatus.ACTIVE);
-        return userMapper.toRegisterResponse(userService.saveUser(user));
+
+        var savedUser = userService.saveUser(user);
+
+        Cart cart = Cart.builder().user(savedUser).build();
+        cartService.saveCart(cart);
+
+        return userMapper.toRegisterResponse(savedUser);
     }
 
     @Override
@@ -233,6 +242,9 @@ public class AuthenticationService implements IAuthenticationService {
                                                     .build();
                                     return userRepository.save(newUser);
                                 });
+
+        Cart cart = Cart.builder().user(user).build();
+        cartService.saveCart(cart);
 
         // Convert google token to JWT token
         var token = generateToken(user);

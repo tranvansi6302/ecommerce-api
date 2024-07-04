@@ -12,9 +12,10 @@ import com.tranvansi.ecommerce.modules.ordermanagements.entities.CartDetail;
 
 @Repository
 public interface CartDetailRepository extends JpaRepository<CartDetail, Integer> {
-    boolean existsByVariantIdAndCart(Integer variantId, Cart cart);
 
     Optional<CartDetail> findByVariantIdAndCart(Integer variantId, Cart cart);
 
     Page<CartDetail> findAllByCart(Cart cart, Pageable pageable);
+
+    boolean existsById(Integer id);
 }

@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.modules.ordermanagements.services.interfaces;
 
+import com.tranvansi.ecommerce.modules.ordermanagements.requests.DeleteManyProductCart;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,7 +22,9 @@ public interface ICartService {
     Page<CartDetailResponse> getAllProductFromCarts(PageRequest pageRequest);
 
     @PreAuthorize("hasRole('USER')")
-    void deleteProductFromCart(Integer cartDetailId);
+    void deleteProductFromCart(DeleteManyProductCart cartDetailId);
 
     Cart findByUserId(Integer userId);
+
+    void saveCart(Cart cart);
 }

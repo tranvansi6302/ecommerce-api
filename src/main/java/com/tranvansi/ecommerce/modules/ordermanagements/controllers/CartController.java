@@ -2,6 +2,7 @@ package com.tranvansi.ecommerce.modules.ordermanagements.controllers;
 
 import java.util.List;
 
+import com.tranvansi.ecommerce.modules.ordermanagements.requests.DeleteManyProductCart;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -69,9 +70,9 @@ public class CartController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{cartDetailId}")
+    @DeleteMapping("")
     public ResponseEntity<ApiResponse<Void>> deleteProductFromCart(
-            @PathVariable Integer cartDetailId) {
+            @RequestBody DeleteManyProductCart cartDetailId) {
         cartService.deleteProductFromCart(cartDetailId);
         ApiResponse<Void> response =
                 ApiResponse.<Void>builder()

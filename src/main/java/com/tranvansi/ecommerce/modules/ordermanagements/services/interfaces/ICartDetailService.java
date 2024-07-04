@@ -7,7 +7,7 @@ import com.tranvansi.ecommerce.modules.ordermanagements.entities.Cart;
 import com.tranvansi.ecommerce.modules.ordermanagements.entities.CartDetail;
 
 public interface ICartDetailService {
-    boolean existsByVariantIdAndCart(Integer variantId, Cart cart);
+
 
     void saveCartDetail(CartDetail cartDetail);
 
@@ -18,4 +18,6 @@ public interface ICartDetailService {
     void deleteCartDetail(CartDetail cartDetail);
 
     CartDetail findCartDetailByVariantIdAndCart(Integer variantId, Cart cart);
+
+    boolean existsById(Integer id);
 }

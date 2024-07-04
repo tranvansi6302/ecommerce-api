@@ -2,6 +2,7 @@ package com.tranvansi.ecommerce.modules.usermanagements.services.interfaces;
 
 import java.io.IOException;
 
+import com.tranvansi.ecommerce.modules.usermanagements.requests.ChangePasswordRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -38,6 +39,9 @@ public interface IUserService {
 
     @PreAuthorize("hasRole('USER')")
     ProfileResponse uploadAvatar(UploadAvatarRequest request);
+
+    @PreAuthorize("hasRole('USER')")
+    ProfileResponse changePassword(ChangePasswordRequest request);
 
     boolean existsByEmail(String email);
 
