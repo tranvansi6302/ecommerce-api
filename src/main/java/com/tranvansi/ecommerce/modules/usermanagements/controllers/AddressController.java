@@ -1,7 +1,13 @@
 package com.tranvansi.ecommerce.modules.usermanagements.controllers;
 
+import com.tranvansi.ecommerce.components.responses.BuildResponse;
+import com.tranvansi.ecommerce.components.responses.PagedResponse;
+import com.tranvansi.ecommerce.modules.productmanagements.responses.BrandResponse;
 import jakarta.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +20,29 @@ import com.tranvansi.ecommerce.modules.usermanagements.services.interfaces.IAddr
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("${api.prefix}/users")
 @RequiredArgsConstructor
 public class AddressController {
     private final IAddressService addressService;
+
+    @GetMapping("/addresses")
+    public ResponseEntity<PagedResponse<List<AddressResponse>>> getMyAddress(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "15") int limit,
+            @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder) {
+        Sort sort =
+                sortOrder.equalsIgnoreCase("asc")
+                        ? Sort.by("createdAt").ascending()
+                        : Sort.by("createdAt").descending();
+        PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
+        Page<AddressResponse> addressResponses = addressService.getMyAddress(pageRequest);
+        PagedResponse<List<AddressResponse>> response =
+                BuildResponse.buildPagedResponse(addressResponses, pageRequest);
+        return ResponseEntity.ok(response);
+    }
 
     @PostMapping("/addresses")
     public ResponseEntity<ApiResponse<AddressResponse>> createAddress(

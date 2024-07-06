@@ -32,6 +32,27 @@ public class OrderResponse {
     private LocalDateTime orderDate;
 
     private OrderStatus status;
+
+    @JsonProperty("canceled_date")
+    private LocalDateTime canceledDate;
+
+    @JsonProperty("canceled_reason")
+    private String canceledReason;
+
+    @JsonProperty("pending_date")
+    private LocalDateTime pendingDate;
+
+    @JsonProperty("confirmed_date")
+    private LocalDateTime confirmedDate;
+
+    @JsonProperty("delivering_date")
+    private LocalDateTime deliveringDate;
+
+    @JsonProperty("delivered_date")
+    private LocalDateTime deliveredDate;
+
+
+
     private ProfileResponse user;
 
     @JsonProperty("order_details")

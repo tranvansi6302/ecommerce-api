@@ -1,5 +1,7 @@
 package com.tranvansi.ecommerce.modules.usermanagements.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.tranvansi.ecommerce.components.enums.ErrorCode;
@@ -28,6 +30,13 @@ public class AddressService implements IAddressService {
         address.setUser(authUtil.getUser());
         return addressMapper.toAddressResponse(addressRepository.save(address));
     }
+
+    @Override
+    public Page<AddressResponse> getMyAddress(PageRequest pageRequest) {
+        Page<Address> addresses = addressRepository.findByUserId(authUtil.getUser().getId(), pageRequest);
+        return addresses.map(addressMapper::toAddressResponse);
+    }
+
 
     @Override
     public AddressResponse updateAddressDefault(Integer id, UpdateAddressDefaultRequest request) {

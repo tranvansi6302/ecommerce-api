@@ -21,8 +21,7 @@ public interface CartMapper {
 
     @Mapping(target = "variant.productImages", source = "variant.product.productImages")
     @Mapping(target = "variant.productId", source = "variant.product.id")
-
-
+    @Mapping(target = "variant.currentPricePlan", ignore = true)
     CartDetailResponse toCartDetailResponse(CartDetail cartDetail);
 
     void updateProductFromCart(@MappingTarget CartDetail cartDetail, UpdateCartRequest request);

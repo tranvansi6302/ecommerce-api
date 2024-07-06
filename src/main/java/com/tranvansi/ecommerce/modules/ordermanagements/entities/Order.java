@@ -37,10 +37,21 @@ public class Order extends BaseEntity {
 
     private LocalDateTime orderDate;
 
-    private LocalDateTime deliveryDate;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
+
+    private LocalDateTime canceledDate;
+
+    private String canceledReason;
+
+    private LocalDateTime pendingDate;
+
+    private LocalDateTime confirmedDate;
+
+    private LocalDateTime deliveringDate;
+
+    private LocalDateTime deliveredDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

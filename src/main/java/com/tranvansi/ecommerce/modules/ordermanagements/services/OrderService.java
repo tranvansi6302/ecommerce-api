@@ -84,6 +84,7 @@ public class OrderService implements IOrderService {
             CartDetail cartDetail =
                     cartDetailService.findCartDetailByVariantIdAndCart(variant.getId(), cart);
 
+
             OrderDetail orderDetail =
                     OrderDetail.builder()
                             .order(order)
@@ -123,29 +124,34 @@ public class OrderService implements IOrderService {
 
         switch (order.getStatus()) {
             case PENDING:
+
                 if (request.getStatus().equals(OrderStatus.DELIVERING)
                         || request.getStatus().equals(OrderStatus.DELIVERED)) {
                     throw new AppException(ErrorCode.ORDER_NOT_UPDATE);
                 }
                 break;
             case CONFIRMED:
+
                 if (request.getStatus().equals(OrderStatus.PENDING)
                         || request.getStatus().equals(OrderStatus.DELIVERED)) {
                     throw new AppException(ErrorCode.ORDER_NOT_UPDATE);
                 }
                 break;
             case DELIVERING:
+
                 if (request.getStatus().equals(OrderStatus.PENDING)
                         || request.getStatus().equals(OrderStatus.CONFIRMED)) {
                     throw new AppException(ErrorCode.ORDER_NOT_UPDATE);
                 }
                 break;
             case DELIVERED:
+
                 if (!request.getStatus().equals(OrderStatus.DELIVERED)) {
                     throw new AppException(ErrorCode.ORDER_NOT_UPDATE);
                 }
                 break;
             case CANCELLED:
+
                 if (!request.getStatus().equals(OrderStatus.CANCELLED)) {
                     throw new AppException(ErrorCode.ORDER_NOT_UPDATE);
                 }
@@ -162,12 +168,17 @@ public class OrderService implements IOrderService {
                         < orderDetail.getQuantity()) {
                     throw new AppException(ErrorCode.ORDER_NOT_UPDATE);
                 }
+                order.setConfirmedDate(LocalDateTime.now());
                 Warehouse warehouse = orderDetail.getVariant().getWarehouse();
                 warehouse.setAvailableQuantity(
                         warehouse.getAvailableQuantity() - orderDetail.getQuantity());
                 warehouseService.saveWarehouse(warehouse);
             } else if (request.getStatus().equals(OrderStatus.CANCELLED)
                     && !order.getStatus().equals(OrderStatus.CANCELLED)) {
+
+                order.setCanceledDate(LocalDateTime.now());
+                order.setCanceledReason(request.getCanceledReason());
+
                 Warehouse warehouse = orderDetail.getVariant().getWarehouse();
                 warehouse.setAvailableQuantity(
                         warehouse.getAvailableQuantity() + orderDetail.getQuantity());
@@ -180,14 +191,18 @@ public class OrderService implements IOrderService {
                                 .product(orderDetail.getVariant().getProduct())
                                 .total(orderDetail.getPrice() * orderDetail.getQuantity())
                                 .build();
+                order.setDeliveredDate(LocalDateTime.now());
                 saleService.saveSale(sale);
+            } else if (request.getStatus().equals(OrderStatus.DELIVERING)) {
+                order.setDeliveringDate(LocalDateTime.now());
+            } else if (request.getStatus().equals(OrderStatus.PENDING)) {
+                order.setPendingDate(LocalDateTime.now());
             }
         }
 
         // Logistic staff can only update order status to CONFIRMED or DELIVERED or CANCELLED
         orderMapper.updateOrder(order, request);
         orderRepository.save(order);
-
         return orderMapper.toOrderResponse(order);
     }
 

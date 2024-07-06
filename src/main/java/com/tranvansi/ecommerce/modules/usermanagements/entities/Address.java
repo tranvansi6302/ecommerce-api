@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.modules.usermanagements.entities;
 
+import com.tranvansi.ecommerce.components.entities.BaseEntity;
 import jakarta.persistence.*;
 
 import lombok.*;
@@ -11,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Address {
+public class Address extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

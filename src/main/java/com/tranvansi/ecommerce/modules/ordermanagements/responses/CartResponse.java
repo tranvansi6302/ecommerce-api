@@ -14,8 +14,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CartResponse {
     private Integer id;
-    private ProfileResponse user;
-
     @JsonProperty("cart_detail")
     private CartDetailResponse cartDetail;
 }

@@ -14,6 +14,8 @@ public interface OrderMapper {
     OrderResponse toOrderResponse(Order order);
 
     @Mapping(target = "variant.productId", source = "variant.product.id")
+    @Mapping(target = "variant.productImages", source = "variant.product.productImages")
+    @Mapping(target = "variant.currentPricePlan", ignore = true)
     OrderResponse.OrderDetailResponse toOrderDetailResponse(OrderDetail orderDetail);
 
     void updateOrder(@MappingTarget Order order, UpdateOrderRequest request);
