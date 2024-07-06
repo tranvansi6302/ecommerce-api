@@ -52,7 +52,7 @@ public class CartService implements ICartService {
     public CartResponse addProductToCart(AddToCartRequest request) {
         Variant variant = variantService.findVariantById(request.getVariantId());
         if (warehouseService.existsByVariant(variant)) {
-            throw new AppException(ErrorCode.WAREHOUSE_VARIANT_NOT_FOUND);
+            throw new AppException(ErrorCode.PRODUCT_NOT_FOUND);
         }
 
         User user = authUtil.getUser();
@@ -70,12 +70,12 @@ public class CartService implements ICartService {
         if (existingCartDetail != null) {
             existingCartDetail.setQuantity(existingCartDetail.getQuantity() + request.getQuantity());
             cartDetailService.saveCartDetail(existingCartDetail);
+            existingCartDetail.setId(existingCartDetail.getId());
             toCartDetailResponse = cartMapper.toCartDetailResponse(existingCartDetail);
         }else {
             cartDetail.setQuantity(request.getQuantity());
             cartDetail.setVariant(variant);
             cartDetail.setCart(existingCart);
-            cartDetail.setId(existingCart.getId());
             cartDetailService.saveCartDetail(cartDetail);
             toCartDetailResponse = cartMapper.toCartDetailResponse(cartDetail);
         }
