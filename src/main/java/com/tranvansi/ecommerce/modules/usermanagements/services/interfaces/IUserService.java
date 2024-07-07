@@ -2,13 +2,13 @@ package com.tranvansi.ecommerce.modules.usermanagements.services.interfaces;
 
 import java.io.IOException;
 
-import com.tranvansi.ecommerce.modules.usermanagements.requests.ChangePasswordRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
+import com.tranvansi.ecommerce.modules.usermanagements.requests.ChangePasswordRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateProfileRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateUserRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.UploadAvatarRequest;

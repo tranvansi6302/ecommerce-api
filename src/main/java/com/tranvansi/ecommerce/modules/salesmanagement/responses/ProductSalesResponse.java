@@ -8,8 +8,8 @@ import com.tranvansi.ecommerce.modules.productmanagements.responses.BrandRespons
 import com.tranvansi.ecommerce.modules.productmanagements.responses.CategoryResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.PricePlanResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.ProductImageResponse;
-
 import com.tranvansi.ecommerce.modules.suppliermanagements.responses.WarehousePurchasePriceAndAvailableQuantity;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ProductSalesResponse {
     private Integer id;
+
     @JsonProperty("product_id")
     private Integer productId;
 
@@ -47,10 +48,9 @@ public class ProductSalesResponse {
     @JsonProperty("min_price")
     private Double minPrice;
 
-
-
     @JsonProperty("created_at")
     private LocalDateTime createdAt;
+
     @JsonProperty("updated_at")
     private LocalDateTime updatedAt;
 
@@ -70,6 +70,4 @@ public class ProductSalesResponse {
 
         private WarehousePurchasePriceAndAvailableQuantity warehouse;
     }
-
-
 }

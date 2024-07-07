@@ -1,10 +1,8 @@
 package com.tranvansi.ecommerce.modules.ordermanagements.services;
 
-import com.tranvansi.ecommerce.modules.ordermanagements.requests.DeleteManyProductCart;
-import com.tranvansi.ecommerce.modules.productmanagements.entities.PricePlan;
-import com.tranvansi.ecommerce.modules.productmanagements.mappers.PricePlanMapper;
-import com.tranvansi.ecommerce.modules.productmanagements.responses.VariantResponse;
-import com.tranvansi.ecommerce.modules.productmanagements.services.PricePlanService;
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -18,21 +16,22 @@ import com.tranvansi.ecommerce.modules.ordermanagements.entities.CartDetail;
 import com.tranvansi.ecommerce.modules.ordermanagements.mappers.CartMapper;
 import com.tranvansi.ecommerce.modules.ordermanagements.repositories.CartRepository;
 import com.tranvansi.ecommerce.modules.ordermanagements.requests.AddToCartRequest;
+import com.tranvansi.ecommerce.modules.ordermanagements.requests.DeleteManyProductCart;
 import com.tranvansi.ecommerce.modules.ordermanagements.requests.UpdateCartRequest;
 import com.tranvansi.ecommerce.modules.ordermanagements.responses.CartDetailResponse;
 import com.tranvansi.ecommerce.modules.ordermanagements.responses.CartResponse;
 import com.tranvansi.ecommerce.modules.ordermanagements.services.interfaces.ICartDetailService;
 import com.tranvansi.ecommerce.modules.ordermanagements.services.interfaces.ICartService;
+import com.tranvansi.ecommerce.modules.productmanagements.entities.PricePlan;
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
+import com.tranvansi.ecommerce.modules.productmanagements.mappers.PricePlanMapper;
 import com.tranvansi.ecommerce.modules.productmanagements.mappers.VariantMapper;
+import com.tranvansi.ecommerce.modules.productmanagements.services.PricePlanService;
 import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.IVariantService;
 import com.tranvansi.ecommerce.modules.suppliermanagements.services.interfaces.IWarehouseService;
 import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
 
 import lombok.RequiredArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -62,24 +61,25 @@ public class CartService implements ICartService {
             this.saveCart(cart);
         }
         Cart existingCart = cartRepository.findByUserId(user.getId()).orElseThrow(null);
-        CartDetail existingCartDetail = cartDetailService.findCartDetailByVariantIdAndCart(variant.getId(), existingCart);
+        CartDetail existingCartDetail =
+                cartDetailService.findCartDetailByVariantIdAndCart(variant.getId(), existingCart);
         CartDetail cartDetail = new CartDetail();
 
         CartDetailResponse toCartDetailResponse = null;
 
         if (existingCartDetail != null) {
-            existingCartDetail.setQuantity(existingCartDetail.getQuantity() + request.getQuantity());
+            existingCartDetail.setQuantity(
+                    existingCartDetail.getQuantity() + request.getQuantity());
             cartDetailService.saveCartDetail(existingCartDetail);
             existingCartDetail.setId(existingCartDetail.getId());
             toCartDetailResponse = cartMapper.toCartDetailResponse(existingCartDetail);
-        }else {
+        } else {
             cartDetail.setQuantity(request.getQuantity());
             cartDetail.setVariant(variant);
             cartDetail.setCart(existingCart);
             cartDetailService.saveCartDetail(cartDetail);
             toCartDetailResponse = cartMapper.toCartDetailResponse(cartDetail);
         }
-
 
         CartResponse response = cartMapper.addToCartResponse(existingCart);
         response.setCartDetail(toCartDetailResponse);
@@ -101,7 +101,6 @@ public class CartService implements ICartService {
         cartMapper.updateProductFromCart(cartDetail, request);
 
         CartDetailResponse toCartDetailResponse = cartMapper.toCartDetailResponse(cartDetail);
-
 
         Variant variant = variantService.findVariantById(cartDetail.getVariant().getId());
 
@@ -134,14 +133,19 @@ public class CartService implements ICartService {
                 cartRepository
                         .findByUserId(user.getId())
                         .orElseThrow(() -> new AppException(ErrorCode.CART_NOT_FOUND));
-        var cartDetails = cartDetailService
-                .findAllByCart(cart, pageRequest)
-                .map(cartMapper::toCartDetailResponse);
-        cartDetails.forEach(cartDetailResponse -> {
-            Variant variant = variantService.findVariantById(cartDetailResponse.getVariant().getId());
-            PricePlan pricePlan = getCurrentPricePlan(variant.getId());
-            cartDetailResponse.getVariant().setCurrentPricePlan(pricePlanMapper.toPricePlanResponse(pricePlan));
-        });
+        var cartDetails =
+                cartDetailService
+                        .findAllByCart(cart, pageRequest)
+                        .map(cartMapper::toCartDetailResponse);
+        cartDetails.forEach(
+                cartDetailResponse -> {
+                    Variant variant =
+                            variantService.findVariantById(cartDetailResponse.getVariant().getId());
+                    PricePlan pricePlan = getCurrentPricePlan(variant.getId());
+                    cartDetailResponse
+                            .getVariant()
+                            .setCurrentPricePlan(pricePlanMapper.toPricePlanResponse(pricePlan));
+                });
         return cartDetails;
     }
 

@@ -3,7 +3,6 @@ package com.tranvansi.ecommerce.modules.usermanagements.services;
 import java.io.IOException;
 import java.util.List;
 
-import com.tranvansi.ecommerce.modules.usermanagements.requests.ChangePasswordRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,6 +20,7 @@ import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
 import com.tranvansi.ecommerce.modules.usermanagements.mappers.UserMapper;
 import com.tranvansi.ecommerce.modules.usermanagements.repositories.RoleRepository;
 import com.tranvansi.ecommerce.modules.usermanagements.repositories.UserRepository;
+import com.tranvansi.ecommerce.modules.usermanagements.requests.ChangePasswordRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateProfileRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateUserRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.UploadAvatarRequest;
@@ -49,12 +49,11 @@ public class UserService implements IUserService {
 
         if (userRepository.existsByPhoneNumber(request.getPhoneNumber())
                 && (user.getPhoneNumber() == null
-                || !user.getPhoneNumber().equals(request.getPhoneNumber()))) {
+                        || !user.getPhoneNumber().equals(request.getPhoneNumber()))) {
             throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS);
         }
 
         userMapper.updateProfile(user, request);
-
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
@@ -137,7 +136,7 @@ public class UserService implements IUserService {
                         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         if (userRepository.existsByPhoneNumber(request.getPhoneNumber())
                 && (user.getPhoneNumber() == null
-                || !user.getPhoneNumber().equals(request.getPhoneNumber()))) {
+                        || !user.getPhoneNumber().equals(request.getPhoneNumber()))) {
             throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS);
         }
         if (userRepository.existsByEmail(request.getEmail())

@@ -186,6 +186,8 @@ public enum ErrorCode {
     INVALID_USER_CURRENT_PASSWORD_REQUIRED(
             1127, "Mật khẩu hiện tại bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_USER_NEW_PASSWORD_REQUIRED(1128, "Mật khẩu mới bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    ADDRESS_NOT_FOUND(1129, "Địa chỉ không tồn tại", HttpStatus.NOT_FOUND),
+    INVALID_ADDRESS_ID_REQUIRED(1130, "ID địa chỉ bắt buộc nhập", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;

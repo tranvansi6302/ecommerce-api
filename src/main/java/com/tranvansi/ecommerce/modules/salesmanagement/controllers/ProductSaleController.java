@@ -2,15 +2,8 @@ package com.tranvansi.ecommerce.modules.salesmanagement.controllers;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
-import com.tranvansi.ecommerce.components.responses.ApiResponse;
-import com.tranvansi.ecommerce.modules.productmanagements.responses.BrandResponse;
-import com.tranvansi.ecommerce.modules.productmanagements.responses.PricePlanResponse;
-import com.tranvansi.ecommerce.modules.productmanagements.responses.ProductDetailResponse;
-import com.tranvansi.ecommerce.modules.salesmanagement.filters.ProductSaleFilter;
-import com.tranvansi.ecommerce.modules.salesmanagement.specifications.ProductSaleSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -18,10 +11,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.tranvansi.ecommerce.components.responses.ApiResponse;
 import com.tranvansi.ecommerce.components.responses.BuildResponse;
 import com.tranvansi.ecommerce.components.responses.PagedResponse;
+import com.tranvansi.ecommerce.modules.salesmanagement.filters.ProductSaleFilter;
 import com.tranvansi.ecommerce.modules.salesmanagement.responses.ProductSalesResponse;
 import com.tranvansi.ecommerce.modules.salesmanagement.services.interfaces.IProductSaleService;
+import com.tranvansi.ecommerce.modules.salesmanagement.specifications.ProductSaleSpecification;
 
 import lombok.RequiredArgsConstructor;
 
@@ -44,36 +40,42 @@ public class ProductSaleController {
             @RequestParam(name = "min_price", required = false) Double minPrice,
             @RequestParam(name = "max_price", required = false) Double maxPrice) {
 
-        ProductSaleFilter filter = ProductSaleFilter.builder()
-                .categorySlug(categorySlug)
-                .brandSlug(brandSlug)
-                .search(search)
-                .build();
+        ProductSaleFilter filter =
+                ProductSaleFilter.builder()
+                        .categorySlug(categorySlug)
+                        .brandSlug(brandSlug)
+                        .search(search)
+                        .build();
 
         Sort sort = Sort.unsorted();
         PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
 
-        Page<ProductSalesResponse> productSalesResponses = productSaleService.getAllProductSales(pageRequest, new ProductSaleSpecification(filter));
+        Page<ProductSalesResponse> productSalesResponses =
+                productSaleService.getAllProductSales(
+                        pageRequest, new ProductSaleSpecification(filter));
 
         List<ProductSalesResponse> filteredProducts = productSalesResponses.getContent();
 
         // Lọc theo ratingMin
         if (ratingMin != null) {
-            filteredProducts = filteredProducts.stream()
-                    .filter(product -> product.getAverageRating() >= ratingMin)
-                    .collect(Collectors.toList());
+            filteredProducts =
+                    filteredProducts.stream()
+                            .filter(product -> product.getAverageRating() >= ratingMin)
+                            .collect(Collectors.toList());
         }
 
         // Lọc theo khoảng giá
         if (minPrice != null) {
-            filteredProducts = filteredProducts.stream()
-                    .filter(product -> product.getMinPrice() >= minPrice)
-                    .collect(Collectors.toList());
+            filteredProducts =
+                    filteredProducts.stream()
+                            .filter(product -> product.getMinPrice() >= minPrice)
+                            .collect(Collectors.toList());
         }
         if (maxPrice != null) {
-            filteredProducts = filteredProducts.stream()
-                    .filter(product -> product.getMinPrice() <= maxPrice)
-                    .collect(Collectors.toList());
+            filteredProducts =
+                    filteredProducts.stream()
+                            .filter(product -> product.getMinPrice() <= maxPrice)
+                            .collect(Collectors.toList());
         }
 
         // Sắp xếp theo tiêu chí sortBy
@@ -92,23 +94,25 @@ public class ProductSaleController {
             if ("desc".equalsIgnoreCase(sortOrder)) {
                 comparator = comparator.reversed();
             }
-            filteredProducts = filteredProducts.stream()
-                    .sorted(comparator)
-                    .collect(Collectors.toList());
+            filteredProducts =
+                    filteredProducts.stream().sorted(comparator).collect(Collectors.toList());
         }
 
         // Tạo lại đối tượng PageImpl với dữ liệu đã lọc và sắp xếp
-        productSalesResponses = new PageImpl<>(filteredProducts, pageRequest, productSalesResponses.getTotalElements());
+        productSalesResponses =
+                new PageImpl<>(
+                        filteredProducts, pageRequest, productSalesResponses.getTotalElements());
 
-        PagedResponse<List<ProductSalesResponse>> response = BuildResponse.buildPagedResponse(productSalesResponses, pageRequest);
+        PagedResponse<List<ProductSalesResponse>> response =
+                BuildResponse.buildPagedResponse(productSalesResponses, pageRequest);
         return ResponseEntity.ok(response);
     }
 
-
-
     @GetMapping("/{productId}")
-    public ResponseEntity<ApiResponse<ProductSalesResponse>> getProductSaleByProductId(@PathVariable Integer productId) {
-        ProductSalesResponse productSalesResponse = productSaleService.getProductSaleByProductId(productId);
+    public ResponseEntity<ApiResponse<ProductSalesResponse>> getProductSaleByProductId(
+            @PathVariable Integer productId) {
+        ProductSalesResponse productSalesResponse =
+                productSaleService.getProductSaleByProductId(productId);
         ApiResponse<ProductSalesResponse> response =
                 ApiResponse.<ProductSalesResponse>builder().result(productSalesResponse).build();
         return ResponseEntity.ok(response);

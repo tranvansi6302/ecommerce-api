@@ -1,13 +1,10 @@
 package com.tranvansi.ecommerce.modules.productmanagements.controllers;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;

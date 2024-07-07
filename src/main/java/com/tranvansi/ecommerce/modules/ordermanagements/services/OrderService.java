@@ -84,7 +84,6 @@ public class OrderService implements IOrderService {
             CartDetail cartDetail =
                     cartDetailService.findCartDetailByVariantIdAndCart(variant.getId(), cart);
 
-
             OrderDetail orderDetail =
                     OrderDetail.builder()
                             .order(order)
@@ -124,34 +123,29 @@ public class OrderService implements IOrderService {
 
         switch (order.getStatus()) {
             case PENDING:
-
                 if (request.getStatus().equals(OrderStatus.DELIVERING)
                         || request.getStatus().equals(OrderStatus.DELIVERED)) {
                     throw new AppException(ErrorCode.ORDER_NOT_UPDATE);
                 }
                 break;
             case CONFIRMED:
-
                 if (request.getStatus().equals(OrderStatus.PENDING)
                         || request.getStatus().equals(OrderStatus.DELIVERED)) {
                     throw new AppException(ErrorCode.ORDER_NOT_UPDATE);
                 }
                 break;
             case DELIVERING:
-
                 if (request.getStatus().equals(OrderStatus.PENDING)
                         || request.getStatus().equals(OrderStatus.CONFIRMED)) {
                     throw new AppException(ErrorCode.ORDER_NOT_UPDATE);
                 }
                 break;
             case DELIVERED:
-
                 if (!request.getStatus().equals(OrderStatus.DELIVERED)) {
                     throw new AppException(ErrorCode.ORDER_NOT_UPDATE);
                 }
                 break;
             case CANCELLED:
-
                 if (!request.getStatus().equals(OrderStatus.CANCELLED)) {
                     throw new AppException(ErrorCode.ORDER_NOT_UPDATE);
                 }

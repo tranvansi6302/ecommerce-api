@@ -1,8 +1,7 @@
 package com.tranvansi.ecommerce.modules.usermanagements.controllers;
 
-import com.tranvansi.ecommerce.components.responses.BuildResponse;
-import com.tranvansi.ecommerce.components.responses.PagedResponse;
-import com.tranvansi.ecommerce.modules.productmanagements.responses.BrandResponse;
+import java.util.List;
+
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -13,14 +12,15 @@ import org.springframework.web.bind.annotation.*;
 
 import com.tranvansi.ecommerce.components.enums.Message;
 import com.tranvansi.ecommerce.components.responses.ApiResponse;
+import com.tranvansi.ecommerce.components.responses.BuildResponse;
+import com.tranvansi.ecommerce.components.responses.PagedResponse;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.CreateAddressRequest;
+import com.tranvansi.ecommerce.modules.usermanagements.requests.DeleteAddressRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateAddressDefaultRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.AddressResponse;
 import com.tranvansi.ecommerce.modules.usermanagements.services.interfaces.IAddressService;
 
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("${api.prefix}/users")
@@ -56,7 +56,7 @@ public class AddressController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/addresses/{id}")
+    @PatchMapping("/addresses/{id}/default")
     public ResponseEntity<ApiResponse<AddressResponse>> updateAddressDefault(
             @PathVariable Integer id, @RequestBody @Valid UpdateAddressDefaultRequest request) {
         AddressResponse addressResponse = addressService.updateAddressDefault(id, request);
@@ -64,6 +64,17 @@ public class AddressController {
                 ApiResponse.<AddressResponse>builder()
                         .message(Message.UPDATE_ADDRESS_DEFAULT_SUCCESS.getMessage())
                         .result(addressResponse)
+                        .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/addresses")
+    public ResponseEntity<ApiResponse<String>> deleteAddress(
+            @RequestBody @Valid DeleteAddressRequest request) {
+        addressService.deleteAddress(request);
+        ApiResponse<String> response =
+                ApiResponse.<String>builder()
+                        .message(Message.DELETE_ADDRESS_SUCCESS.getMessage())
                         .build();
         return ResponseEntity.ok(response);
     }

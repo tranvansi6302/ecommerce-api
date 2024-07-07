@@ -51,8 +51,6 @@ public class OrderResponse {
     @JsonProperty("delivered_date")
     private LocalDateTime deliveredDate;
 
-
-
     private ProfileResponse user;
 
     @JsonProperty("order_details")

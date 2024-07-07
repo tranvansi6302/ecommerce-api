@@ -8,7 +8,6 @@ import com.tranvansi.ecommerce.modules.ordermanagements.entities.CartDetail;
 
 public interface ICartDetailService {
 
-
     void saveCartDetail(CartDetail cartDetail);
 
     CartDetail findCartDetailById(Integer id);

@@ -18,9 +18,6 @@ import lombok.RequiredArgsConstructor;
 public class CartDetailService implements ICartDetailService {
     private final CartDetailRepository cartDetailRepository;
 
-
-
-
     @Override
     public void saveCartDetail(CartDetail cartDetail) {
         cartDetailRepository.save(cartDetail);
@@ -45,9 +42,7 @@ public class CartDetailService implements ICartDetailService {
 
     @Override
     public CartDetail findCartDetailByVariantIdAndCart(Integer variantId, Cart cart) {
-        return cartDetailRepository
-                .findByVariantIdAndCart(variantId, cart)
-                .orElse(null);
+        return cartDetailRepository.findByVariantIdAndCart(variantId, cart).orElse(null);
     }
 
     @Override

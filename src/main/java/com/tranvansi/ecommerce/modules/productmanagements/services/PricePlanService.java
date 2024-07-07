@@ -70,7 +70,7 @@ public class PricePlanService implements IPricePlanService {
                                 pricePlanRequest.getVariantId());
                 if (!existingSalePricePlan.isEmpty()) {
                     originalPrice = existingSalePricePlan.getFirst().getSalePrice();
-                }else {
+                } else {
                     originalPrice = pricePlanRequest.getSalePrice();
                 }
                 log.info("originalPrice: {}", originalPrice);
@@ -160,19 +160,19 @@ public class PricePlanService implements IPricePlanService {
     public Page<PricePlanDetailResponse> getAllCurrentPricePlans(
             PageRequest pageRequest, Specification<PricePlan> specification) {
 
-
         List<PricePlan> allPricePlans = pricePlanRepository.findAll(specification);
         List<PricePlanDetailResponse> pricePlanResponses = new ArrayList<>();
         Set<Integer> processedVariants = new HashSet<>();
 
-
         for (PricePlan pricePlan : allPricePlans) {
-            VariantResponse variantResponse = variantMapper.toVariantResponse(pricePlan.getVariant());
+            VariantResponse variantResponse =
+                    variantMapper.toVariantResponse(pricePlan.getVariant());
             Integer variantId = variantResponse.getId();
             if (!processedVariants.contains(variantId)) {
                 PricePlan checkPricePlan = getCurrentPricePlan(variantId);
                 if (checkPricePlan != null) {
-                    PricePlanDetailResponse pricePlanResponse = pricePlanMapper.toPricePlanDetailResponse(checkPricePlan);
+                    PricePlanDetailResponse pricePlanResponse =
+                            pricePlanMapper.toPricePlanDetailResponse(checkPricePlan);
                     pricePlanResponse.setVariant(variantResponse);
                     pricePlanResponses.add(pricePlanResponse);
                     processedVariants.add(variantId);
@@ -186,7 +186,6 @@ public class PricePlanService implements IPricePlanService {
 
         return new PageImpl<>(pagedResponses, pageRequest, pricePlanResponses.size());
     }
-
 
     @Override
     public PricePlanDetailResponse updatePricePlan(

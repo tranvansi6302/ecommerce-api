@@ -3,7 +3,6 @@ package com.tranvansi.ecommerce.modules.usermanagements.controllers;
 import java.io.IOException;
 import java.util.List;
 
-import com.tranvansi.ecommerce.modules.usermanagements.requests.ChangePasswordRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -22,6 +21,7 @@ import com.tranvansi.ecommerce.components.responses.PagedResponse;
 import com.tranvansi.ecommerce.components.utils.FileUtil;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.usermanagements.filters.UserFilter;
+import com.tranvansi.ecommerce.modules.usermanagements.requests.ChangePasswordRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateProfileRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateUserRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.UploadAvatarRequest;

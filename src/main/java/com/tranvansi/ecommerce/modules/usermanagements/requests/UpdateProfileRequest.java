@@ -24,8 +24,6 @@ public class UpdateProfileRequest {
     @Size(min = 4, message = "INVALID_USER_FULL_NAME_MIN_LENGTH")
     private String fullName;
 
-
-
     @JsonProperty("date_of_birth")
     @NotNull(message = "INVALID_USER_DATE_OF_BIRTH_REQUIRED")
     private LocalDateTime dateOfBirth;

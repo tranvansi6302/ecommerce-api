@@ -1,8 +1,8 @@
 package com.tranvansi.ecommerce.modules.ordermanagements.requests;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tranvansi.ecommerce.components.enums.OrderStatus;
 
 import lombok.AllArgsConstructor;
@@ -20,5 +20,4 @@ public class UpdateOrderRequest {
 
     @JsonProperty("canceled_reason")
     private String canceledReason;
-
 }
