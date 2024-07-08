@@ -172,4 +172,15 @@ public class UserController {
                         .build();
         return ResponseEntity.ok(response);
     }
+
+    @PatchMapping("/restore")
+    public ResponseEntity<ApiResponse<String>> restoreManyUsers(
+            @RequestBody @Valid RestoreManyUserRequest request) {
+        userService.restoreManyUsers(request);
+        ApiResponse<String> response =
+                ApiResponse.<String>builder()
+                        .message(Message.RESTORE_USER_SUCCESS.getMessage())
+                        .build();
+        return ResponseEntity.ok(response);
+    }
 }

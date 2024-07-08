@@ -97,6 +97,19 @@ public class UserService implements IUserService {
         }
     }
 
+    @Transactional
+    @Override
+    public void restoreManyUsers(RestoreManyUserRequest request) {
+        for (Integer id : request.getUserIds()) {
+            User user =
+                    userRepository
+                            .findById(id)
+                            .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+            user.setIsDeleted(0);
+            userRepository.save(user);
+        }
+    }
+
 
     @Override
     public boolean existsByEmail(String email) {

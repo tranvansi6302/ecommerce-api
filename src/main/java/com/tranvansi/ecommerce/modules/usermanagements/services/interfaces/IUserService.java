@@ -41,8 +41,10 @@ public interface IUserService {
     ProfileResponse changePassword(ChangePasswordRequest request);
 
     @PreAuthorize("hasRole('ADMIN')")
-
     void deleteSoftManyUsers(DeleteSoftManyUserRequest request);
+
+    @PreAuthorize("hasRole('ADMIN')")
+    void restoreManyUsers(RestoreManyUserRequest request);
 
     boolean existsByEmail(String email);
 
