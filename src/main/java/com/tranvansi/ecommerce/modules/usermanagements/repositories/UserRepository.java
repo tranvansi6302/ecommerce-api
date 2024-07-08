@@ -19,5 +19,4 @@ public interface UserRepository
 
     Optional<User> findByEmail(String email);
 
-    Page<User> findByEmailContaining(String email, Pageable pageable);
 }

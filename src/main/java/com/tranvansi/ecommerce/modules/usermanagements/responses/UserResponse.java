@@ -44,6 +44,9 @@ public class UserResponse {
     private UserStatus status;
     private List<RoleResponse> roles;
 
+    @JsonProperty("is_deleted")
+    private Integer isDeleted;
+
     @JsonProperty("created_at")
     private LocalDateTime createdAt;
 

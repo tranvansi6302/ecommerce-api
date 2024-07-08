@@ -40,8 +40,12 @@ public class UserController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int limit,
             @RequestParam(name = "status", required = false) Integer status,
+            @RequestParam(name = "is_deleted", required = false) Integer isDeleted,
+            @RequestParam(name = "email", required = false) String email,
+
+
             @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder) {
-        UserFilter filter = UserFilter.builder().status(status).build();
+        UserFilter filter = UserFilter.builder().status(status).email(email).isDeleted(isDeleted).build();
         Sort sort =
                 sortOrder.equalsIgnoreCase("asc")
                         ? Sort.by("createdAt").ascending()

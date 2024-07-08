@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class UserFilter {
     private String email;
     private Integer status;
+    private Integer isDeleted;
 }

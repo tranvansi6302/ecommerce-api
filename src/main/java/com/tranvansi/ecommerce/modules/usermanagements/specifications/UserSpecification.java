@@ -32,6 +32,10 @@ public class UserSpecification implements Specification<User> {
         if (filter.getStatus() != null) {
             predicates.add(cb.equal(root.get("status"), filter.getStatus()));
         }
+
+        if (filter.getIsDeleted() != null) {
+            predicates.add(cb.equal(root.get("isDeleted"), filter.getIsDeleted()));
+        }
         return cb.and(predicates.toArray(new Predicate[0]));
     }
 }
