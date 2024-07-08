@@ -1,6 +1,5 @@
 package com.tranvansi.ecommerce.modules.usermanagements.services;
 
-import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateAddressRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,7 @@ import com.tranvansi.ecommerce.modules.usermanagements.repositories.AddressRepos
 import com.tranvansi.ecommerce.modules.usermanagements.requests.CreateAddressRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.DeleteAddressRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateAddressDefaultRequest;
+import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateAddressRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.AddressResponse;
 import com.tranvansi.ecommerce.modules.usermanagements.services.interfaces.IAddressService;
 

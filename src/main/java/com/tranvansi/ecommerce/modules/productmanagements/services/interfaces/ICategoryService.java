@@ -2,6 +2,7 @@ package com.tranvansi.ecommerce.modules.productmanagements.services.interfaces;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Category;
@@ -13,7 +14,8 @@ public interface ICategoryService {
     @PreAuthorize("hasRole('ADMIN')")
     CategoryResponse createCategory(CreateCategoryRequest request);
 
-    Page<CategoryResponse> getAllCategories(PageRequest pageRequest);
+    Page<CategoryResponse> getAllCategories(
+            PageRequest pageRequest, Specification<Category> specification);
 
     @PreAuthorize("hasRole('ADMIN')")
     CategoryResponse updateCategory(Integer id, UpdateCategoryRequest request);

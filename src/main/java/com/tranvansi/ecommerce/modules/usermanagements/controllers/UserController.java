@@ -3,6 +3,7 @@ package com.tranvansi.ecommerce.modules.usermanagements.controllers;
 import java.io.IOException;
 import java.util.List;
 
+import com.tranvansi.ecommerce.modules.usermanagements.requests.*;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -21,10 +22,6 @@ import com.tranvansi.ecommerce.components.responses.PagedResponse;
 import com.tranvansi.ecommerce.components.utils.FileUtil;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.usermanagements.filters.UserFilter;
-import com.tranvansi.ecommerce.modules.usermanagements.requests.ChangePasswordRequest;
-import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateProfileRequest;
-import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateUserRequest;
-import com.tranvansi.ecommerce.modules.usermanagements.requests.UploadAvatarRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.ProfileResponse;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.UserResponse;
 import com.tranvansi.ecommerce.modules.usermanagements.services.interfaces.IUserService;
@@ -161,6 +158,17 @@ public class UserController {
                 ApiResponse.<ProfileResponse>builder()
                         .message(Message.CHANGE_PASSWORD_SUCCESS.getMessage())
                         .result(profileResponse)
+                        .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("")
+    public ResponseEntity<ApiResponse<String>> deleteSoftManyUsers(
+            @RequestBody @Valid DeleteSoftManyUserRequest request) {
+        userService.deleteSoftManyUsers(request);
+        ApiResponse<String> response =
+                ApiResponse.<String>builder()
+                        .message(Message.DELETE_SOFT_USER_SUCCESS.getMessage())
                         .build();
         return ResponseEntity.ok(response);
     }

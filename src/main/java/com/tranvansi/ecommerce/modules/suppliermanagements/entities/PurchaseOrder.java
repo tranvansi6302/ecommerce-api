@@ -10,6 +10,8 @@ import com.tranvansi.ecommerce.components.enums.PurchaseOrderStatus;
 import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "purchase_orders")
@@ -40,7 +42,8 @@ public class PurchaseOrder extends BaseEntity {
     @JoinColumn(name = "supplier_id")
     private Supplier supplier;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id")
     private User user;
 

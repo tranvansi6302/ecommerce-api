@@ -1,10 +1,12 @@
 package com.tranvansi.ecommerce.modules.usermanagements.requests;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -48,5 +50,4 @@ public class UpdateAddressRequest {
     @NotBlank(message = "INVALID_ADDRESS_WARD_ID_REQUIRED")
     @JsonProperty("ward_id")
     private String wardId;
-
 }

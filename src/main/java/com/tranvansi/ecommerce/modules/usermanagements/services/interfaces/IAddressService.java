@@ -1,6 +1,5 @@
 package com.tranvansi.ecommerce.modules.usermanagements.services.interfaces;
 
-import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateAddressRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -8,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.CreateAddressRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.DeleteAddressRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateAddressDefaultRequest;
+import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateAddressRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.AddressResponse;
 
 public interface IAddressService {

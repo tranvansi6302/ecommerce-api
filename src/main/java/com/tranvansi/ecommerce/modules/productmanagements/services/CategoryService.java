@@ -2,6 +2,7 @@ package com.tranvansi.ecommerce.modules.productmanagements.services;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.tranvansi.ecommerce.components.enums.ErrorCode;
@@ -34,8 +35,11 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public Page<CategoryResponse> getAllCategories(PageRequest pageRequest) {
-        return categoryRepository.findAll(pageRequest).map(categoryMapper::toCategoryResponse);
+    public Page<CategoryResponse> getAllCategories(
+            PageRequest pageRequest, Specification<Category> specification) {
+        return categoryRepository
+                .findAll(specification, pageRequest)
+                .map(categoryMapper::toCategoryResponse);
     }
 
     @Override

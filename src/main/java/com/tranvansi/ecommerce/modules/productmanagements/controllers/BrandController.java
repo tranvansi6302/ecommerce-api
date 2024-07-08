@@ -14,10 +14,12 @@ import com.tranvansi.ecommerce.components.enums.Message;
 import com.tranvansi.ecommerce.components.responses.ApiResponse;
 import com.tranvansi.ecommerce.components.responses.BuildResponse;
 import com.tranvansi.ecommerce.components.responses.PagedResponse;
+import com.tranvansi.ecommerce.modules.productmanagements.filters.BrandFilter;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.CreateBrandRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateBrandRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.BrandResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.IBrandService;
+import com.tranvansi.ecommerce.modules.productmanagements.specifications.BrandSpecification;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,13 +33,16 @@ public class BrandController {
     public ResponseEntity<PagedResponse<List<BrandResponse>>> getAllBrands(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int limit,
+            @RequestParam(name = "search", required = false) String search,
             @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder) {
+        BrandFilter filter = BrandFilter.builder().search(search).build();
         Sort sort =
                 sortOrder.equalsIgnoreCase("asc")
                         ? Sort.by("createdAt").ascending()
                         : Sort.by("createdAt").descending();
         PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
-        Page<BrandResponse> brandResponses = brandService.getAllBrands(pageRequest);
+        Page<BrandResponse> brandResponses =
+                brandService.getAllBrands(pageRequest, new BrandSpecification(filter));
         PagedResponse<List<BrandResponse>> response =
                 BuildResponse.buildPagedResponse(brandResponses, pageRequest);
         return ResponseEntity.ok(response);

@@ -7,6 +7,8 @@ import com.tranvansi.ecommerce.components.entities.BaseEntity;
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "order_details")
@@ -24,7 +26,8 @@ public class OrderDetail extends BaseEntity {
 
     private Double price;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "order_id")
     @JsonBackReference
     private Order order;

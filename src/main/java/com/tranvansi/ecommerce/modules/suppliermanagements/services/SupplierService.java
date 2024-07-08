@@ -34,10 +34,12 @@ public class SupplierService implements ISupplierService {
     }
 
     @Override
-    public Page<SupplierResponse> getAllSuppliers(PageRequest pageRequest, Specification<Supplier> specification) {
-        return supplierRepository.findAll(specification, pageRequest).map(supplierMapper::toSupplierResponse);
+    public Page<SupplierResponse> getAllSuppliers(
+            PageRequest pageRequest, Specification<Supplier> specification) {
+        return supplierRepository
+                .findAll(specification, pageRequest)
+                .map(supplierMapper::toSupplierResponse);
     }
-
 
     @Override
     public SupplierResponse getSupplierById(Integer id) {

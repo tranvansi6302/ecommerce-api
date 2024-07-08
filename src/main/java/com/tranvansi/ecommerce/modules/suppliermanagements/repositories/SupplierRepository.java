@@ -1,6 +1,5 @@
 package com.tranvansi.ecommerce.modules.suppliermanagements.repositories;
 
-import com.tranvansi.ecommerce.modules.suppliermanagements.entities.Warehouse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
@@ -8,7 +7,8 @@ import org.springframework.stereotype.Repository;
 import com.tranvansi.ecommerce.modules.suppliermanagements.entities.Supplier;
 
 @Repository
-public interface SupplierRepository extends JpaRepository<Supplier, Integer>, JpaSpecificationExecutor<Supplier> {
+public interface SupplierRepository
+        extends JpaRepository<Supplier, Integer>, JpaSpecificationExecutor<Supplier> {
     boolean existsByName(String name);
 
     boolean existsByTaxCode(String taxCode);

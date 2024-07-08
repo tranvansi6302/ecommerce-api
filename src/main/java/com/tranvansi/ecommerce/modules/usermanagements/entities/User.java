@@ -9,6 +9,8 @@ import com.tranvansi.ecommerce.components.entities.BaseEntity;
 import com.tranvansi.ecommerce.components.enums.UserStatus;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "users")
@@ -41,8 +43,15 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.ORDINAL)
     private UserStatus status;
 
-    @ManyToMany private List<Role> roles;
+    @Column(columnDefinition = "TINYINT")
+    private Integer isDeleted;
 
-    @OneToMany(mappedBy = "user")
+
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<Role> roles;
+
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addresses;
 }

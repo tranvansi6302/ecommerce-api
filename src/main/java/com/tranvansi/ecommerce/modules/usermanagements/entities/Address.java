@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import com.tranvansi.ecommerce.components.entities.BaseEntity;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "addresses")
@@ -28,13 +30,13 @@ public class Address extends BaseEntity {
     private Integer districtId;
     private String wardId;
 
-
     @Column(columnDefinition = "TEXT")
     private String description;
 
     @Builder.Default private Integer isDefault = 0;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id")
     private User user;
 }

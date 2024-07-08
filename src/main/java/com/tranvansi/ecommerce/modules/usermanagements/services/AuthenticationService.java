@@ -81,6 +81,7 @@ public class AuthenticationService implements IAuthenticationService {
         User user = userMapper.createUser(request);
         user.setRoles(roles);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setIsDeleted(0);
         user.setStatus(UserStatus.ACTIVE);
 
         var savedUser = userService.saveUser(user);
@@ -233,6 +234,7 @@ public class AuthenticationService implements IAuthenticationService {
                                                     .email(userInfo.getEmail())
                                                     .fullName(userInfo.getName())
                                                     .status(UserStatus.ACTIVE)
+                                                    .isDeleted(0)
                                                     .avatar(userInfo.getPicture())
                                                     .password("")
                                                     .roles(
@@ -244,7 +246,7 @@ public class AuthenticationService implements IAuthenticationService {
                                 });
 
         log.info("User: {}", user);
-        if(!cartService.existsByUserId(user.getId())){
+        if (!cartService.existsByUserId(user.getId())) {
             Cart cart = Cart.builder().user(user).build();
             cartService.saveCart(cart);
         }

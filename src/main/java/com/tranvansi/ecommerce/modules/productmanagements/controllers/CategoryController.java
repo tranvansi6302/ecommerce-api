@@ -14,10 +14,12 @@ import com.tranvansi.ecommerce.components.enums.Message;
 import com.tranvansi.ecommerce.components.responses.ApiResponse;
 import com.tranvansi.ecommerce.components.responses.BuildResponse;
 import com.tranvansi.ecommerce.components.responses.PagedResponse;
+import com.tranvansi.ecommerce.modules.productmanagements.filters.CategoryFilter;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.CreateCategoryRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateCategoryRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.CategoryResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.ICategoryService;
+import com.tranvansi.ecommerce.modules.productmanagements.specifications.CategorySpecification;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,13 +33,16 @@ public class CategoryController {
     public ResponseEntity<PagedResponse<List<CategoryResponse>>> getAllCategories(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int limit,
+            @RequestParam(name = "search", required = false) String search,
             @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder) {
+        CategoryFilter filter = CategoryFilter.builder().search(search).build();
         Sort sort =
                 sortOrder.equalsIgnoreCase("asc")
                         ? Sort.by("createdAt").ascending()
                         : Sort.by("createdAt").descending();
         PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
-        Page<CategoryResponse> categoryResponses = categoryService.getAllCategories(pageRequest);
+        Page<CategoryResponse> categoryResponses =
+                categoryService.getAllCategories(pageRequest, new CategorySpecification(filter));
         PagedResponse<List<CategoryResponse>> response =
                 BuildResponse.buildPagedResponse(categoryResponses, pageRequest);
         return ResponseEntity.ok(response);

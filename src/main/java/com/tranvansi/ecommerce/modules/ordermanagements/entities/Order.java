@@ -11,6 +11,8 @@ import com.tranvansi.ecommerce.components.enums.OrderStatus;
 import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "orders")
@@ -52,7 +54,8 @@ public class Order extends BaseEntity {
 
     private LocalDateTime deliveredDate;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id")
     private User user;
 

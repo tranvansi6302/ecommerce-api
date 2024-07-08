@@ -11,6 +11,8 @@ import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
 import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "reviews")
@@ -38,7 +40,8 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "variant_id")
     private Variant variant;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id")
     private User user;
 

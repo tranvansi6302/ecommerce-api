@@ -2,16 +2,13 @@ package com.tranvansi.ecommerce.modules.usermanagements.services.interfaces;
 
 import java.io.IOException;
 
+import com.tranvansi.ecommerce.modules.usermanagements.requests.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
-import com.tranvansi.ecommerce.modules.usermanagements.requests.ChangePasswordRequest;
-import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateProfileRequest;
-import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateUserRequest;
-import com.tranvansi.ecommerce.modules.usermanagements.requests.UploadAvatarRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.ProfileResponse;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.UserResponse;
 
@@ -42,6 +39,10 @@ public interface IUserService {
 
     @PreAuthorize("hasRole('USER')")
     ProfileResponse changePassword(ChangePasswordRequest request);
+
+    @PreAuthorize("hasRole('ADMIN')")
+
+    void deleteSoftManyUsers(DeleteSoftManyUserRequest request);
 
     boolean existsByEmail(String email);
 

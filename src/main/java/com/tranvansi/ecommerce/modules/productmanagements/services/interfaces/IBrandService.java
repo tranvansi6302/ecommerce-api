@@ -2,6 +2,7 @@ package com.tranvansi.ecommerce.modules.productmanagements.services.interfaces;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Brand;
@@ -13,7 +14,7 @@ public interface IBrandService {
     @PreAuthorize("hasRole('ADMIN')")
     BrandResponse createBrand(CreateBrandRequest request);
 
-    Page<BrandResponse> getAllBrands(PageRequest pageRequest);
+    Page<BrandResponse> getAllBrands(PageRequest pageRequest, Specification<Brand> specification);
 
     BrandResponse getBrandById(Integer id);
 

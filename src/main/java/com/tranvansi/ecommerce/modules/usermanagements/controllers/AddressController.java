@@ -2,7 +2,6 @@ package com.tranvansi.ecommerce.modules.usermanagements.controllers;
 
 import java.util.List;
 
-import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateAddressRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -18,6 +17,7 @@ import com.tranvansi.ecommerce.components.responses.PagedResponse;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.CreateAddressRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.DeleteAddressRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateAddressDefaultRequest;
+import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateAddressRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.AddressResponse;
 import com.tranvansi.ecommerce.modules.usermanagements.services.interfaces.IAddressService;
 
@@ -49,9 +49,7 @@ public class AddressController {
     public ResponseEntity<ApiResponse<AddressResponse>> getAddressById(@PathVariable Integer id) {
         AddressResponse addressResponse = addressService.getAddressById(id);
         ApiResponse<AddressResponse> response =
-                ApiResponse.<AddressResponse>builder()
-                        .result(addressResponse)
-                        .build();
+                ApiResponse.<AddressResponse>builder().result(addressResponse).build();
         return ResponseEntity.ok(response);
     }
 

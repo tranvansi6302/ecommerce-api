@@ -3,6 +3,7 @@ package com.tranvansi.ecommerce.modules.usermanagements.services;
 import java.io.IOException;
 import java.util.List;
 
+import com.tranvansi.ecommerce.modules.usermanagements.requests.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -20,15 +21,12 @@ import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
 import com.tranvansi.ecommerce.modules.usermanagements.mappers.UserMapper;
 import com.tranvansi.ecommerce.modules.usermanagements.repositories.RoleRepository;
 import com.tranvansi.ecommerce.modules.usermanagements.repositories.UserRepository;
-import com.tranvansi.ecommerce.modules.usermanagements.requests.ChangePasswordRequest;
-import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateProfileRequest;
-import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateUserRequest;
-import com.tranvansi.ecommerce.modules.usermanagements.requests.UploadAvatarRequest;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.ProfileResponse;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.UserResponse;
 import com.tranvansi.ecommerce.modules.usermanagements.services.interfaces.IUserService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -85,6 +83,20 @@ public class UserService implements IUserService {
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         return userMapper.toProfileResponse(userRepository.save(user));
     }
+
+    @Transactional
+    @Override
+    public void deleteSoftManyUsers(DeleteSoftManyUserRequest request) {
+        for (Integer id : request.getUserIds()) {
+            User user =
+                    userRepository
+                            .findById(id)
+                            .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+            user.setIsDeleted(1);
+            userRepository.save(user);
+        }
+    }
+
 
     @Override
     public boolean existsByEmail(String email) {

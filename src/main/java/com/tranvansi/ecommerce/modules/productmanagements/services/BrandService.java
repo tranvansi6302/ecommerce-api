@@ -2,6 +2,7 @@ package com.tranvansi.ecommerce.modules.productmanagements.services;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.tranvansi.ecommerce.components.enums.ErrorCode;
@@ -36,9 +37,11 @@ public class BrandService implements IBrandService {
     }
 
     @Override
-    public Page<BrandResponse> getAllBrands(PageRequest pageRequest) {
-
-        return brandRepository.findAll(pageRequest).map(brandMapper::toBrandResponse);
+    public Page<BrandResponse> getAllBrands(
+            PageRequest pageRequest, Specification<Brand> specification) {
+        return brandRepository
+                .findAll(specification, pageRequest)
+                .map(brandMapper::toBrandResponse);
     }
 
     @Override

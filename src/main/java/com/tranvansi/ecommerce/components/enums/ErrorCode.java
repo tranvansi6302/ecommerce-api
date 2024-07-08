@@ -193,6 +193,7 @@ public enum ErrorCode {
     INVALID_ADDRESS_DISTRICT_ID_REQUIRED(
             1132, "ID quận/huyện bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_ADDRESS_WARD_ID_REQUIRED(1133, "ID phường/xã bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_USER_IDS_REQUIRED(1134, "ID người dùng bắt buộc nhập", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;

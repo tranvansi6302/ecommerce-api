@@ -50,5 +50,4 @@ public class CreateAddressRequest {
     @NotBlank(message = "INVALID_ADDRESS_WARD_ID_REQUIRED")
     @JsonProperty("ward_id")
     private String wardId;
-
 }

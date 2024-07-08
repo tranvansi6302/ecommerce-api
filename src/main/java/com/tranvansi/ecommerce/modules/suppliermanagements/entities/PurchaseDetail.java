@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "purchase_details")
@@ -29,7 +31,8 @@ public class PurchaseDetail {
     @Column(columnDefinition = "TEXT")
     private String note;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "purchase_order_id")
     private PurchaseOrder purchaseOrder;
 
