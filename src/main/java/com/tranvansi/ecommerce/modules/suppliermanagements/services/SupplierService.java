@@ -2,6 +2,7 @@ package com.tranvansi.ecommerce.modules.suppliermanagements.services;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.tranvansi.ecommerce.components.enums.ErrorCode;
@@ -33,9 +34,10 @@ public class SupplierService implements ISupplierService {
     }
 
     @Override
-    public Page<SupplierResponse> getAllSuppliers(PageRequest pageRequest) {
-        return supplierRepository.findAll(pageRequest).map(supplierMapper::toSupplierResponse);
+    public Page<SupplierResponse> getAllSuppliers(PageRequest pageRequest, Specification<Supplier> specification) {
+        return supplierRepository.findAll(specification, pageRequest).map(supplierMapper::toSupplierResponse);
     }
+
 
     @Override
     public SupplierResponse getSupplierById(Integer id) {

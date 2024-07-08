@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.modules.usermanagements.services.interfaces;
 
+import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateAddressRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,4 +22,10 @@ public interface IAddressService {
 
     @PreAuthorize("hasRole('USER')")
     void deleteAddress(DeleteAddressRequest request);
+
+    @PreAuthorize("hasRole('USER')")
+    AddressResponse getAddressById(Integer id);
+
+    @PreAuthorize("hasRole('USER')")
+    AddressResponse updateAddress(Integer id, UpdateAddressRequest request);
 }

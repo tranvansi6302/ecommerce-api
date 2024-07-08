@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.modules.usermanagements.services;
 
+import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateAddressRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -73,5 +74,24 @@ public class AddressService implements IAddressService {
                         .findById(request.getAddressId())
                         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         addressRepository.delete(address);
+    }
+
+    @Override
+    public AddressResponse getAddressById(Integer id) {
+        Address address =
+                addressRepository
+                        .findById(id)
+                        .orElseThrow(() -> new AppException(ErrorCode.ADDRESS_NOT_FOUND));
+        return addressMapper.toAddressResponse(address);
+    }
+
+    @Override
+    public AddressResponse updateAddress(Integer id, UpdateAddressRequest request) {
+        Address address =
+                addressRepository
+                        .findById(id)
+                        .orElseThrow(() -> new AppException(ErrorCode.ADDRESS_NOT_FOUND));
+        addressMapper.updateAddress(address, request);
+        return addressMapper.toAddressResponse(addressRepository.save(address));
     }
 }

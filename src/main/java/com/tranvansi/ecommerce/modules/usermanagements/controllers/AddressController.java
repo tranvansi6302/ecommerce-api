@@ -2,6 +2,7 @@ package com.tranvansi.ecommerce.modules.usermanagements.controllers;
 
 import java.util.List;
 
+import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateAddressRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -44,6 +45,16 @@ public class AddressController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/addresses/{id}")
+    public ResponseEntity<ApiResponse<AddressResponse>> getAddressById(@PathVariable Integer id) {
+        AddressResponse addressResponse = addressService.getAddressById(id);
+        ApiResponse<AddressResponse> response =
+                ApiResponse.<AddressResponse>builder()
+                        .result(addressResponse)
+                        .build();
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/addresses")
     public ResponseEntity<ApiResponse<AddressResponse>> createAddress(
             @RequestBody @Valid CreateAddressRequest request) {
@@ -75,6 +86,18 @@ public class AddressController {
         ApiResponse<String> response =
                 ApiResponse.<String>builder()
                         .message(Message.DELETE_ADDRESS_SUCCESS.getMessage())
+                        .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/addresses/{id}")
+    public ResponseEntity<ApiResponse<AddressResponse>> updateAddress(
+            @PathVariable Integer id, @RequestBody @Valid UpdateAddressRequest request) {
+        AddressResponse addressResponse = addressService.updateAddress(id, request);
+        ApiResponse<AddressResponse> response =
+                ApiResponse.<AddressResponse>builder()
+                        .message(Message.UPDATE_ADDRESS_SUCCESS.getMessage())
+                        .result(addressResponse)
                         .build();
         return ResponseEntity.ok(response);
     }

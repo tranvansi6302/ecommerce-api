@@ -172,4 +172,9 @@ public class CartService implements ICartService {
     public void saveCart(Cart cart) {
         cartRepository.save(cart);
     }
+
+    @Override
+    public boolean existsByUserId(Integer userId) {
+        return cartRepository.existsByUserId(userId);
+    }
 }

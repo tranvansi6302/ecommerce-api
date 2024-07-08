@@ -188,6 +188,11 @@ public enum ErrorCode {
     INVALID_USER_NEW_PASSWORD_REQUIRED(1128, "Mật khẩu mới bắt buộc nhập", HttpStatus.BAD_REQUEST),
     ADDRESS_NOT_FOUND(1129, "Địa chỉ không tồn tại", HttpStatus.NOT_FOUND),
     INVALID_ADDRESS_ID_REQUIRED(1130, "ID địa chỉ bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_ADDRESS_PROVINCE_ID_REQUIRED(
+            1131, "ID tỉnh/thành phố bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_ADDRESS_DISTRICT_ID_REQUIRED(
+            1132, "ID quận/huyện bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_ADDRESS_WARD_ID_REQUIRED(1133, "ID phường/xã bắt buộc nhập", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;

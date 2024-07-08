@@ -243,9 +243,11 @@ public class AuthenticationService implements IAuthenticationService {
                                     return userRepository.save(newUser);
                                 });
 
-        Cart cart = Cart.builder().user(user).build();
-        cartService.saveCart(cart);
-
+        log.info("User: {}", user);
+        if(!cartService.existsByUserId(user.getId())){
+            Cart cart = Cart.builder().user(user).build();
+            cartService.saveCart(cart);
+        }
         // Convert google token to JWT token
         var token = generateToken(user);
 

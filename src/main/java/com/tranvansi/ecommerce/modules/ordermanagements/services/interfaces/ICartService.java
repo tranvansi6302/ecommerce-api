@@ -27,4 +27,6 @@ public interface ICartService {
     Cart findByUserId(Integer userId);
 
     void saveCart(Cart cart);
+
+    boolean existsByUserId(Integer userId);
 }

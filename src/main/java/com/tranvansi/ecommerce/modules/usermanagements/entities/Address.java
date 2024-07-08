@@ -24,6 +24,11 @@ public class Address extends BaseEntity {
     private String district;
     private String ward;
 
+    private Integer provinceId;
+    private Integer districtId;
+    private String wardId;
+
+
     @Column(columnDefinition = "TEXT")
     private String description;
 

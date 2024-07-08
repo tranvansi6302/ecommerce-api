@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.modules.usermanagements.mappers;
 
+import com.tranvansi.ecommerce.modules.usermanagements.requests.UpdateAddressRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
@@ -12,7 +13,7 @@ import com.tranvansi.ecommerce.modules.usermanagements.responses.AddressResponse
 public interface AddressMapper {
 
     Address createAddress(CreateAddressRequest request);
-
+    void updateAddress(@MappingTarget Address address, UpdateAddressRequest request);
     AddressResponse toAddressResponse(Address address);
 
     void updateAddressDefault(@MappingTarget Address address, UpdateAddressDefaultRequest request);

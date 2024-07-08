@@ -59,6 +59,7 @@ public enum Message {
     UPLOAD_REVIEW_IMAGE_SUCCESS("Upload ảnh đánh giá thành công"),
     CHANGE_PASSWORD_SUCCESS("Đổi mật khẩu thành công"),
     DELETE_ADDRESS_SUCCESS("Xóa địa chỉ thành công"),
+    UPDATE_ADDRESS_SUCCESS("Cập nhật địa chỉ thành công"),
     ;
     private String message;
 }

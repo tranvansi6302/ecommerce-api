@@ -1,12 +1,10 @@
 package com.tranvansi.ecommerce.modules.usermanagements.requests;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateAddressRequest {
+public class UpdateAddressRequest {
     @JsonProperty("full_name")
     @NotBlank(message = "INVALID_USER_FULL_NAME_REQUIRED")
     @Size(min = 4, message = "INVALID_USER_FULL_NAME_MIN_LENGTH")

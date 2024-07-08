@@ -25,6 +25,15 @@ public class AddressResponse {
     private String ward;
     private String description;
 
+    @JsonProperty("province_id")
+    private Integer provinceId;
+
+    @JsonProperty("district_id")
+    private Integer districtId;
+
+    @JsonProperty("ward_id")
+    private String wardId;
+
     @JsonProperty("is_default")
     private Integer isDefault;
 }

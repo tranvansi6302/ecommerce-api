@@ -2,6 +2,10 @@ package com.tranvansi.ecommerce.modules.suppliermanagements.controllers;
 
 import java.util.List;
 
+import com.tranvansi.ecommerce.components.enums.PurchaseOrderStatus;
+import com.tranvansi.ecommerce.components.enums.SupplierStatus;
+import com.tranvansi.ecommerce.modules.suppliermanagements.filters.SupplierFilter;
+import com.tranvansi.ecommerce.modules.suppliermanagements.specifications.SuppliersSpecification;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -32,13 +36,17 @@ public class SupplierController {
     public ResponseEntity<PagedResponse<List<SupplierResponse>>> getAllSuppliers(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int limit,
+            @RequestParam(name = "search", required = false) String search,
+            @RequestParam(name = "status", required = false) SupplierStatus status,
             @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder) {
+        SupplierFilter filter =
+                SupplierFilter.builder().search(search).status(status).build();
         Sort sort =
                 sortOrder.equalsIgnoreCase("asc")
                         ? Sort.by("createdAt").ascending()
                         : Sort.by("createdAt").descending();
         PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
-        Page<SupplierResponse> supplierResponses = supplierService.getAllSuppliers(pageRequest);
+        Page<SupplierResponse> supplierResponses = supplierService.getAllSuppliers(pageRequest, new SuppliersSpecification(filter));
         PagedResponse<List<SupplierResponse>> response =
                 BuildResponse.buildPagedResponse(supplierResponses, pageRequest);
         return ResponseEntity.ok(response);
