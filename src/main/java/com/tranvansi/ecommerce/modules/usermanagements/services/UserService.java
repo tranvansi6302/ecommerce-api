@@ -1,6 +1,7 @@
 package com.tranvansi.ecommerce.modules.usermanagements.services;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.tranvansi.ecommerce.components.enums.UserStatus;
@@ -94,6 +95,7 @@ public class UserService implements IUserService {
                             .findById(id)
                             .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
             user.setIsDeleted(1);
+            user.setDeletedAt(LocalDateTime.now());
             userRepository.save(user);
         }
     }
@@ -107,6 +109,7 @@ public class UserService implements IUserService {
                             .findById(id)
                             .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
             user.setIsDeleted(0);
+            user.setDeletedAt(null);
             userRepository.save(user);
         }
     }

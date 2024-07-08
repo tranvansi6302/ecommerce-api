@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.modules.productmanagements.entities;
 
+import com.tranvansi.ecommerce.components.enums.CategoryStatus;
 import jakarta.persistence.*;
 
 import com.tranvansi.ecommerce.components.entities.BaseEntity;
@@ -23,6 +24,9 @@ public class Category extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     private String slug;
+
+    @Enumerated(EnumType.ORDINAL)
+    private CategoryStatus status;
 
     @Column(columnDefinition = "TEXT")
     private String summary;

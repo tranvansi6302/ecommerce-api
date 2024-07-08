@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.modules.productmanagements.services.interfaces;
 
+import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateManyStatusCategoryRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -22,6 +23,9 @@ public interface ICategoryService {
 
     @PreAuthorize("hasRole('ADMIN')")
     void deleteCategory(Integer id);
+
+    @PreAuthorize("hasRole('ADMIN')")
+    void updateManyStatusCategory(UpdateManyStatusCategoryRequest request);
 
     CategoryResponse getCategoryById(Integer id);
 

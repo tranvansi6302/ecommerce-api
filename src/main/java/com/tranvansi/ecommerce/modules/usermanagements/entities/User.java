@@ -46,6 +46,8 @@ public class User extends BaseEntity {
     @Column(columnDefinition = "TINYINT")
     private Integer isDeleted;
 
+    private LocalDateTime deletedAt;
+
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @OnDelete(action = OnDeleteAction.CASCADE)

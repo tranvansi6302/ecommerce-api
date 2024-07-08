@@ -2,6 +2,8 @@ package com.tranvansi.ecommerce.modules.productmanagements.controllers;
 
 import java.util.List;
 
+import com.tranvansi.ecommerce.components.enums.CategoryStatus;
+import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateManyStatusCategoryRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -34,8 +36,9 @@ public class CategoryController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int limit,
             @RequestParam(name = "search", required = false) String search,
+            @RequestParam(name="status", required = false) CategoryStatus status,
             @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder) {
-        CategoryFilter filter = CategoryFilter.builder().search(search).build();
+        CategoryFilter filter = CategoryFilter.builder().search(search).status(status).build();
         Sort sort =
                 sortOrder.equalsIgnoreCase("asc")
                         ? Sort.by("createdAt").ascending()
@@ -86,6 +89,17 @@ public class CategoryController {
         ApiResponse<String> response =
                 ApiResponse.<String>builder()
                         .message(Message.DELETE_CATEGORY_SUCCESS.getMessage())
+                        .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/status")
+    public ResponseEntity<ApiResponse<String>> updateManyStatusCategory(
+            @RequestBody @Valid UpdateManyStatusCategoryRequest request) {
+        categoryService.updateManyStatusCategory(request);
+        ApiResponse<String> response =
+                ApiResponse.<String>builder()
+                        .message(Message.UPDATE_MANY_STATUS_CATEGORY_SUCCESS.getMessage())
                         .build();
         return ResponseEntity.ok(response);
     }

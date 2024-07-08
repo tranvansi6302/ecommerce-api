@@ -1,5 +1,7 @@
 package com.tranvansi.ecommerce.modules.productmanagements.services;
 
+import com.tranvansi.ecommerce.components.enums.CategoryStatus;
+import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateManyStatusCategoryRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -17,6 +19,7 @@ import com.tranvansi.ecommerce.modules.productmanagements.responses.CategoryResp
 import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.ICategoryService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +34,7 @@ public class CategoryService implements ICategoryService {
         }
         Category category = categoryMapper.createCategory(request);
         category.setSlug(ConvertUtil.toSlug(request.getName()));
+        category.setStatus(CategoryStatus.ACTIVE);
         return categoryMapper.toCategoryResponse(categoryRepository.save(category));
     }
 
@@ -58,6 +62,20 @@ public class CategoryService implements ICategoryService {
     public void deleteCategory(Integer id) {
         Category category = findCategoryById(id);
         categoryRepository.delete(category);
+    }
+
+    @Transactional
+    @Override
+    public void updateManyStatusCategory(UpdateManyStatusCategoryRequest request) {
+        for (Integer id : request.getCategoryIds()) {
+            Category category = findCategoryById(id);
+            if (category.getStatus().equals(CategoryStatus.ACTIVE)) {
+                category.setStatus(CategoryStatus.INACTIVE);
+            } else {
+                category.setStatus(CategoryStatus.ACTIVE);
+            }
+            categoryRepository.save(category);
+        }
     }
 
     @Override

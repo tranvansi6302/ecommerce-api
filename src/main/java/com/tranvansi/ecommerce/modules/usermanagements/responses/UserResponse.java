@@ -47,6 +47,9 @@ public class UserResponse {
     @JsonProperty("is_deleted")
     private Integer isDeleted;
 
+    @JsonProperty("deleted_at")
+    private LocalDateTime deletedAt;
+
     @JsonProperty("created_at")
     private LocalDateTime createdAt;
 
