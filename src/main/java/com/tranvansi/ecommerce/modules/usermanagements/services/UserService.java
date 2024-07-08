@@ -3,6 +3,7 @@ package com.tranvansi.ecommerce.modules.usermanagements.services;
 import java.io.IOException;
 import java.util.List;
 
+import com.tranvansi.ecommerce.components.enums.UserStatus;
 import com.tranvansi.ecommerce.modules.usermanagements.requests.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -47,7 +48,7 @@ public class UserService implements IUserService {
 
         if (userRepository.existsByPhoneNumber(request.getPhoneNumber())
                 && (user.getPhoneNumber() == null
-                        || !user.getPhoneNumber().equals(request.getPhoneNumber()))) {
+                || !user.getPhoneNumber().equals(request.getPhoneNumber()))) {
             throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS);
         }
 
@@ -110,6 +111,24 @@ public class UserService implements IUserService {
         }
     }
 
+    @Transactional
+    @Override
+    public void updateStatusManyUsers(UpdateStatusManyUserRequest request) {
+        for (Integer id : request.getUserIds()) {
+            User user =
+                    userRepository
+                            .findById(id)
+                            .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+            if (user.getStatus().equals(UserStatus.BLOCKED)) {
+                user.setStatus(UserStatus.ACTIVE);
+            } else {
+                user.setStatus(UserStatus.BLOCKED);
+            }
+
+            userRepository.save(user);
+        }
+    }
+
 
     @Override
     public boolean existsByEmail(String email) {
@@ -161,7 +180,7 @@ public class UserService implements IUserService {
                         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         if (userRepository.existsByPhoneNumber(request.getPhoneNumber())
                 && (user.getPhoneNumber() == null
-                        || !user.getPhoneNumber().equals(request.getPhoneNumber()))) {
+                || !user.getPhoneNumber().equals(request.getPhoneNumber()))) {
             throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS);
         }
         if (userRepository.existsByEmail(request.getEmail())

@@ -46,6 +46,10 @@ public interface IUserService {
     @PreAuthorize("hasRole('ADMIN')")
     void restoreManyUsers(RestoreManyUserRequest request);
 
+
+    @PreAuthorize("hasRole('ADMIN')")
+    void updateStatusManyUsers(UpdateStatusManyUserRequest request);
+
     boolean existsByEmail(String email);
 
     User findUserByEmail(String email);

@@ -40,7 +40,7 @@ public class UserController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int limit,
             @RequestParam(name = "status", required = false) Integer status,
-            @RequestParam(name = "is_deleted", required = false) Integer isDeleted,
+            @RequestParam(name = "is_deleted", defaultValue = "0") Integer isDeleted,
             @RequestParam(name = "email", required = false) String email,
 
 
@@ -187,4 +187,16 @@ public class UserController {
                         .build();
         return ResponseEntity.ok(response);
     }
+
+    @PatchMapping("/status")
+    public ResponseEntity<ApiResponse<String>> updateStatusManyUsers(
+            @RequestBody @Valid UpdateStatusManyUserRequest request) {
+        userService.updateStatusManyUsers(request);
+        ApiResponse<String> response =
+                ApiResponse.<String>builder()
+                        .message(Message.UPDATE_STATUS_USER_SUCCESS.getMessage())
+                        .build();
+        return ResponseEntity.ok(response);
+    }
+
 }

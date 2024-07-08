@@ -62,6 +62,7 @@ public enum Message {
     UPDATE_ADDRESS_SUCCESS("Cập nhật địa chỉ thành công"),
     DELETE_SOFT_USER_SUCCESS("Người dùng đã được chuyển sang thùng rác, tự động xóa sau 30 ngày"),
     RESTORE_USER_SUCCESS("Khôi phục người dùng thành công"),
+    UPDATE_STATUS_USER_SUCCESS("Cập nhật trạng thái thành công")
     ;
     private String message;
 }
