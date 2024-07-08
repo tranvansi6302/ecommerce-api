@@ -1,5 +1,7 @@
 package com.tranvansi.ecommerce.modules.productmanagements.services;
 
+import com.tranvansi.ecommerce.components.enums.BrandStatus;
+import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateManyStatusBrandRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -32,6 +34,7 @@ public class BrandService implements IBrandService {
             throw new AppException(ErrorCode.BRAND_ALREADY_EXISTS);
         }
         Brand brand = brandMapper.createBrand(request);
+        brand.setStatus(BrandStatus.ACTIVE);
         brand.setSlug(ConvertUtil.toSlug(request.getName()));
         return brandMapper.toBrandResponse(brandRepository.save(brand));
     }
@@ -67,6 +70,20 @@ public class BrandService implements IBrandService {
     public void deleteBrand(Integer id) {
         Brand brand = findBrandById(id);
         brandRepository.delete(brand);
+    }
+
+    @Override
+    public void updateManyStatusBrand(UpdateManyStatusBrandRequest request) {
+        for (Integer id : request.getBrandIds()) {
+            Brand brand = findBrandById(id);
+            if (brand.getStatus().equals(BrandStatus.ACTIVE)) {
+                brand.setStatus(BrandStatus.INACTIVE);
+            } else {
+                brand.setStatus(BrandStatus.ACTIVE);
+
+            }
+            brandRepository.save(brand);
+        }
     }
 
     @Override

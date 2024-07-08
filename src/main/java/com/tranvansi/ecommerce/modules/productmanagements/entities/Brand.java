@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.modules.productmanagements.entities;
 
+import com.tranvansi.ecommerce.components.enums.BrandStatus;
 import jakarta.persistence.*;
 
 import com.tranvansi.ecommerce.components.entities.BaseEntity;
@@ -20,6 +21,8 @@ public class Brand extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     private String name;
+
+    private BrandStatus status;
 
     @Column(nullable = false, unique = true)
     private String slug;

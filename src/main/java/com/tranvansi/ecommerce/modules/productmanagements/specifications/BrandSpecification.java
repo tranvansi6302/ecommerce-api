@@ -31,6 +31,10 @@ public class BrandSpecification implements Specification<Brand> {
             predicates.add(cb.like(root.get("name"), "%" + filter.getSearch() + "%"));
         }
 
+        if (filter.getStatus() != null) {
+            predicates.add(cb.equal(root.get("status"), filter.getStatus()));
+        }
+
         return cb.and(predicates.toArray(new Predicate[0]));
     }
 }

@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.modules.productmanagements.services.interfaces;
 
+import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateManyStatusBrandRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -23,6 +24,9 @@ public interface IBrandService {
 
     @PreAuthorize("hasRole('ADMIN')")
     void deleteBrand(Integer id);
+
+    @PreAuthorize("hasRole('ADMIN')")
+    void updateManyStatusBrand(UpdateManyStatusBrandRequest request);
 
     Brand findBrandById(Integer name);
 }

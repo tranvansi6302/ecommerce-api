@@ -64,6 +64,7 @@ public enum Message {
     RESTORE_USER_SUCCESS("Khôi phục người dùng thành công"),
     UPDATE_STATUS_USER_SUCCESS("Cập nhật trạng thái thành công"),
     UPDATE_MANY_STATUS_CATEGORY_SUCCESS("Cập nhật trạng thái thành công"),
+    UPDATE_MANY_STATUS_BRAND_SUCCESS("Cập nhật trạng thái thành công"),
     ;
     private String message;
 }

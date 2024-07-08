@@ -2,6 +2,8 @@ package com.tranvansi.ecommerce.modules.productmanagements.controllers;
 
 import java.util.List;
 
+import com.tranvansi.ecommerce.components.enums.BrandStatus;
+import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateManyStatusBrandRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -34,8 +36,9 @@ public class BrandController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int limit,
             @RequestParam(name = "search", required = false) String search,
+            @RequestParam(name = "status", required = false) BrandStatus status,
             @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder) {
-        BrandFilter filter = BrandFilter.builder().search(search).build();
+        BrandFilter filter = BrandFilter.builder().search(search).status(status).build();
         Sort sort =
                 sortOrder.equalsIgnoreCase("asc")
                         ? Sort.by("createdAt").ascending()
@@ -86,6 +89,17 @@ public class BrandController {
         ApiResponse<BrandResponse> response =
                 ApiResponse.<BrandResponse>builder()
                         .message(Message.DELETE_BRAND_SUCCESS.getMessage())
+                        .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/status")
+    public ResponseEntity<ApiResponse<BrandResponse>> updateManyStatusBrand(
+            @RequestBody @Valid UpdateManyStatusBrandRequest request) {
+        brandService.updateManyStatusBrand(request);
+        ApiResponse<BrandResponse> response =
+                ApiResponse.<BrandResponse>builder()
+                        .message(Message.UPDATE_MANY_STATUS_BRAND_SUCCESS.getMessage())
                         .build();
         return ResponseEntity.ok(response);
     }
