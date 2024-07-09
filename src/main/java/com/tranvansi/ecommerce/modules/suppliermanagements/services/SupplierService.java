@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.modules.suppliermanagements.services;
 
+import com.tranvansi.ecommerce.modules.suppliermanagements.requests.UpdateManyStatusSupplierRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -85,6 +86,23 @@ public class SupplierService implements ISupplierService {
                         .orElseThrow(() -> new AppException(ErrorCode.SUPPLIER_NOT_FOUND));
         supplier.setStatus(request.getStatus());
         return supplierMapper.toSupplierResponse(supplierRepository.save(supplier));
+    }
+
+    @Override
+    public void updateManyStatusSupplier(UpdateManyStatusSupplierRequest request) {
+        for (Integer id : request.getSupplierIds()) {
+            Supplier supplier =
+                    supplierRepository
+                            .findById(id)
+                            .orElseThrow(() -> new AppException(ErrorCode.SUPPLIER_NOT_FOUND));
+            if(supplier.getStatus().equals(SupplierStatus.ACTIVE)){
+                  supplier.setStatus(SupplierStatus.INACTIVE);
+            }else {
+                    supplier.setStatus(SupplierStatus.ACTIVE);
+            }
+
+            supplierRepository.save(supplier);
+        }
     }
 
     private void checkExistingSupplier(CreateSupplierRequest request) {

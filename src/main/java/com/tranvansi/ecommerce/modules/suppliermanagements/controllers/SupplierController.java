@@ -2,6 +2,7 @@ package com.tranvansi.ecommerce.modules.suppliermanagements.controllers;
 
 import java.util.List;
 
+import com.tranvansi.ecommerce.modules.suppliermanagements.requests.UpdateManyStatusSupplierRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -92,6 +93,17 @@ public class SupplierController {
                 ApiResponse.<SupplierResponse>builder()
                         .result(supplierResponse)
                         .message(Message.SUPPLIER_UPDATED_STATUS_SUCCESSFULLY.getMessage())
+                        .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/status")
+    public ResponseEntity<ApiResponse<Void>> updateManyStatusSupplier(
+            @RequestBody @Valid UpdateManyStatusSupplierRequest request) {
+        supplierService.updateManyStatusSupplier(request);
+        ApiResponse<Void> response =
+                ApiResponse.<Void>builder()
+                        .message(Message.UPDATE_MANY_STATUS_SUPPLIER_SUCCESS.getMessage())
                         .build();
         return ResponseEntity.ok(response);
     }

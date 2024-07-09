@@ -197,6 +197,7 @@ public enum ErrorCode {
     INVALID_CATEGORY_IDS_REQUIRED(1135, "ID danh mục bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_BRAND_IDS_REQUIRED(1136, "ID thương hiệu bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_PRODUCT_IDS_REQUIRED(1137, "ID sản phẩm bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_SUPPLIER_IDS_REQUIRED(1138, "ID nhà cung cấp bắt buộc nhập", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;

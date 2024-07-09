@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.modules.suppliermanagements.services.interfaces;
 
+import com.tranvansi.ecommerce.modules.suppliermanagements.requests.UpdateManyStatusSupplierRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -27,4 +28,6 @@ public interface ISupplierService {
 
     @PreAuthorize("hasRole('ADMIN')")
     SupplierResponse deleteSoftOrRestoreSupplier(Integer id, UpdateStatusSupplierRequest request);
+
+    void updateManyStatusSupplier(UpdateManyStatusSupplierRequest request);
 }

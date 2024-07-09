@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.tranvansi.ecommerce.components.enums.ProductStatus;
-import com.tranvansi.ecommerce.modules.productmanagements.requests.DeleteManyProductRequest;
+import com.tranvansi.ecommerce.modules.productmanagements.requests.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -28,9 +28,6 @@ import com.tranvansi.ecommerce.modules.productmanagements.mappers.ProductMapper;
 import com.tranvansi.ecommerce.modules.productmanagements.mappers.VariantMapper;
 import com.tranvansi.ecommerce.modules.productmanagements.repositories.PricePlanRepository;
 import com.tranvansi.ecommerce.modules.productmanagements.repositories.ProductRepository;
-import com.tranvansi.ecommerce.modules.productmanagements.requests.CreateProductRequest;
-import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateProductRequest;
-import com.tranvansi.ecommerce.modules.productmanagements.requests.UploadProductImagesRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.*;
 import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.*;
 
@@ -158,6 +155,19 @@ public class ProductService implements IProductService {
         for (Integer id : request.getProductIds()) {
             Product product = findProductById(id);
             productRepository.delete(product);
+        }
+    }
+
+    @Override
+    public void updateManyStatusProducts(UpdateManyStatusProductRequest request) {
+        for (Integer id : request.getProductIds()) {
+            Product product = findProductById(id);
+            if(product.getStatus().equals(ProductStatus.ACTIVE)){
+                product.setStatus(ProductStatus.INACTIVE);
+            }else{
+                product.setStatus(ProductStatus.ACTIVE);
+            }
+            productRepository.save(product);
         }
     }
 

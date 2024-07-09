@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.tranvansi.ecommerce.components.enums.ProductStatus;
-import com.tranvansi.ecommerce.modules.productmanagements.requests.DeleteManyProductRequest;
+import com.tranvansi.ecommerce.modules.productmanagements.requests.*;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -26,9 +26,6 @@ import com.tranvansi.ecommerce.components.responses.PagedResponse;
 import com.tranvansi.ecommerce.components.utils.FileUtil;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.productmanagements.filters.ProductFilter;
-import com.tranvansi.ecommerce.modules.productmanagements.requests.CreateProductRequest;
-import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateProductRequest;
-import com.tranvansi.ecommerce.modules.productmanagements.requests.UploadProductImagesRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.CreateProductResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.PricePlanResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.ProductDetailResponse;
@@ -205,6 +202,17 @@ public class ProductController {
         ApiResponse<String> response =
                 ApiResponse.<String>builder()
                         .message(Message.DELETE_PRODUCT_SUCCESS.getMessage())
+                        .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/status")
+    public ResponseEntity<ApiResponse<String>> updateManyStatusProducts(
+            @RequestBody @Valid UpdateManyStatusProductRequest request) {
+        productService.updateManyStatusProducts(request);
+        ApiResponse<String> response =
+                ApiResponse.<String>builder()
+                        .message(Message.UPDATE_MANY_STATUS_PRODUCT_SUCCESS.getMessage())
                         .build();
         return ResponseEntity.ok(response);
     }
