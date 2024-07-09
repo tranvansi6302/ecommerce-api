@@ -16,24 +16,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdatePricePlanRequest {
-    @NotNull(message = "INVALID_VARIANT_ID_REQUIRED")
-    @JsonProperty("variant_id")
-    private Integer variantId;
 
     @JsonProperty("sale_price")
+//    @NotNull(message = "INVALID_SALE_PRICE_REQUIRED")
     private Double salePrice;
 
     @JsonProperty("promotion_price")
+//    @NotNull(message = "INVALID_PROMOTION_PRICE_REQUIRED")
     private Double promotionPrice;
 
-    private Double discount;
 
-    @JsonProperty("start_date")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @NotBlank(message = "INVALID_PRICE_PLAN_START_DATE_REQUIRED")
-    private LocalDateTime startDate;
-
-    @JsonProperty("end_date")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime endDate;
 }

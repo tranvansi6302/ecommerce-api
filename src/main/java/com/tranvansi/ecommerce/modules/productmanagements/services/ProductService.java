@@ -144,12 +144,7 @@ public class ProductService implements IProductService {
                     VariantResponse variantResponse = variantMapper.toVariantResponse(savedVariant);
                     variantResponses.add(variantResponse);
                 }
-
-
         }
-
-
-
 
         return CreateProductResponse.builder()
                 .id(savedProduct.getId())

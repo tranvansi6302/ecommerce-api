@@ -188,57 +188,32 @@ public class PricePlanService implements IPricePlanService {
     }
 
     @Override
-    public PricePlanDetailResponse updatePricePlan(
-            Integer pricePlanId, UpdatePricePlanRequest request) {
+    public PricePlanDetailResponse updatePricePlan(Integer pricePlanId, UpdatePricePlanRequest request) {
         PricePlan pricePlan =
                 pricePlanRepository
                         .findById(pricePlanId)
                         .orElseThrow(() -> new AppException(ErrorCode.PRICE_PLAN_NOT_FOUND));
 
-        List<PricePlan> existingPlans =
-                pricePlanRepository.findByVariantIdOrderByStartDateDesc(
-                        pricePlan.getVariant().getId());
 
-        LocalDateTime newStartDate = request.getStartDate();
-        LocalDateTime newEndDate = request.getEndDate();
-        LocalDateTime now = LocalDateTime.now();
+        if (request.getSalePrice() != null && request.getPromotionPrice() != null
+                && request.getPromotionPrice() > request.getSalePrice()){
+            throw new AppException(ErrorCode.PROMOTION_PRICE_GREATER_THAN_SALE_PRICE);
 
-        for (PricePlan existingPlan : existingPlans) {
-            if (!existingPlan.getId().equals(pricePlanId)) {
-                if (newStartDate.isBefore(existingPlan.getEndDate())
-                        && (newEndDate == null
-                                || newEndDate.isAfter(existingPlan.getStartDate()))) {
-                    throw new AppException(ErrorCode.PRICE_PLAN_START_DATE_INVALID);
-                }
-            }
         }
 
-        if (newStartDate.isBefore(now)) {
-            throw new AppException(ErrorCode.PRICE_PLAN_START_DATE_INVALID);
-        }
-
-        pricePlanMapper.updatePricePlan(pricePlan, request);
-
-        if (request.getEndDate() == null) {
-            for (PricePlan existingPlan : existingPlans) {
-                if (!existingPlan.getId().equals(pricePlanId)
-                        && existingPlan.getEndDate() == null) {
-                    existingPlan.setEndDate(newStartDate);
-                    pricePlanRepository.save(existingPlan);
-                    break;
-                }
-            }
-        }
+        pricePlan.setSalePrice(request.getSalePrice());
+        pricePlan.setPromotionPrice(request.getPromotionPrice());
 
         PricePlan updatedPricePlan = pricePlanRepository.save(pricePlan);
-
         VariantResponse variantResponse =
                 variantMapper.toVariantResponse(updatedPricePlan.getVariant());
         PricePlanDetailResponse pricePlanResponse =
                 pricePlanMapper.toPricePlanDetailResponse(updatedPricePlan);
         pricePlanResponse.setVariant(variantResponse);
+
         return pricePlanResponse;
     }
+
 
     @Override
     public List<PricePlan> findByVariantIdOrderByStartDateDesc(Integer variantId) {

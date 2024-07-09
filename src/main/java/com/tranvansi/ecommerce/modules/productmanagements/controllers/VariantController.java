@@ -2,6 +2,7 @@ package com.tranvansi.ecommerce.modules.productmanagements.controllers;
 
 import java.util.List;
 
+import com.tranvansi.ecommerce.components.enums.ProductStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -33,12 +34,15 @@ public class VariantController {
             @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder,
             @RequestParam(name = "search", required = false) String search,
             @RequestParam(name = "category", required = false) String categorySlug,
-            @RequestParam(name = "brand", required = false) String brandSlug) {
+            @RequestParam(name = "brand", required = false) String brandSlug,
+            @RequestParam(name = "status", defaultValue = "ACTIVE")ProductStatus status
+            ) {
         VariantFilter filter =
                 VariantFilter.builder()
                         .search(search)
                         .categorySlug(categorySlug)
                         .brandSlug(brandSlug)
+                        .status(status)
                         .build();
         Sort sort =
                 sortOrder.equalsIgnoreCase("asc")

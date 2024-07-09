@@ -198,6 +198,11 @@ public enum ErrorCode {
     INVALID_BRAND_IDS_REQUIRED(1136, "ID thương hiệu bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_PRODUCT_IDS_REQUIRED(1137, "ID sản phẩm bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_SUPPLIER_IDS_REQUIRED(1138, "ID nhà cung cấp bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_PROMOTION_PRICE_REQUIRED(1139, "Giá khuyến mãi bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_SALE_PRICE_REQUIRED(1140, "Giá bán bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    PROMOTION_PRICE_GREATER_THAN_SALE_PRICE(
+            1141, "Giá khuyến mãi phải nhỏ hơn giá bán", HttpStatus.BAD_REQUEST),
+
     ;
 
     private int code;
