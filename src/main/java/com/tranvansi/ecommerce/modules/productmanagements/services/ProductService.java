@@ -1,10 +1,14 @@
 package com.tranvansi.ecommerce.modules.productmanagements.services;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.tranvansi.ecommerce.components.enums.ProductStatus;
+import com.tranvansi.ecommerce.modules.productmanagements.requests.DeleteManyProductRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -35,6 +39,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ProductService implements IProductService {
+    private static final Logger log = LoggerFactory.getLogger(ProductService.class);
     private final ProductRepository productRepository;
     private final IProductImageService productImageService;
     private final IVariantService variantService;
@@ -145,6 +150,15 @@ public class ProductService implements IProductService {
         ProductResponse response = productMapper.toProductResponse(product);
         response.setProductImages(imageResponses);
         return response;
+    }
+
+    @Transactional
+    @Override
+    public void deleteManyProducts(DeleteManyProductRequest request) {
+        for (Integer id : request.getProductIds()) {
+            Product product = findProductById(id);
+            productRepository.delete(product);
+        }
     }
 
     @Override

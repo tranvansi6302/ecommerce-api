@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.tranvansi.ecommerce.components.enums.ProductStatus;
+import com.tranvansi.ecommerce.modules.productmanagements.requests.DeleteManyProductRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -193,6 +194,17 @@ public class ProductController {
                 ApiResponse.<ProductResponse>builder()
                         .result(productResponse)
                         .message(Message.UPLOAD_IMAGE_PRODUCT_SUCCESS.getMessage())
+                        .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("")
+    public ResponseEntity<ApiResponse<String>> deleteManyProducts(
+            @RequestBody @Valid DeleteManyProductRequest request) {
+        productService.deleteManyProducts(request);
+        ApiResponse<String> response =
+                ApiResponse.<String>builder()
+                        .message(Message.DELETE_PRODUCT_SUCCESS.getMessage())
                         .build();
         return ResponseEntity.ok(response);
     }

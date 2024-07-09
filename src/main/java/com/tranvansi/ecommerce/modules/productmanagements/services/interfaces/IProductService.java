@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.modules.productmanagements.services.interfaces;
 
+import com.tranvansi.ecommerce.modules.productmanagements.requests.DeleteManyProductRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -23,6 +24,9 @@ public interface IProductService {
 
     @PreAuthorize("hasRole('ADMIN')")
     ProductResponse uploadImageProducts(Integer id, UploadProductImagesRequest request);
+
+    @PreAuthorize("hasRole('ADMIN')")
+    void deleteManyProducts(DeleteManyProductRequest request);
 
     Page<ProductDetailResponse> getAllProducts(
             PageRequest pageRequest, Specification<Product> specification);
