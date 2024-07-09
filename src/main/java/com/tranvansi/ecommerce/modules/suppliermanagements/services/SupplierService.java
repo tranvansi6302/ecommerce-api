@@ -1,6 +1,6 @@
 package com.tranvansi.ecommerce.modules.suppliermanagements.services;
 
-import com.tranvansi.ecommerce.modules.suppliermanagements.requests.UpdateManyStatusSupplierRequest;
+import com.tranvansi.ecommerce.modules.suppliermanagements.requests.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -12,9 +12,6 @@ import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.suppliermanagements.entities.Supplier;
 import com.tranvansi.ecommerce.modules.suppliermanagements.mappers.SupplierMapper;
 import com.tranvansi.ecommerce.modules.suppliermanagements.repositories.SupplierRepository;
-import com.tranvansi.ecommerce.modules.suppliermanagements.requests.CreateSupplierRequest;
-import com.tranvansi.ecommerce.modules.suppliermanagements.requests.UpdateStatusSupplierRequest;
-import com.tranvansi.ecommerce.modules.suppliermanagements.requests.UpdateSupplierRequest;
 import com.tranvansi.ecommerce.modules.suppliermanagements.responses.SupplierResponse;
 import com.tranvansi.ecommerce.modules.suppliermanagements.services.interfaces.ISupplierService;
 
@@ -102,6 +99,17 @@ public class SupplierService implements ISupplierService {
             }
 
             supplierRepository.save(supplier);
+        }
+    }
+
+    @Override
+    public void deleteManySuppliers(DeleteManySupplierRequest request) {
+        for (Integer id : request.getSupplierIds()) {
+            Supplier supplier =
+                    supplierRepository
+                            .findById(id)
+                            .orElseThrow(() -> new AppException(ErrorCode.SUPPLIER_NOT_FOUND));
+            supplierRepository.delete(supplier);
         }
     }
 

@@ -2,7 +2,7 @@ package com.tranvansi.ecommerce.modules.suppliermanagements.controllers;
 
 import java.util.List;
 
-import com.tranvansi.ecommerce.modules.suppliermanagements.requests.UpdateManyStatusSupplierRequest;
+import com.tranvansi.ecommerce.modules.suppliermanagements.requests.*;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -17,9 +17,6 @@ import com.tranvansi.ecommerce.components.responses.ApiResponse;
 import com.tranvansi.ecommerce.components.responses.BuildResponse;
 import com.tranvansi.ecommerce.components.responses.PagedResponse;
 import com.tranvansi.ecommerce.modules.suppliermanagements.filters.SupplierFilter;
-import com.tranvansi.ecommerce.modules.suppliermanagements.requests.CreateSupplierRequest;
-import com.tranvansi.ecommerce.modules.suppliermanagements.requests.UpdateStatusSupplierRequest;
-import com.tranvansi.ecommerce.modules.suppliermanagements.requests.UpdateSupplierRequest;
 import com.tranvansi.ecommerce.modules.suppliermanagements.responses.SupplierResponse;
 import com.tranvansi.ecommerce.modules.suppliermanagements.services.interfaces.ISupplierService;
 import com.tranvansi.ecommerce.modules.suppliermanagements.specifications.SuppliersSpecification;
@@ -104,6 +101,17 @@ public class SupplierController {
         ApiResponse<Void> response =
                 ApiResponse.<Void>builder()
                         .message(Message.UPDATE_MANY_STATUS_SUPPLIER_SUCCESS.getMessage())
+                        .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("")
+    public ResponseEntity<ApiResponse<Void>> deleteManySuppliers(
+            @RequestBody @Valid DeleteManySupplierRequest request) {
+        supplierService.deleteManySuppliers(request);
+        ApiResponse<Void> response =
+                ApiResponse.<Void>builder()
+                        .message(Message.DELETE_MANY_SUPPLIERS_SUCCESS.getMessage())
                         .build();
         return ResponseEntity.ok(response);
     }
