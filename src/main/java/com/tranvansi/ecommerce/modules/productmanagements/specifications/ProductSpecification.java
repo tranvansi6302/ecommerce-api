@@ -52,6 +52,10 @@ public class ProductSpecification implements Specification<Product> {
             }
         }
 
+        if (filter.getStatus() != null) {
+            predicates.add(cb.equal(root.get("status"), filter.getStatus()));
+        }
+
         query.distinct(true);
 
         return cb.and(predicates.toArray(new Predicate[0]));

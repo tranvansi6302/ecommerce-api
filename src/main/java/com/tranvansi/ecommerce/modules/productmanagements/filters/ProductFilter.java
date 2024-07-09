@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.modules.productmanagements.filters;
 
+import com.tranvansi.ecommerce.components.enums.ProductStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,4 +17,5 @@ public class ProductFilter {
     private Double priceMin;
     private Double priceMax;
     private Integer ratingMin;
+    private ProductStatus status;
 }

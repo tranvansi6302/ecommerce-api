@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.tranvansi.ecommerce.components.enums.ProductStatus;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -55,6 +56,7 @@ public class ProductController {
             @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder,
             @RequestParam(name = "price_min", required = false) Double priceMin,
             @RequestParam(name = "price_max", required = false) Double priceMax,
+            @RequestParam(name = "status", required = false)ProductStatus status,
             @RequestParam(name = "rating", required = false) Integer ratingMin) {
 
         Sort sort;
@@ -74,6 +76,7 @@ public class ProductController {
                         .brandSlug(brandSlug)
                         .priceMin(priceMin)
                         .priceMax(priceMax)
+                        .status(status)
                         .build();
 
         PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);

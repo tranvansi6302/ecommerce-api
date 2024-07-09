@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.tranvansi.ecommerce.components.enums.ProductStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -64,6 +65,7 @@ public class ProductService implements IProductService {
         Brand brand = brandService.findBrandById(request.getBrandId());
 
         Product product = productMapper.createProduct(request);
+        product.setStatus(ProductStatus.ACTIVE);
         product.setCategory(category);
         product.setBrand(brand);
 

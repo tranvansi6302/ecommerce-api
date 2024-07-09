@@ -3,6 +3,7 @@ package com.tranvansi.ecommerce.modules.productmanagements.entities;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.tranvansi.ecommerce.components.enums.ProductStatus;
 import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -31,7 +32,9 @@ public class Product extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String sku;
 
-    private LocalDateTime deletedAt;
+
+    @Enumerated(EnumType.STRING)
+    private ProductStatus status;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

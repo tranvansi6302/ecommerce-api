@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tranvansi.ecommerce.components.enums.ProductStatus;
 import com.tranvansi.ecommerce.modules.suppliermanagements.responses.WarehousePurchasePriceAndAvailableQuantity;
 
 import lombok.*;
@@ -29,6 +30,8 @@ public class ProductDetailResponse {
     private Double averageRating;
 
     private Integer sold;
+
+    private ProductStatus status;
 
     private BrandResponse brand;
     private CategoryResponse category;

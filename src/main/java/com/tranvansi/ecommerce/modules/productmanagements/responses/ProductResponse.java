@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import com.tranvansi.ecommerce.components.enums.ProductStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,6 +28,8 @@ public class ProductResponse {
     private CategoryResponse category;
 
     private BrandResponse brand;
+
+    private ProductStatus status;
 
     @JsonProperty("created_at")
     private LocalDateTime createdAt;
