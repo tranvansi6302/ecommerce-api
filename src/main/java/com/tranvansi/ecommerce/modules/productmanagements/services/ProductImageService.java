@@ -8,6 +8,8 @@ import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.IP
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ProductImageService implements IProductImageService {
@@ -21,5 +23,15 @@ public class ProductImageService implements IProductImageService {
     @Override
     public Integer countProductImageByProductId(Integer productId) {
         return productImageRepository.countByProductId(productId);
+    }
+
+    @Override
+    public List<ProductImage> findByProductId(Integer productId) {
+        return productImageRepository.findByProductId(productId);
+    }
+
+    @Override
+    public void deleteProductImage(Integer id) {
+        productImageRepository.deleteById(id);
     }
 }

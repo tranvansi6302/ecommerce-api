@@ -12,4 +12,6 @@ public interface ProductRepository
     boolean existsByName(String name);
 
     boolean existsBySku(String sku);
+
+
 }
