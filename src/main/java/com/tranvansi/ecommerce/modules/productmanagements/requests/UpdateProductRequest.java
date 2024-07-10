@@ -20,8 +20,10 @@ public class UpdateProductRequest {
     @Size(min = 3, max = 200, message = "INVALID_PRODUCT_NAME_LENGTH")
     private String name;
 
-    @NotBlank(message = "INVALID_PRODUCT_DESCRIPTION_REQUIRED")
     private String description;
+
+    @NotBlank(message = "INVALID_PRODUCT_SKU_REQUIRED")
+    private String sku;
 
     @NotNull(message = "INVALID_CATEGORY_ID_REQUIRED")
     @JsonProperty("category_id")

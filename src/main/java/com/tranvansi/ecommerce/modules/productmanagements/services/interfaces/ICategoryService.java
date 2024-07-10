@@ -1,6 +1,5 @@
 package com.tranvansi.ecommerce.modules.productmanagements.services.interfaces;
 
-import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateManyStatusCategoryRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -9,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Category;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.CreateCategoryRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateCategoryRequest;
+import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateManyStatusCategoryRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.CategoryResponse;
 
 public interface ICategoryService {

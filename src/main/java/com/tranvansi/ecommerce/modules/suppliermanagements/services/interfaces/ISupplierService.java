@@ -1,12 +1,12 @@
 package com.tranvansi.ecommerce.modules.suppliermanagements.services.interfaces;
 
-import com.tranvansi.ecommerce.modules.suppliermanagements.requests.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.tranvansi.ecommerce.modules.suppliermanagements.entities.Supplier;
+import com.tranvansi.ecommerce.modules.suppliermanagements.requests.*;
 import com.tranvansi.ecommerce.modules.suppliermanagements.responses.SupplierResponse;
 
 public interface ISupplierService {

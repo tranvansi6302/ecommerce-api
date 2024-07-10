@@ -1,13 +1,12 @@
 package com.tranvansi.ecommerce.modules.productmanagements.entities;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-import com.tranvansi.ecommerce.components.enums.ProductStatus;
 import jakarta.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tranvansi.ecommerce.components.entities.BaseEntity;
+import com.tranvansi.ecommerce.components.enums.ProductStatus;
 
 import lombok.*;
 
@@ -31,7 +30,6 @@ public class Product extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     private String sku;
-
 
     @Enumerated(EnumType.STRING)
     private ProductStatus status;

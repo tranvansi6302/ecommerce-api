@@ -4,6 +4,9 @@ import java.util.List;
 
 import jakarta.persistence.*;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tranvansi.ecommerce.components.entities.BaseEntity;
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Product;
@@ -11,8 +14,6 @@ import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
 import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
 
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "reviews")

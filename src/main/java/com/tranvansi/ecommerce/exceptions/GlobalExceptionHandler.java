@@ -1,6 +1,5 @@
 package com.tranvansi.ecommerce.exceptions;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Objects;
 
 import org.springframework.http.ResponseEntity;
@@ -27,8 +26,6 @@ public class GlobalExceptionHandler {
                         .build();
         return ResponseEntity.status(ErrorCode.UNCAUGHT_EXCEPTION.getStatusCode()).body(response);
     }
-
-
 
     @ExceptionHandler(AppException.class)
     ResponseEntity<ApiResponse<?>> handleAppException(AppException e) {

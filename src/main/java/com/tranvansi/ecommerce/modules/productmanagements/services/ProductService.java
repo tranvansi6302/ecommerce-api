@@ -1,12 +1,9 @@
 package com.tranvansi.ecommerce.modules.productmanagements.services;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tranvansi.ecommerce.components.enums.ProductStatus;
-import com.tranvansi.ecommerce.modules.productmanagements.requests.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -17,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tranvansi.ecommerce.components.constants.FileConstant;
 import com.tranvansi.ecommerce.components.enums.ErrorCode;
+import com.tranvansi.ecommerce.components.enums.ProductStatus;
 import com.tranvansi.ecommerce.components.services.AmazonClientService;
 import com.tranvansi.ecommerce.components.utils.ConvertUtil;
 import com.tranvansi.ecommerce.exceptions.AppException;
@@ -28,6 +26,7 @@ import com.tranvansi.ecommerce.modules.productmanagements.mappers.ProductMapper;
 import com.tranvansi.ecommerce.modules.productmanagements.mappers.VariantMapper;
 import com.tranvansi.ecommerce.modules.productmanagements.repositories.PricePlanRepository;
 import com.tranvansi.ecommerce.modules.productmanagements.repositories.ProductRepository;
+import com.tranvansi.ecommerce.modules.productmanagements.requests.*;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.*;
 import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.*;
 
@@ -54,7 +53,7 @@ public class ProductService implements IProductService {
 
     @Override
     @Transactional
-    public CreateProductResponse createProduct(CreateProductRequest request) {
+    public CreateAndUpdateProductResponse createProduct(CreateProductRequest request) {
         if (productRepository.existsByName(request.getName())) {
             throw new AppException(ErrorCode.PRODUCT_ALREADY_EXISTS);
         }
@@ -75,54 +74,59 @@ public class ProductService implements IProductService {
         Product savedProduct = productRepository.save(product);
 
         List<VariantResponse> variantResponses = new ArrayList<>();
-        if(request.getColors().isEmpty() && request.getSizes().isEmpty()) {
-            Variant variant = Variant.builder()
-                    .product(savedProduct)
-                    .variantName(
-                            String.format(
-                                    "%s - %s - %s", request.getName(), "MẶC ĐỊNH", "MẶC ĐỊNH"))
-                    .color("Mặc định")
-                    .productName(request.getName())
-                    .size("Mặc định")
-                    .sku(generateSKU(request.getSku(), "MẶC ĐỊNH", "MẶC ĐỊNH"))
-                    .build();
+        if (request.getColors().isEmpty() && request.getSizes().isEmpty()) {
+            Variant variant =
+                    Variant.builder()
+                            .product(savedProduct)
+                            .variantName(
+                                    String.format(
+                                            "%s - %s - %s",
+                                            request.getName(), "MẶC ĐỊNH", "MẶC ĐỊNH"))
+                            .color("Mặc định")
+                            .productName(request.getName())
+                            .size("Mặc định")
+                            .sku(generateSKU(request.getSku(), "MẶC ĐỊNH", "MẶC ĐỊNH"))
+                            .build();
             Variant savedVariant = variantService.saveVariant(variant);
             VariantResponse variantResponse = variantMapper.toVariantResponse(savedVariant);
             variantResponses.add(variantResponse);
-        }
-        else if(request.getColors().isEmpty()){
-            for(String size : request.getSizes()){
-                Variant variant = Variant.builder()
-                        .product(savedProduct)
-                        .variantName(
-                                String.format(
-                                        "%s - %s - %s", request.getName(), size, "MẶC ĐỊNH"))
-                        .color("Mặc định")
-                        .productName(request.getName())
-                        .size(size)
-                        .sku(generateSKU(request.getSku(), size, "MẶC ĐỊNH"))
-                        .build();
+        } else if (request.getColors().isEmpty()) {
+            for (String size : request.getSizes()) {
+                Variant variant =
+                        Variant.builder()
+                                .product(savedProduct)
+                                .variantName(
+                                        String.format(
+                                                "%s - %s - %s",
+                                                request.getName(), size, "MẶC ĐỊNH"))
+                                .color("Mặc định")
+                                .productName(request.getName())
+                                .size(size)
+                                .sku(generateSKU(request.getSku(), size, "MẶC ĐỊNH"))
+                                .build();
                 Variant savedVariant = variantService.saveVariant(variant);
                 VariantResponse variantResponse = variantMapper.toVariantResponse(savedVariant);
                 variantResponses.add(variantResponse);
             }
-        }else if(request.getSizes().isEmpty()){
-            for(String color : request.getColors()){
-                Variant variant = Variant.builder()
-                        .product(savedProduct)
-                        .variantName(
-                                String.format(
-                                        "%s - %s - %s", request.getName(), "MẶC ĐỊNH", color))
-                        .color(color)
-                        .productName(request.getName())
-                        .size("Mặc định")
-                        .sku(generateSKU(request.getSku(), "MẶC ĐỊNH", color))
-                        .build();
+        } else if (request.getSizes().isEmpty()) {
+            for (String color : request.getColors()) {
+                Variant variant =
+                        Variant.builder()
+                                .product(savedProduct)
+                                .variantName(
+                                        String.format(
+                                                "%s - %s - %s",
+                                                request.getName(), "MẶC ĐỊNH", color))
+                                .color(color)
+                                .productName(request.getName())
+                                .size("Mặc định")
+                                .sku(generateSKU(request.getSku(), "MẶC ĐỊNH", color))
+                                .build();
                 Variant savedVariant = variantService.saveVariant(variant);
                 VariantResponse variantResponse = variantMapper.toVariantResponse(savedVariant);
                 variantResponses.add(variantResponse);
             }
-        }else {
+        } else {
             for (String color : request.getColors())
                 for (String size : request.getSizes()) {
 
@@ -146,7 +150,7 @@ public class ProductService implements IProductService {
                 }
         }
 
-        return CreateProductResponse.builder()
+        return CreateAndUpdateProductResponse.builder()
                 .id(savedProduct.getId())
                 .name(savedProduct.getName())
                 .description(savedProduct.getDescription())
@@ -157,11 +161,15 @@ public class ProductService implements IProductService {
     }
 
     private String generateSKU(String sku, String sizeName, String colorName) {
-        return String.format("%s-%s-%s", sku.toUpperCase(), sizeName.toUpperCase(), ConvertUtil.toRemoveAccent(colorName.toUpperCase()));
+        return String.format(
+                "%s-%s-%s",
+                sku.toUpperCase(),
+                sizeName.toUpperCase(),
+                ConvertUtil.toRemoveAccent(colorName.toUpperCase()));
     }
 
     @Override
-    public CreateProductResponse updateProduct(Integer id, UpdateProductRequest request) {
+    public CreateAndUpdateProductResponse updateProduct(Integer id, UpdateProductRequest request) {
         Product product = findProductById(id);
         if (productRepository.existsByName(request.getName())
                 && !product.getName().equals(request.getName())) {
@@ -172,8 +180,19 @@ public class ProductService implements IProductService {
         Brand brand = brandService.findBrandById(request.getBrandId());
 
         productMapper.updateProduct(product, request);
+        product.setSku(request.getSku().toUpperCase());
         product.setCategory(category);
         product.setBrand(brand);
+
+        for (Variant variant : product.getVariants()) {
+            variant.setProductName(request.getName());
+            variant.setVariantName(
+                    String.format(
+                            "%s - %s - %s",
+                            request.getName(), variant.getSize(), variant.getColor()));
+            variant.setSku(generateSKU(request.getSku(), variant.getSize(), variant.getColor()));
+        }
+
         return productMapper.toCreateProductResponse(productRepository.save(product));
     }
 
@@ -211,9 +230,9 @@ public class ProductService implements IProductService {
     public void updateManyStatusProducts(UpdateManyStatusProductRequest request) {
         for (Integer id : request.getProductIds()) {
             Product product = findProductById(id);
-            if(product.getStatus().equals(ProductStatus.ACTIVE)){
+            if (product.getStatus().equals(ProductStatus.ACTIVE)) {
                 product.setStatus(ProductStatus.INACTIVE);
-            }else{
+            } else {
                 product.setStatus(ProductStatus.ACTIVE);
             }
             productRepository.save(product);

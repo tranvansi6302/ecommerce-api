@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateProductResponse {
+public class CreateAndUpdateProductResponse {
     private Integer id;
     private String name;
     private String description;

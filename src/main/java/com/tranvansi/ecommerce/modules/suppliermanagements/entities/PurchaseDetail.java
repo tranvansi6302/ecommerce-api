@@ -2,11 +2,12 @@ package com.tranvansi.ecommerce.modules.suppliermanagements.entities;
 
 import jakarta.persistence.*;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
 
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "purchase_details")

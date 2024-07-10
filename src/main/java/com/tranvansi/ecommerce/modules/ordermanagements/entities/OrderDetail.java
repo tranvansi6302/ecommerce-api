@@ -2,13 +2,14 @@ package com.tranvansi.ecommerce.modules.ordermanagements.entities;
 
 import jakarta.persistence.*;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.tranvansi.ecommerce.components.entities.BaseEntity;
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
 
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "order_details")

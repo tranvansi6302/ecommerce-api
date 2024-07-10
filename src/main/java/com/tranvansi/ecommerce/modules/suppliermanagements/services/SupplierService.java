@@ -1,6 +1,5 @@
 package com.tranvansi.ecommerce.modules.suppliermanagements.services;
 
-import com.tranvansi.ecommerce.modules.suppliermanagements.requests.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -12,6 +11,7 @@ import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.suppliermanagements.entities.Supplier;
 import com.tranvansi.ecommerce.modules.suppliermanagements.mappers.SupplierMapper;
 import com.tranvansi.ecommerce.modules.suppliermanagements.repositories.SupplierRepository;
+import com.tranvansi.ecommerce.modules.suppliermanagements.requests.*;
 import com.tranvansi.ecommerce.modules.suppliermanagements.responses.SupplierResponse;
 import com.tranvansi.ecommerce.modules.suppliermanagements.services.interfaces.ISupplierService;
 
@@ -92,10 +92,10 @@ public class SupplierService implements ISupplierService {
                     supplierRepository
                             .findById(id)
                             .orElseThrow(() -> new AppException(ErrorCode.SUPPLIER_NOT_FOUND));
-            if(supplier.getStatus().equals(SupplierStatus.ACTIVE)){
-                  supplier.setStatus(SupplierStatus.INACTIVE);
-            }else {
-                    supplier.setStatus(SupplierStatus.ACTIVE);
+            if (supplier.getStatus().equals(SupplierStatus.ACTIVE)) {
+                supplier.setStatus(SupplierStatus.INACTIVE);
+            } else {
+                supplier.setStatus(SupplierStatus.ACTIVE);
             }
 
             supplierRepository.save(supplier);

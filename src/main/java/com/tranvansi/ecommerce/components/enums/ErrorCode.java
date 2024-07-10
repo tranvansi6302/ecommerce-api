@@ -202,7 +202,16 @@ public enum ErrorCode {
     INVALID_SALE_PRICE_REQUIRED(1140, "Giá bán bắt buộc nhập", HttpStatus.BAD_REQUEST),
     PROMOTION_PRICE_GREATER_THAN_SALE_PRICE(
             1141, "Giá khuyến mãi phải nhỏ hơn giá bán", HttpStatus.BAD_REQUEST),
+    INVALID_PRODUCT_SKU_REQUIRED(1142, "SKU sản phẩm bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_VARIANT_NAME_REQUIRED(1143, "Tên biến thể bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_VARIANT_SKU_REQUIRED(1144, "SKU biến thể bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    INVALID_SIZE_REQUIRED(1145, "Size bắt buộc nhập", HttpStatus.BAD_REQUEST),
 
+    VARIANT_SKU_ALREADY_EXISTS(1146, "SKU biến thể đã tồn tại", HttpStatus.BAD_REQUEST),
+    VARIANT_NAME_ALREADY_EXISTS(1147, "Tên biến thể đã tồn tại", HttpStatus.BAD_REQUEST),
+    VARIANT_COLOR_SIZE_ALREADY_EXISTS(
+            1148, "Màu và size biến thể đã tồn tại", HttpStatus.BAD_REQUEST),
+    INVALID_VARIANT_IDS_REQUIRED(1149, "ID biến thể bắt buộc nhập", HttpStatus.BAD_REQUEST),
     ;
 
     private int code;

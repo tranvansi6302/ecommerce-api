@@ -2,8 +2,6 @@ package com.tranvansi.ecommerce.modules.productmanagements.controllers;
 
 import java.util.List;
 
-import com.tranvansi.ecommerce.components.enums.CategoryStatus;
-import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateManyStatusCategoryRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -12,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.tranvansi.ecommerce.components.enums.CategoryStatus;
 import com.tranvansi.ecommerce.components.enums.Message;
 import com.tranvansi.ecommerce.components.responses.ApiResponse;
 import com.tranvansi.ecommerce.components.responses.BuildResponse;
@@ -19,6 +18,7 @@ import com.tranvansi.ecommerce.components.responses.PagedResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.filters.CategoryFilter;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.CreateCategoryRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateCategoryRequest;
+import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateManyStatusCategoryRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.CategoryResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.ICategoryService;
 import com.tranvansi.ecommerce.modules.productmanagements.specifications.CategorySpecification;
@@ -36,7 +36,7 @@ public class CategoryController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "15") int limit,
             @RequestParam(name = "search", required = false) String search,
-            @RequestParam(name="status", required = false) CategoryStatus status,
+            @RequestParam(name = "status", required = false) CategoryStatus status,
             @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder) {
         CategoryFilter filter = CategoryFilter.builder().search(search).status(status).build();
         Sort sort =

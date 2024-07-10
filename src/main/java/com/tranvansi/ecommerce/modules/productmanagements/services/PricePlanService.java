@@ -188,17 +188,17 @@ public class PricePlanService implements IPricePlanService {
     }
 
     @Override
-    public PricePlanDetailResponse updatePricePlan(Integer pricePlanId, UpdatePricePlanRequest request) {
+    public PricePlanDetailResponse updatePricePlan(
+            Integer pricePlanId, UpdatePricePlanRequest request) {
         PricePlan pricePlan =
                 pricePlanRepository
                         .findById(pricePlanId)
                         .orElseThrow(() -> new AppException(ErrorCode.PRICE_PLAN_NOT_FOUND));
 
-
-        if (request.getSalePrice() != null && request.getPromotionPrice() != null
-                && request.getPromotionPrice() > request.getSalePrice()){
+        if (request.getSalePrice() != null
+                && request.getPromotionPrice() != null
+                && request.getPromotionPrice() > request.getSalePrice()) {
             throw new AppException(ErrorCode.PROMOTION_PRICE_GREATER_THAN_SALE_PRICE);
-
         }
 
         pricePlan.setSalePrice(request.getSalePrice());
@@ -213,7 +213,6 @@ public class PricePlanService implements IPricePlanService {
 
         return pricePlanResponse;
     }
-
 
     @Override
     public List<PricePlan> findByVariantIdOrderByStartDateDesc(Integer variantId) {

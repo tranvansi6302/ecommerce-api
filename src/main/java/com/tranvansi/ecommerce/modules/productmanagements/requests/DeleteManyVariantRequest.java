@@ -1,9 +1,7 @@
 package com.tranvansi.ecommerce.modules.productmanagements.requests;
 
-import jakarta.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,9 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UpdateManyStatusBrandRequest {
+public class DeleteManyVariantRequest {
 
-    @NotNull(message = "INVALID_BRAND_IDS_REQUIRED")
-    @JsonProperty("brand_ids")
-    private Integer[] brandIds;
+    @NotNull(message = "INVALID_VARIANT_IDS_REQUIRED")
+    @JsonProperty("variant_ids")
+    private Integer[] variantIds;
 }

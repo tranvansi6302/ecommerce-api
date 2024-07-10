@@ -69,6 +69,7 @@ public enum Message {
     UPDATE_MANY_STATUS_PRODUCT_SUCCESS("Cập nhật trạng thái thành công"),
     UPDATE_MANY_STATUS_SUPPLIER_SUCCESS("Cập nhật trạng thái thành công"),
     DELETE_MANY_SUPPLIERS_SUCCESS("Xóa thành công"),
+    DELETE_MANY_VARIANT_SUCCESS("Xóa thành công"),
 
     ;
     private String message;

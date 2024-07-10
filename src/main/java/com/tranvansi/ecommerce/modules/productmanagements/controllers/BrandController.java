@@ -2,8 +2,6 @@ package com.tranvansi.ecommerce.modules.productmanagements.controllers;
 
 import java.util.List;
 
-import com.tranvansi.ecommerce.components.enums.BrandStatus;
-import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateManyStatusBrandRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -12,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.tranvansi.ecommerce.components.enums.BrandStatus;
 import com.tranvansi.ecommerce.components.enums.Message;
 import com.tranvansi.ecommerce.components.responses.ApiResponse;
 import com.tranvansi.ecommerce.components.responses.BuildResponse;
@@ -19,6 +18,7 @@ import com.tranvansi.ecommerce.components.responses.PagedResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.filters.BrandFilter;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.CreateBrandRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateBrandRequest;
+import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateManyStatusBrandRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.BrandResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.IBrandService;
 import com.tranvansi.ecommerce.modules.productmanagements.specifications.BrandSpecification;

@@ -2,11 +2,12 @@ package com.tranvansi.ecommerce.modules.usermanagements.entities;
 
 import jakarta.persistence.*;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.tranvansi.ecommerce.components.entities.BaseEntity;
 
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "addresses")

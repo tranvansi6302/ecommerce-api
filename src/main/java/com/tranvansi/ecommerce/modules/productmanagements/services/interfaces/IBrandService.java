@@ -1,6 +1,5 @@
 package com.tranvansi.ecommerce.modules.productmanagements.services.interfaces;
 
-import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateManyStatusBrandRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -9,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Brand;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.CreateBrandRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateBrandRequest;
+import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateManyStatusBrandRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.BrandResponse;
 
 public interface IBrandService {

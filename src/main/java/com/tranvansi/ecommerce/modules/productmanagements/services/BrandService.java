@@ -1,12 +1,11 @@
 package com.tranvansi.ecommerce.modules.productmanagements.services;
 
-import com.tranvansi.ecommerce.components.enums.BrandStatus;
-import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateManyStatusBrandRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.tranvansi.ecommerce.components.enums.BrandStatus;
 import com.tranvansi.ecommerce.components.enums.ErrorCode;
 import com.tranvansi.ecommerce.components.utils.ConvertUtil;
 import com.tranvansi.ecommerce.exceptions.AppException;
@@ -15,6 +14,7 @@ import com.tranvansi.ecommerce.modules.productmanagements.mappers.BrandMapper;
 import com.tranvansi.ecommerce.modules.productmanagements.repositories.BrandRepository;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.CreateBrandRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateBrandRequest;
+import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateManyStatusBrandRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.BrandResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.IBrandService;
 
@@ -80,7 +80,6 @@ public class BrandService implements IBrandService {
                 brand.setStatus(BrandStatus.INACTIVE);
             } else {
                 brand.setStatus(BrandStatus.ACTIVE);
-
             }
             brandRepository.save(brand);
         }

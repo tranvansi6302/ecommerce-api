@@ -3,7 +3,6 @@ package com.tranvansi.ecommerce.modules.usermanagements.controllers;
 import java.io.IOException;
 import java.util.List;
 
-import com.tranvansi.ecommerce.modules.usermanagements.requests.*;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -22,6 +21,7 @@ import com.tranvansi.ecommerce.components.responses.PagedResponse;
 import com.tranvansi.ecommerce.components.utils.FileUtil;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.usermanagements.filters.UserFilter;
+import com.tranvansi.ecommerce.modules.usermanagements.requests.*;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.ProfileResponse;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.UserResponse;
 import com.tranvansi.ecommerce.modules.usermanagements.services.interfaces.IUserService;
@@ -42,10 +42,9 @@ public class UserController {
             @RequestParam(name = "status", required = false) Integer status,
             @RequestParam(name = "is_deleted", defaultValue = "0") Integer isDeleted,
             @RequestParam(name = "email", required = false) String email,
-
-
             @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder) {
-        UserFilter filter = UserFilter.builder().status(status).email(email).isDeleted(isDeleted).build();
+        UserFilter filter =
+                UserFilter.builder().status(status).email(email).isDeleted(isDeleted).build();
         Sort sort =
                 sortOrder.equalsIgnoreCase("asc")
                         ? Sort.by("createdAt").ascending()
@@ -198,5 +197,4 @@ public class UserController {
                         .build();
         return ResponseEntity.ok(response);
     }
-
 }

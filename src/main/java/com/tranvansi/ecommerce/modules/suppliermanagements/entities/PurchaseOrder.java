@@ -5,13 +5,14 @@ import java.util.List;
 
 import jakarta.persistence.*;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.tranvansi.ecommerce.components.entities.BaseEntity;
 import com.tranvansi.ecommerce.components.enums.PurchaseOrderStatus;
 import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
 
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "purchase_orders")

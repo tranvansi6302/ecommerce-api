@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import com.tranvansi.ecommerce.components.enums.ProductStatus;
-import com.tranvansi.ecommerce.modules.productmanagements.requests.*;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -20,13 +18,15 @@ import org.springframework.web.multipart.MultipartFile;
 import com.tranvansi.ecommerce.components.constants.FileConstant;
 import com.tranvansi.ecommerce.components.enums.ErrorCode;
 import com.tranvansi.ecommerce.components.enums.Message;
+import com.tranvansi.ecommerce.components.enums.ProductStatus;
 import com.tranvansi.ecommerce.components.responses.ApiResponse;
 import com.tranvansi.ecommerce.components.responses.BuildResponse;
 import com.tranvansi.ecommerce.components.responses.PagedResponse;
 import com.tranvansi.ecommerce.components.utils.FileUtil;
 import com.tranvansi.ecommerce.exceptions.AppException;
 import com.tranvansi.ecommerce.modules.productmanagements.filters.ProductFilter;
-import com.tranvansi.ecommerce.modules.productmanagements.responses.CreateProductResponse;
+import com.tranvansi.ecommerce.modules.productmanagements.requests.*;
+import com.tranvansi.ecommerce.modules.productmanagements.responses.CreateAndUpdateProductResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.PricePlanResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.ProductDetailResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.ProductResponse;
@@ -54,7 +54,7 @@ public class ProductController {
             @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder,
             @RequestParam(name = "price_min", required = false) Double priceMin,
             @RequestParam(name = "price_max", required = false) Double priceMax,
-            @RequestParam(name = "status", required = false)ProductStatus status,
+            @RequestParam(name = "status", required = false) ProductStatus status,
             @RequestParam(name = "rating", required = false) Integer ratingMin) {
 
         Sort sort;
@@ -143,12 +143,12 @@ public class ProductController {
     }
 
     @PostMapping("")
-    public ResponseEntity<ApiResponse<CreateProductResponse>> createProduct(
+    public ResponseEntity<ApiResponse<CreateAndUpdateProductResponse>> createProduct(
             @RequestBody @Valid CreateProductRequest request) {
 
-        CreateProductResponse productResponse = productService.createProduct(request);
-        ApiResponse<CreateProductResponse> response =
-                ApiResponse.<CreateProductResponse>builder()
+        CreateAndUpdateProductResponse productResponse = productService.createProduct(request);
+        ApiResponse<CreateAndUpdateProductResponse> response =
+                ApiResponse.<CreateAndUpdateProductResponse>builder()
                         .result(productResponse)
                         .message(Message.CREATE_PRODUCT_SUCCESS.getMessage())
                         .build();
@@ -156,11 +156,11 @@ public class ProductController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ApiResponse<CreateProductResponse>> updateProduct(
+    public ResponseEntity<ApiResponse<CreateAndUpdateProductResponse>> updateProduct(
             @PathVariable Integer id, @RequestBody @Valid UpdateProductRequest request) {
-        CreateProductResponse productResponse = productService.updateProduct(id, request);
-        ApiResponse<CreateProductResponse> response =
-                ApiResponse.<CreateProductResponse>builder()
+        CreateAndUpdateProductResponse productResponse = productService.updateProduct(id, request);
+        ApiResponse<CreateAndUpdateProductResponse> response =
+                ApiResponse.<CreateAndUpdateProductResponse>builder()
                         .result(productResponse)
                         .message(Message.UPDATE_PRODUCT_SUCCESS.getMessage())
                         .build();

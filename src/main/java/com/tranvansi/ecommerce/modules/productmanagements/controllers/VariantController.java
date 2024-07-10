@@ -2,19 +2,22 @@ package com.tranvansi.ecommerce.modules.productmanagements.controllers;
 
 import java.util.List;
 
-import com.tranvansi.ecommerce.components.enums.ProductStatus;
+import com.tranvansi.ecommerce.modules.productmanagements.requests.DeleteManyVariantRequest;
+import jakarta.validation.Valid;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import com.tranvansi.ecommerce.components.enums.Message;
+import com.tranvansi.ecommerce.components.enums.ProductStatus;
+import com.tranvansi.ecommerce.components.responses.ApiResponse;
 import com.tranvansi.ecommerce.components.responses.BuildResponse;
 import com.tranvansi.ecommerce.components.responses.PagedResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.filters.VariantFilter;
+import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateVariantRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.VariantResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.IVariantService;
 import com.tranvansi.ecommerce.modules.productmanagements.specifications.VariantSpecification;
@@ -35,8 +38,7 @@ public class VariantController {
             @RequestParam(name = "search", required = false) String search,
             @RequestParam(name = "category", required = false) String categorySlug,
             @RequestParam(name = "brand", required = false) String brandSlug,
-            @RequestParam(name = "status", defaultValue = "ACTIVE")ProductStatus status
-            ) {
+            @RequestParam(name = "status", defaultValue = "ACTIVE") ProductStatus status) {
         VariantFilter filter =
                 VariantFilter.builder()
                         .search(search)
@@ -53,6 +55,28 @@ public class VariantController {
                 variantService.getAllVariants(pageRequest, new VariantSpecification(filter));
         PagedResponse<List<VariantResponse>> response =
                 BuildResponse.buildPagedResponse(variantResponses, pageRequest);
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ApiResponse<VariantResponse>> updateVariant(
+            @PathVariable Integer id, @RequestBody @Valid UpdateVariantRequest request) {
+        VariantResponse variantResponse = variantService.updateVariant(id, request);
+        ApiResponse<VariantResponse> response =
+                ApiResponse.<VariantResponse>builder()
+                        .result(variantResponse)
+                        .message(Message.UPDATE_VARIANT_SUCCESS.getMessage())
+                        .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("")
+    public ResponseEntity<ApiResponse<String>> deleteManyVariants(@RequestBody DeleteManyVariantRequest request) {
+        variantService.deleteManyVariants(request);
+        ApiResponse<String> response =
+                ApiResponse.<String>builder()
+                        .message(Message.DELETE_MANY_VARIANT_SUCCESS.getMessage())
+                        .build();
         return ResponseEntity.ok(response);
     }
 }

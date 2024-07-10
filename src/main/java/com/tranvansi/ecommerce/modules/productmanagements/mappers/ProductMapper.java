@@ -9,7 +9,7 @@ import com.tranvansi.ecommerce.modules.productmanagements.entities.Product;
 import com.tranvansi.ecommerce.modules.productmanagements.entities.ProductImage;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.CreateProductRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateProductRequest;
-import com.tranvansi.ecommerce.modules.productmanagements.responses.CreateProductResponse;
+import com.tranvansi.ecommerce.modules.productmanagements.responses.CreateAndUpdateProductResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.ProductDetailResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.ProductImageResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.ProductResponse;
@@ -29,7 +29,7 @@ public abstract class ProductMapper {
     @Mapping(target = "sold", expression = "java(getTotalSoldProduct(product))")
     public abstract ProductDetailResponse toProductDetailResponse(Product product);
 
-    public abstract CreateProductResponse toCreateProductResponse(Product product);
+    public abstract CreateAndUpdateProductResponse toCreateProductResponse(Product product);
 
     public abstract ProductResponse toProductResponse(Product product);
 

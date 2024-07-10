@@ -1,9 +1,9 @@
 package com.tranvansi.ecommerce.modules.productmanagements.entities;
 
-import com.tranvansi.ecommerce.components.enums.BrandStatus;
 import jakarta.persistence.*;
 
 import com.tranvansi.ecommerce.components.entities.BaseEntity;
+import com.tranvansi.ecommerce.components.enums.BrandStatus;
 
 import lombok.*;
 

@@ -1,12 +1,12 @@
 package com.tranvansi.ecommerce.modules.productmanagements.services;
 
-import com.tranvansi.ecommerce.components.enums.CategoryStatus;
-import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateManyStatusCategoryRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.tranvansi.ecommerce.components.enums.CategoryStatus;
 import com.tranvansi.ecommerce.components.enums.ErrorCode;
 import com.tranvansi.ecommerce.components.utils.ConvertUtil;
 import com.tranvansi.ecommerce.exceptions.AppException;
@@ -15,11 +15,11 @@ import com.tranvansi.ecommerce.modules.productmanagements.mappers.CategoryMapper
 import com.tranvansi.ecommerce.modules.productmanagements.repositories.CategoryRepository;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.CreateCategoryRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateCategoryRequest;
+import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateManyStatusCategoryRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.CategoryResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.ICategoryService;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor

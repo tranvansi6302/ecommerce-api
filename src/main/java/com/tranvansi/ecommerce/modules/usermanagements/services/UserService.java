@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.tranvansi.ecommerce.components.enums.UserStatus;
-import com.tranvansi.ecommerce.modules.usermanagements.requests.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -13,8 +11,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tranvansi.ecommerce.components.enums.ErrorCode;
+import com.tranvansi.ecommerce.components.enums.UserStatus;
 import com.tranvansi.ecommerce.components.services.AmazonClientService;
 import com.tranvansi.ecommerce.components.utils.AuthUtil;
 import com.tranvansi.ecommerce.exceptions.AppException;
@@ -23,12 +23,12 @@ import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
 import com.tranvansi.ecommerce.modules.usermanagements.mappers.UserMapper;
 import com.tranvansi.ecommerce.modules.usermanagements.repositories.RoleRepository;
 import com.tranvansi.ecommerce.modules.usermanagements.repositories.UserRepository;
+import com.tranvansi.ecommerce.modules.usermanagements.requests.*;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.ProfileResponse;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.UserResponse;
 import com.tranvansi.ecommerce.modules.usermanagements.services.interfaces.IUserService;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -49,7 +49,7 @@ public class UserService implements IUserService {
 
         if (userRepository.existsByPhoneNumber(request.getPhoneNumber())
                 && (user.getPhoneNumber() == null
-                || !user.getPhoneNumber().equals(request.getPhoneNumber()))) {
+                        || !user.getPhoneNumber().equals(request.getPhoneNumber()))) {
             throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS);
         }
 
@@ -70,6 +70,9 @@ public class UserService implements IUserService {
     @Override
     public ProfileResponse uploadAvatar(UploadAvatarRequest request) {
         User user = authUtil.getUser();
+        if(user.getAvatar() != null && !user.getAvatar().isEmpty()) {
+            amazonClientService.deleteFileFromS3Bucket(user.getAvatar());
+        }
         String url = amazonClientService.uploadFile(request.getFile());
         user.setAvatar(url);
         return userMapper.toProfileResponse(userRepository.save(user));
@@ -132,7 +135,6 @@ public class UserService implements IUserService {
         }
     }
 
-
     @Override
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
@@ -183,7 +185,7 @@ public class UserService implements IUserService {
                         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         if (userRepository.existsByPhoneNumber(request.getPhoneNumber())
                 && (user.getPhoneNumber() == null
-                || !user.getPhoneNumber().equals(request.getPhoneNumber()))) {
+                        || !user.getPhoneNumber().equals(request.getPhoneNumber()))) {
             throw new AppException(ErrorCode.PHONE_NUMBER_ALREADY_EXISTS);
         }
         if (userRepository.existsByEmail(request.getEmail())
@@ -204,6 +206,9 @@ public class UserService implements IUserService {
                 userRepository
                         .findById(id)
                         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        if(user.getAvatar() != null && !user.getAvatar().isEmpty()) {
+            amazonClientService.deleteFileFromS3Bucket(user.getAvatar());
+        }
         String url = amazonClientService.uploadFile(request.getFile());
         user.setAvatar(url);
         return userMapper.toUserResponse(userRepository.save(user));

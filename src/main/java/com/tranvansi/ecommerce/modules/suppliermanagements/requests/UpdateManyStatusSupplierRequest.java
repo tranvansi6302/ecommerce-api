@@ -1,7 +1,9 @@
 package com.tranvansi.ecommerce.modules.suppliermanagements.requests;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,5 +18,4 @@ public class UpdateManyStatusSupplierRequest {
     @NotNull(message = "INVALID_SUPPLIER_IDS_REQUIRED")
     @JsonProperty("supplier_ids")
     private Integer[] supplierIds;
-
 }
