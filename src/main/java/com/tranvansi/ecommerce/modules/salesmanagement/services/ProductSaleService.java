@@ -61,6 +61,7 @@ public class ProductSaleService implements IProductSaleService {
                                     .id(productSale.getId())
                                     .productId(productId)
                                     .productName(productSale.getProduct().getName())
+                                    .sku(productSale.getProduct().getSku())
                                     .minPrice(getMinPrice(productSale.getProduct()))
                                     .createdAt(productSale.getCreatedAt())
                                     .updatedAt(productSale.getUpdatedAt())

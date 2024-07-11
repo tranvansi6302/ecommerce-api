@@ -112,8 +112,7 @@ public class AmazonClientService {
             // Create temporary file for resized image
             convertedFile = new File(System.getProperty("java.io.tmpdir") + "/" + fileName);
 
-            // Resize image and convert format to JPG
-            Thumbnails.of(originalFile).size(300, 300).outputFormat("jpg").toFile(convertedFile);
+           
 
             // Upload converted file to S3
             uploadFileTos3bucket(fileName, convertedFile);

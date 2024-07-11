@@ -43,6 +43,8 @@ public class ProductSalesResponse {
     private List<ProductImageResponse> images;
     private List<VariantDetail> variants;
 
+    private String sku;
+
     private String description;
 
     @JsonProperty("min_price")
@@ -60,6 +62,7 @@ public class ProductSalesResponse {
     @Builder
     public static class VariantDetail {
         private Integer id;
+        @JsonProperty("variant_name")
         private String variantName;
         private String sku;
         private String color;
