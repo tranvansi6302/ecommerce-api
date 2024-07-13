@@ -42,6 +42,8 @@ public class SecurityConfig {
             String.format("%s/auth/forgot-password", apiPrefix),
             String.format("%s/auth/reset-password", apiPrefix),
             String.format("%s/auth/oauth2/google", apiPrefix),
+                "https://e239-1-52-83-169.ngrok-free.app/api/v1/payments/callback",
+                String.format("%s/payments/callback", apiPrefix),
         };
     }
 

@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
 
-import java.util.List;
-
 @Repository
 public interface VariantRepository
         extends JpaRepository<Variant, Integer>, JpaSpecificationExecutor<Variant> {
@@ -17,5 +15,4 @@ public interface VariantRepository
 
     boolean existsByColorAndSizeAndIdNotAndProductId(
             String color, String size, Integer id, Integer productId);
-
 }

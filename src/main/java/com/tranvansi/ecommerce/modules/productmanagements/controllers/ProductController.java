@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.IProductImageService;
 import jakarta.validation.Valid;
 
+import org.hibernate.sql.Delete;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -42,6 +44,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ProductController {
     private final IProductService productService;
+    private final IProductImageService productImageService;
 
     @GetMapping("")
     public ResponseEntity<PagedResponse<List<ProductDetailResponse>>> getAllProducts(
@@ -213,6 +216,16 @@ public class ProductController {
         ApiResponse<String> response =
                 ApiResponse.<String>builder()
                         .message(Message.UPDATE_MANY_STATUS_PRODUCT_SUCCESS.getMessage())
+                        .build();
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/images")
+    public ResponseEntity<ApiResponse<?>> deleteProductImages(
+            @RequestBody @Valid DeleteProductImageRequest request) {
+        productImageService.deleteManyProductImages(request);
+        ApiResponse<String> response =
+                ApiResponse.<String>builder()
                         .build();
         return ResponseEntity.ok(response);
     }

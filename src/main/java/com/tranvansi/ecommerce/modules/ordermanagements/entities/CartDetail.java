@@ -2,9 +2,6 @@ package com.tranvansi.ecommerce.modules.ordermanagements.entities;
 
 import jakarta.persistence.*;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import com.tranvansi.ecommerce.components.entities.BaseEntity;
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
 
@@ -24,8 +21,7 @@ public class CartDetail extends BaseEntity {
 
     private Integer quantity;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne
     @JoinColumn(name = "cart_id")
     private Cart cart;
 

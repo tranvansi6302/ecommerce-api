@@ -2,9 +2,6 @@ package com.tranvansi.ecommerce.modules.usermanagements.entities;
 
 import jakarta.persistence.*;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import com.tranvansi.ecommerce.components.entities.BaseEntity;
 
 import lombok.*;
@@ -36,8 +33,7 @@ public class Address extends BaseEntity {
 
     @Builder.Default private Integer isDefault = 0;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 }

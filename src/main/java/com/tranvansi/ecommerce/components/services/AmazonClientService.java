@@ -103,33 +103,25 @@ public class AmazonClientService {
     public String uploadFile(MultipartFile multipartFile) {
         String fileUrl = "";
         File originalFile = null;
-        File convertedFile = null;
         try {
             // Convert MultipartFile to File
             originalFile = convertMultiPartToFile(multipartFile);
             String fileName = generateFileName(multipartFile);
 
-            // Create temporary file for resized image
-            convertedFile = new File(System.getProperty("java.io.tmpdir") + "/" + fileName);
-
-           
-
-            // Upload converted file to S3
-            uploadFileTos3bucket(fileName, convertedFile);
+            // Upload original file to S3
+            uploadFileTos3bucket(fileName, originalFile);
             fileUrl = s3Client.getUrl(bucketName, fileName).toString();
         } catch (Exception e) {
             log.error("Không thể upload file: {}", e.getMessage());
         } finally {
-            // Delete temporary files
+            // Delete temporary file
             if (originalFile != null && !originalFile.delete()) {
                 log.error("Không thể xóa file gốc: {}", originalFile.getAbsolutePath());
-            }
-            if (convertedFile != null && !convertedFile.delete()) {
-                log.error("Không thể xóa file đã chuyển đổi: {}", convertedFile.getAbsolutePath());
             }
         }
         return fileUrl;
     }
+
     public void deleteFileFromS3Bucket(String fileUrl) {
         String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
         s3Client.deleteObject(bucketName, fileName);

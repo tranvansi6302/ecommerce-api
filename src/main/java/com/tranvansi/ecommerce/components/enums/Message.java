@@ -70,7 +70,7 @@ public enum Message {
     UPDATE_MANY_STATUS_SUPPLIER_SUCCESS("Cập nhật trạng thái thành công"),
     DELETE_MANY_SUPPLIERS_SUCCESS("Xóa thành công"),
     DELETE_MANY_VARIANT_SUCCESS("Xóa thành công"),
-
+    MOMO_QR_CODE_SUCCESS("Tạo mã QR thanh toán thành công"),
     ;
     private String message;
 }

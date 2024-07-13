@@ -1,7 +1,9 @@
 package com.tranvansi.ecommerce.modules.ordermanagements.repositories;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
+import com.tranvansi.ecommerce.components.enums.PaidStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -18,4 +20,6 @@ public interface OrderRepository
             Integer userId, Specification<Order> specification, Pageable pageable);
 
     Optional<Order> findByIdAndUserId(Integer id, Integer userId);
+    Optional<Order> findByOrderCode(String orderCode);
+    Optional<Order> findByPendingDateBeforeAndOnlinePaymentStatus(LocalDateTime cutoff, PaidStatus status);
 }

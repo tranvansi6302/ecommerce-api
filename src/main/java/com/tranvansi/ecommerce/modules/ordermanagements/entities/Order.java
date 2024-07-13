@@ -3,14 +3,13 @@ package com.tranvansi.ecommerce.modules.ordermanagements.entities;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.tranvansi.ecommerce.components.enums.PaidStatus;
 import jakarta.persistence.*;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tranvansi.ecommerce.components.entities.BaseEntity;
 import com.tranvansi.ecommerce.components.enums.OrderStatus;
+import com.tranvansi.ecommerce.components.enums.PaymentMethodType;
 import com.tranvansi.ecommerce.modules.usermanagements.entities.User;
 
 import lombok.*;
@@ -55,8 +54,20 @@ public class Order extends BaseEntity {
 
     private LocalDateTime deliveredDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @Enumerated(EnumType.STRING)
+    private PaymentMethodType paymentMethod;
+
+    private LocalDateTime paidDate;
+
+    private PaidStatus onlinePaymentStatus;
+
+    private Double discountShipping;
+
+    private Double discountOrder;
+
+    private Double shippingFee;
+
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 

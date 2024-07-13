@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tranvansi.ecommerce.components.enums.OrderStatus;
+import com.tranvansi.ecommerce.components.enums.PaidStatus;
+import com.tranvansi.ecommerce.components.enums.PaymentMethodType;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.VariantResponse;
 import com.tranvansi.ecommerce.modules.usermanagements.responses.ProfileResponse;
 
@@ -50,6 +52,24 @@ public class OrderResponse {
 
     @JsonProperty("delivered_date")
     private LocalDateTime deliveredDate;
+
+    @JsonProperty("payment_method")
+    private PaymentMethodType paymentMethod;
+
+    @JsonProperty("paid_date")
+    private LocalDateTime paidDate;
+
+    @JsonProperty("online_payment_status")
+    private PaidStatus onlinePaymentStatus;
+
+    @JsonProperty("discount_order")
+    private Double discountOrder;
+
+    @JsonProperty("discount_shipping")
+    private Double discountShipping;
+
+    @JsonProperty("shipping_fee")
+    private Double shippingFee;
 
     private ProfileResponse user;
 

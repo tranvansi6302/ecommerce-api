@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import com.tranvansi.ecommerce.components.enums.PaymentMethodType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -68,6 +69,11 @@ public class OrderService implements IOrderService {
                         .phoneNumber(request.getPhoneNumber())
                         .status(OrderStatus.PENDING)
                         .orderCode(orderCode.toUpperCase())
+                        .paymentMethod(PaymentMethodType.CASH_ON_DELIVERY)
+                        .discountOrder(request.getDiscountOnOrder())
+                        .discountShipping(request.getDiscountShipping())
+                        .shippingFee(request.getShippingFee())
+                        .pendingDate(LocalDateTime.now())
                         .user(user)
                         .build();
 
@@ -231,5 +237,15 @@ public class OrderService implements IOrderService {
                         .findByIdAndUserId(orderId, user.getId())
                         .orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
         return orderMapper.toOrderResponse(order);
+    }
+
+    @Override
+    public Order findByOrderCode(String orderCode) {
+        return orderRepository.findByOrderCode(orderCode).orElseThrow(() -> new AppException(ErrorCode.ORDER_NOT_FOUND));
+    }
+
+    @Override
+    public void saveOrder(Order order) {
+        orderRepository.save(order);
     }
 }
