@@ -2,9 +2,6 @@ package com.tranvansi.ecommerce.modules.ordermanagements.entities;
 
 import jakarta.persistence.*;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.tranvansi.ecommerce.components.entities.BaseEntity;
 import com.tranvansi.ecommerce.modules.productmanagements.entities.Variant;
@@ -27,8 +24,7 @@ public class OrderDetail extends BaseEntity {
 
     private Double price;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne
     @JoinColumn(name = "order_id")
     @JsonBackReference
     private Order order;

@@ -202,16 +202,6 @@ public class ProductService implements IProductService {
         List<ProductImageResponse> imageResponses = new ArrayList<>();
         Product product = findProductById(id);
 
-        // Delete old images
-        List<ProductImage> productImages = productImageService.findByProductId(id);
-        var tempProductImage = new ArrayList<>(productImages);
-
-        productImages.forEach((image) -> {
-            if(image.getUrl() != null && !image.getUrl().isEmpty()) {
-                amazonClientService.deleteFileFromS3Bucket(image.getUrl());
-            }
-        });
-
         for (int i = 0; i < request.getFiles().size(); i++) {
             if (productImageService.countProductImageByProductId(id) >= FileConstant.FILE_LIMIT) {
                 throw new AppException(ErrorCode.PRODUCT_IMAGE_LIMIT_EXCEEDED);
@@ -225,11 +215,6 @@ public class ProductService implements IProductService {
         }
 
 
-        // Delete product image
-        for (ProductImage image : tempProductImage) {
-            productImageService.deleteProductImage(image.getId());
-        }
-
         ProductResponse response = productMapper.toProductResponse(product);
         response.setProductImages(imageResponses);
         return response;
@@ -239,6 +224,8 @@ public class ProductService implements IProductService {
     @Override
     public void deleteManyProducts(DeleteManyProductRequest request) {
         for (Integer id : request.getProductIds()) {
+            DeleteProductImageRequest deleteProductImageRequest = DeleteProductImageRequest.builder().productId(id).build();
+            productImageService.deleteManyProductImages(deleteProductImageRequest);
             Product product = findProductById(id);
             productRepository.delete(product);
         }

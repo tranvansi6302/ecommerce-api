@@ -70,7 +70,7 @@ public class UserService implements IUserService {
     @Override
     public ProfileResponse uploadAvatar(UploadAvatarRequest request) {
         User user = authUtil.getUser();
-        if(user.getAvatar() != null && !user.getAvatar().isEmpty()) {
+        if (user.getAvatar() != null && !user.getAvatar().isEmpty()) {
             amazonClientService.deleteFileFromS3Bucket(user.getAvatar());
         }
         String url = amazonClientService.uploadFile(request.getFile());
@@ -206,7 +206,7 @@ public class UserService implements IUserService {
                 userRepository
                         .findById(id)
                         .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
-        if(user.getAvatar() != null && !user.getAvatar().isEmpty()) {
+        if (user.getAvatar() != null && !user.getAvatar().isEmpty()) {
             amazonClientService.deleteFileFromS3Bucket(user.getAvatar());
         }
         String url = amazonClientService.uploadFile(request.getFile());

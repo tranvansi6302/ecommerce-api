@@ -2,7 +2,6 @@ package com.tranvansi.ecommerce.modules.productmanagements.controllers;
 
 import java.util.List;
 
-import com.tranvansi.ecommerce.modules.productmanagements.requests.DeleteManyVariantRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -17,6 +16,7 @@ import com.tranvansi.ecommerce.components.responses.ApiResponse;
 import com.tranvansi.ecommerce.components.responses.BuildResponse;
 import com.tranvansi.ecommerce.components.responses.PagedResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.filters.VariantFilter;
+import com.tranvansi.ecommerce.modules.productmanagements.requests.DeleteManyVariantRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.requests.UpdateVariantRequest;
 import com.tranvansi.ecommerce.modules.productmanagements.responses.VariantResponse;
 import com.tranvansi.ecommerce.modules.productmanagements.services.interfaces.IVariantService;
@@ -71,7 +71,8 @@ public class VariantController {
     }
 
     @DeleteMapping("")
-    public ResponseEntity<ApiResponse<String>> deleteManyVariants(@RequestBody DeleteManyVariantRequest request) {
+    public ResponseEntity<ApiResponse<String>> deleteManyVariants(
+            @RequestBody DeleteManyVariantRequest request) {
         variantService.deleteManyVariants(request);
         ApiResponse<String> response =
                 ApiResponse.<String>builder()

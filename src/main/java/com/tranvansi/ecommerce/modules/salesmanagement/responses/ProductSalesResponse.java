@@ -62,8 +62,10 @@ public class ProductSalesResponse {
     @Builder
     public static class VariantDetail {
         private Integer id;
+
         @JsonProperty("variant_name")
         private String variantName;
+
         private String sku;
         private String color;
         private String size;

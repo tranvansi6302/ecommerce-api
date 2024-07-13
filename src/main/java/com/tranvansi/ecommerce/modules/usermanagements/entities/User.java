@@ -10,6 +10,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import com.tranvansi.ecommerce.components.entities.BaseEntity;
 import com.tranvansi.ecommerce.components.enums.UserStatus;
+import com.tranvansi.ecommerce.modules.ordermanagements.entities.Cart;
 
 import lombok.*;
 
@@ -61,4 +62,7 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addresses;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Cart> carts;
 }

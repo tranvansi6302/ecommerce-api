@@ -1,43 +1,41 @@
-package com.tranvansi.ecommerce.modules.ordermanagements.entities;
+package com.tranvansi.ecommerce.modules.ordermanagements.responses;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.*;
-
-import com.tranvansi.ecommerce.components.entities.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tranvansi.ecommerce.components.enums.DiscountType;
 import com.tranvansi.ecommerce.components.enums.VoucherType;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "vouchers")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Voucher extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class VoucherResponse {
     private Integer id;
 
-    @Column(unique = true, nullable = false)
     private String code;
 
     private String description;
 
-    @Enumerated(EnumType.ORDINAL)
+    @JsonProperty("voucher_type")
     private VoucherType voucherType;
 
-    @Enumerated(EnumType.ORDINAL)
+    @JsonProperty("discount_type")
     private DiscountType discountType;
 
     private Double value;
 
+    @JsonProperty("start_date")
     private LocalDateTime startDate;
 
+    @JsonProperty("end_date")
     private LocalDateTime endDate;
 
+    @JsonProperty("min_order_value")
     private Double minOrderValue;
 }

@@ -3,6 +3,7 @@ package com.tranvansi.ecommerce.modules.ordermanagements.specifications;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.tranvansi.ecommerce.components.enums.OrderStatus;
 import jakarta.persistence.criteria.*;
 
 import org.springframework.data.jpa.domain.Specification;
@@ -26,7 +27,13 @@ public class OrderSpecification
         List<Predicate> predicates = new ArrayList<>();
 
         if (filter.getStatus() != null) {
-            predicates.add(cb.equal(root.get("status"), filter.getStatus()));
+            if (filter.getStatus().equals(OrderStatus.CONFIRMED)) {
+                Predicate confirmed = cb.equal(root.get("status"), OrderStatus.CONFIRMED);
+                Predicate paid = cb.equal(root.get("status"), OrderStatus.PAID);
+                predicates.add(cb.or(confirmed, paid));
+            } else {
+                predicates.add(cb.equal(root.get("status"), filter.getStatus()));
+            }
         }
         if (filter.getSearch() != null) {
             predicates.add(cb.like(root.get("orderCode"), "%" + filter.getSearch() + "%"));

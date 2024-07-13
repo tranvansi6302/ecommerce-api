@@ -22,4 +22,9 @@ public interface IOrderService {
 
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     OrderResponse getOrderById(Integer orderId);
+
+
+    Order findByOrderCode(String orderCode);
+
+    void saveOrder(Order order);
 }
