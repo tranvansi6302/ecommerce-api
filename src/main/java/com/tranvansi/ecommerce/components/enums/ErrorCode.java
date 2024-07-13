@@ -214,7 +214,8 @@ public enum ErrorCode {
     INVALID_VARIANT_IDS_REQUIRED(1149, "ID biến thể bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_ORDER_CODE_REQUIRED(1150, "Mã đơn hàng bắt buộc nhập", HttpStatus.BAD_REQUEST),
     INVALID_AMOUNT_REQUIRED(1151, "Số tiền thanh toán bắt buộc nhập", HttpStatus.BAD_REQUEST),
-    INVALID_PRODUCT_IMAGES_IDS_REQUIRED(1152, "Id hình ảnh của sản phẩm bắt buộc nhập", HttpStatus.BAD_REQUEST)
+    INVALID_PRODUCT_IMAGES_IDS_REQUIRED(1152, "Id hình ảnh của sản phẩm bắt buộc nhập", HttpStatus.BAD_REQUEST),
+    USER_BLOCKED(1153,"Tài khoản đã bị khóa vui lòng liên hệ quản trị để được hổ trợ",HttpStatus.BAD_REQUEST)
     ;
 
     private int code;

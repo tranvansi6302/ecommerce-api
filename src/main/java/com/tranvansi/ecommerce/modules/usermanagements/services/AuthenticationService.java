@@ -96,6 +96,10 @@ public class AuthenticationService implements IAuthenticationService {
     public LoginResponse login(LoginRequest request) {
         User user = userService.findUserByEmail(request.getEmail());
 
+        if(user.getStatus().equals(UserStatus.BLOCKED)) {
+            throw new AppException(ErrorCode.USER_BLOCKED);
+        }
+
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
