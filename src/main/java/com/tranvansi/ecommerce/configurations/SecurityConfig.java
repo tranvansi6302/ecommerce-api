@@ -44,6 +44,10 @@ public class SecurityConfig {
             String.format("%s/auth/oauth2/google", apiPrefix),
                 "https://e239-1-52-83-169.ngrok-free.app/api/v1/payments/callback",
                 String.format("%s/payments/callback", apiPrefix),
+
+                "ws://localhost:8080/ws",
+                "ws://localhost:8080/ws/**",
+                "http://localhost:8080/ws",
         };
     }
 
@@ -62,6 +66,10 @@ public class SecurityConfig {
             String.format("%s/reviews", apiPrefix),
             String.format("%s/products/sales", apiPrefix),
             String.format("%s/products/sales/{id}", apiPrefix),
+                // socket
+               "ws://localhost:8080/ws",
+                "ws://localhost:8080/ws/**",
+                "http://localhost:8080/ws",
 
             // swagger
             String.format("%s/api-docs", appName),

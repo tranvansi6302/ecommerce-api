@@ -1,8 +1,5 @@
 package com.tranvansi.ecommerce.modules.reviewmanagements.requests;
 
-import java.util.List;
-
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -23,6 +20,10 @@ public class CreateReviewRequest {
     @NotNull(message = "INVALID_REVIEW_COMMENT_REQUIRED")
     private String comment;
 
+    @NotNull(message = "INVALID_ORDER_ID_REQUIRED")
+    @JsonProperty("order_id")
+    private Integer orderId;
+
     @JsonProperty("product_id")
     @NotNull(message = "INVALID_PRODUCT_ID_REQUIRED")
     private Integer productId;
@@ -31,15 +32,4 @@ public class CreateReviewRequest {
     @NotNull(message = "INVALID_VARIANT_ID_REQUIRED")
     private Integer variantId;
 
-    @JsonProperty("review_images")
-    List<ReviewImageRequest> reviewImages;
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    public static class ReviewImageRequest {
-        @NotBlank(message = "INVALID_REVIEW_IMAGE_URL_REQUIRED")
-        private String url;
-    }
 }

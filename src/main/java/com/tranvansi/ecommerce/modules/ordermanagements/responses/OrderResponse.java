@@ -30,6 +30,9 @@ public class OrderResponse {
     @JsonProperty("order_code")
     private String orderCode;
 
+    @JsonProperty("tracking_code")
+    private String trackingCode;
+
     @JsonProperty("order_date")
     private LocalDateTime orderDate;
 

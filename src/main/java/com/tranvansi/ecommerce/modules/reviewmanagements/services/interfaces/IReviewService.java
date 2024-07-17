@@ -1,5 +1,6 @@
 package com.tranvansi.ecommerce.modules.reviewmanagements.services.interfaces;
 
+import com.tranvansi.ecommerce.modules.reviewmanagements.requests.FindReviewRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -24,6 +25,14 @@ public interface IReviewService {
 
     @PreAuthorize("hasRole('USER')")
     ReviewResponse uploadReviewImages(Integer reviewId, UploadReviewImagesRequest request);
+
+    @PreAuthorize("hasRole('USER')")
+    ReviewResponse findByVariantIdAndUserId(FindReviewRequest request);
+
+    ReviewResponse findByVariantIdAndUserId(Integer variantId, Integer userId, Integer orderId);
+
+    Page<ReviewResponse> getReviewsByProductId(
+            Integer productId, PageRequest pageRequest, Specification<Review> specification);
 
     ReviewResponse getReviewById(Integer reviewId);
 

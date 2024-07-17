@@ -27,9 +27,10 @@ public class OrderSpecification
         List<Predicate> predicates = new ArrayList<>();
 
         if (filter.getStatus() != null) {
-            if (filter.getStatus().equals(OrderStatus.CONFIRMED)) {
-                Predicate confirmed = cb.equal(root.get("status"), OrderStatus.CONFIRMED);
+            if (filter.getStatus().equals(OrderStatus.PENDING)) {
+                Predicate confirmed = cb.equal(root.get("status"), OrderStatus.PENDING);
                 Predicate paid = cb.equal(root.get("status"), OrderStatus.PAID);
+                Predicate unPaid = cb.equal(root.get("status"), OrderStatus.UNPAID);
                 predicates.add(cb.or(confirmed, paid));
             } else {
                 predicates.add(cb.equal(root.get("status"), filter.getStatus()));

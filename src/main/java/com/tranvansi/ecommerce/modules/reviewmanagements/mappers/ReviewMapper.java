@@ -13,7 +13,8 @@ import com.tranvansi.ecommerce.modules.reviewmanagements.responses.ReviewRespons
 @Mapper(componentModel = "spring")
 public interface ReviewMapper {
     @Mapping(target = "variant.productId", source = "variant.product.id")
-    @Mapping(target = "reviewImages", ignore = true)
+    @Mapping(target = "reviewImages", source = "reviewImages")
+    @Mapping(target = "user", source = "user")
     ReviewResponse toReviewResponse(Review review);
 
     @Mapping(target = "product.id", ignore = true)

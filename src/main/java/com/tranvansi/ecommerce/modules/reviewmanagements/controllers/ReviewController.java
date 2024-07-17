@@ -2,6 +2,7 @@ package com.tranvansi.ecommerce.modules.reviewmanagements.controllers;
 
 import java.util.List;
 
+import com.tranvansi.ecommerce.modules.reviewmanagements.requests.FindReviewRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -55,6 +56,50 @@ public class ReviewController {
                 BuildResponse.buildPagedResponse(reviewResponses, pageRequest);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/{productId}/products")
+    public ResponseEntity<PagedResponse<List<ReviewResponse>>> getReviewsByProductId(
+            @PathVariable Integer productId,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "5") int limit,
+            @RequestParam(name = "rating", required = false) Integer rating,
+            @RequestParam(name = "name", required = false) String productName,
+            @RequestParam(name = "sort_order", defaultValue = "desc") String sortOrder) {
+        ReviewFilter filter =
+                ReviewFilter.builder().rating(rating).productName(productName).build();
+        Sort sort =
+                sortOrder.equalsIgnoreCase("asc")
+                        ? Sort.by("createdAt").ascending()
+                        : Sort.by("createdAt").descending();
+        PageRequest pageRequest = PageRequest.of(page - 1, limit, sort);
+        Page<ReviewResponse> reviewResponses =
+                reviewService.getReviewsByProductId(
+                        productId, pageRequest, new ReviewSpecification(filter));
+        PagedResponse<List<ReviewResponse>> response =
+                BuildResponse.buildPagedResponse(reviewResponses, pageRequest);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/variants")
+    public ResponseEntity<ApiResponse<ReviewResponse>> findByVariantIdAndUserId(
+            @RequestParam("variant_id") Integer variantId,
+            @RequestParam("user_id") Integer userId,
+            @RequestParam("order_id") Integer orderId) {
+        ReviewResponse reviewResponse = reviewService.findByVariantIdAndUserId(variantId, userId, orderId);
+        ApiResponse<ReviewResponse> apiResponse =
+                ApiResponse.<ReviewResponse>builder().result(reviewResponse).build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PostMapping("/variants")
+    public ResponseEntity<ApiResponse<ReviewResponse>> findByVariantIdAndUserId(
+            @RequestBody @Valid FindReviewRequest request) {
+        ReviewResponse reviewResponse = reviewService.findByVariantIdAndUserId(request);
+        ApiResponse<ReviewResponse> apiResponse =
+                ApiResponse.<ReviewResponse>builder().result(reviewResponse).build();
+        return ResponseEntity.ok(apiResponse);
+    }
+
 
     @PostMapping("")
     public ResponseEntity<ApiResponse<ReviewResponse>> createReview(
@@ -111,7 +156,7 @@ public class ReviewController {
             if (!FileUtil.isImageFile(file)) {
                 throw new AppException(ErrorCode.INVALID_REVIEW_IMAGE_FORMAT);
             }
-            if (file.getSize() > FileConstant.MAX_FILE_SIZE_MB) { // 5MB
+            if (file.getSize() > FileConstant.MAX_FILE_SIZE_MB) {
                 throw new AppException(ErrorCode.FILE_SIZE_TOO_LARGE);
             }
         }
@@ -119,7 +164,6 @@ public class ReviewController {
         ApiResponse<ReviewResponse> response =
                 ApiResponse.<ReviewResponse>builder()
                         .result(reviewResponse)
-                        .message(Message.UPLOAD_REVIEW_IMAGE_SUCCESS.getMessage())
                         .build();
         return ResponseEntity.ok(response);
     }

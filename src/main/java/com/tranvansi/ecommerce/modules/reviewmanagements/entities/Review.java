@@ -30,6 +30,8 @@ public class Review extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String comment;
 
+    private Integer orderId;
+
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;

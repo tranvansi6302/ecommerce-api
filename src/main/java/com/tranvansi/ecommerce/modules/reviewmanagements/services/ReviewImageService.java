@@ -8,6 +8,8 @@ import com.tranvansi.ecommerce.modules.reviewmanagements.services.interfaces.IRe
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ReviewImageService implements IReviewImageService {
@@ -26,5 +28,10 @@ public class ReviewImageService implements IReviewImageService {
     @Override
     public Integer countByReviewId(Integer reviewId) {
         return reviewImageRepository.countByReviewId(reviewId);
+    }
+
+    @Override
+    public List<ReviewImage> findAllByReviewId(Integer reviewId) {
+        return reviewImageRepository.findAllByReviewId(reviewId);
     }
 }

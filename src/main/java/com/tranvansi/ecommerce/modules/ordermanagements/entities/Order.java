@@ -29,6 +29,8 @@ public class Order extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String orderCode;
 
+    private String trackingCode;
+
     @Column(columnDefinition = "TEXT")
     private String address;
 

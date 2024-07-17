@@ -18,6 +18,9 @@ public class UpdateOrderRequest {
     @NotNull(message = "INVALID_ORDER_STATUS")
     private OrderStatus status;
 
+    @JsonProperty("tracking_code")
+    private String trackingCode;
+
     @JsonProperty("canceled_reason")
     private String canceledReason;
 }

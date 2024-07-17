@@ -3,6 +3,7 @@ package com.tranvansi.ecommerce.modules.reviewmanagements.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.tranvansi.ecommerce.modules.reviewmanagements.requests.FindReviewRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -49,9 +50,7 @@ public class ReviewService implements IReviewService {
         User user = authUtil.getUser();
         Product product = productService.findProductById(request.getProductId());
         Variant variant = variantService.findVariantById(request.getVariantId());
-        if (reviewRepository.existsByVariantIdAndUserId(request.getVariantId(), user.getId())) {
-            throw new AppException(ErrorCode.REVIEW_ALREADY_EXISTS);
-        }
+
         Review review = reviewMapper.createReview(request);
         review.setProduct(product);
         review.setVariant(variant);
@@ -92,8 +91,14 @@ public class ReviewService implements IReviewService {
         reviewRepository.delete(review);
     }
 
+    @Transactional
     @Override
     public ReviewResponse uploadReviewImages(Integer reviewId, UploadReviewImagesRequest request) {
+        List<ReviewImage> reviewImages = reviewImageService.findAllByReviewId(reviewId);
+        for (ReviewImage reviewImage : reviewImages) {
+            amazonClientService.deleteFileFromS3Bucket(reviewImage.getUrl());
+            reviewImageService.deleteByReviewId(reviewId);
+        }
         User user = authUtil.getUser();
         Review review =
                 reviewRepository
@@ -120,6 +125,30 @@ public class ReviewService implements IReviewService {
         reviewResponse.setReviewImages(imageResponses);
         return reviewResponse;
     }
+
+    @Override
+    public ReviewResponse findByVariantIdAndUserId(FindReviewRequest request) {
+        return reviewRepository
+                .findByVariantIdAndUserIdAndOrderId(request.getVariantId(), request.getUserId(),request.getOrderId())
+                .map(reviewMapper::toReviewResponse)
+                .orElseGet(ReviewResponse::new);
+    }
+
+    @Override
+    public ReviewResponse findByVariantIdAndUserId(Integer variantId, Integer userId, Integer orderId) {
+        return reviewRepository
+                .findByVariantIdAndUserIdAndOrderId(variantId, userId, orderId)
+                .map(reviewMapper::toReviewResponse)
+                .orElseGet(ReviewResponse::new);
+    }
+
+    @Override
+    public Page<ReviewResponse> getReviewsByProductId(Integer productId, PageRequest pageRequest, Specification<Review> specification) {
+        return reviewRepository
+                .findAll(specification, pageRequest)
+                .map(reviewMapper::toReviewResponse);
+    }
+
 
     @Override
     public ReviewResponse getReviewById(Integer reviewId) {

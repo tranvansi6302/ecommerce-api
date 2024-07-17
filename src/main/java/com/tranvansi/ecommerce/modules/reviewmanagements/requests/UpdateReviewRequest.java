@@ -22,16 +22,4 @@ public class UpdateReviewRequest {
 
     @NotNull(message = "INVALID_REVIEW_COMMENT_REQUIRED")
     private String comment;
-
-    @JsonProperty("review_images")
-    List<ReviewImageRequest> reviewImages;
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    public static class ReviewImageRequest {
-        @NotBlank(message = "INVALID_REVIEW_IMAGE_URL_REQUIRED")
-        private String url;
-    }
 }

@@ -202,9 +202,11 @@ public class OrderService implements IOrderService {
 
         // Logistic staff can only update order status to CONFIRMED or DELIVERED or CANCELLED
         orderMapper.updateOrder(order, request);
+        order.setTrackingCode(request.getTrackingCode());
         orderRepository.save(order);
         return orderMapper.toOrderResponse(order);
     }
+
 
     @Override
     public Page<OrderResponse> getAllOrders(

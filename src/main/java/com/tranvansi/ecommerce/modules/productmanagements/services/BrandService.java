@@ -27,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BrandService implements IBrandService {
     private final BrandRepository brandRepository;
     private final BrandMapper brandMapper;
+//    private final SimpMessagingTemplate messagingTemplate;
 
     @Override
     public BrandResponse createBrand(CreateBrandRequest request) {
@@ -36,6 +37,7 @@ public class BrandService implements IBrandService {
         Brand brand = brandMapper.createBrand(request);
         brand.setStatus(BrandStatus.ACTIVE);
         brand.setSlug(ConvertUtil.toSlug(request.getName()));
+//        messagingTemplate.convertAndSend("/topic/brands", "Hello anh em");
         return brandMapper.toBrandResponse(brandRepository.save(brand));
     }
 

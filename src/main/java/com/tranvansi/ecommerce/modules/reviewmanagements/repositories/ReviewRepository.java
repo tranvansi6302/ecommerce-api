@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import com.tranvansi.ecommerce.modules.reviewmanagements.entities.Review;
 
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface ReviewRepository
         extends JpaRepository<Review, Integer>, JpaSpecificationExecutor<Review> {
@@ -17,4 +20,12 @@ public interface ReviewRepository
 
     @Query("SELECT COUNT(r) FROM Review r WHERE r.product.id = :productId")
     Integer findReviewCountByProductId(Integer productId);
+
+    List<Review> findAllByProductId(Integer productId);
+
+    Optional<Review> findByVariantIdAndUserIdAndOrderId(Integer variantId, Integer userId, Integer orderId);
+
+
+
+
 }
